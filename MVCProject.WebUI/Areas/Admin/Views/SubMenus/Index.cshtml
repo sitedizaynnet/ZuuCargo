@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Alt Menüler";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using MVCProject.Common.ViewModels
+@model IEnumerable<SubMenusVM>
+
+<h2>Alt Menüler</h2>
+
+
+@(Html.Kendo().Grid<SubMenusVM>()
+    .Name("SubMenus")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Id).Width(100).Locked(true);
+        columns.Bound(p => p.SubMenuAdi).Width(200);
+        columns.Bound(p => p.Url).Width(200);
+        columns.Bound(p => p.Icon).Width(200);
+        columns.Bound(p => p.MenusId).Width(100);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(110);
+
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Selectable()
+       .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+    .HtmlAttributes(new { style = "height:350px;width:960px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.Id))
+        .Create(update => update.Action("KendoSubMenu_Create", "SubMenus"))
+        .Read(read => read.Action("KendoSubMenu_Read", "SubMenus"))
+        .Update(update => update.Action("KendoSubMenu_Update", "SubMenus"))
+        .Destroy(update => update.Action("KendoSubMenu_Destroy", "SubMenus"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

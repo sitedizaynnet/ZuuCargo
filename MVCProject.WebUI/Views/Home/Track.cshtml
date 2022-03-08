@@ -1,0 +1,237 @@
+﻿
+<div class="container">
+    <script src="https://kit.fontawesome.com/6e243d5adb.js" crossorigin="anonymous"></script>
+
+    <style>
+        .stepwizard-step p {
+            margin-top: 10px;
+        }
+
+        .process-row {
+            display: table-row;
+        }
+
+        .process {
+            display: none;
+            width: 100%;
+            position: relative;
+        }
+
+        .process-step button[disabled] {
+            opacity: 1 !important;
+            filter: alpha(opacity=100) !important;
+        }
+
+        .process-row:before {
+            top: 50px;
+            bottom: 0;
+            position: absolute;
+            content: " ";
+            width: 100%;
+            height: 1px;
+            background-color: #ccc;
+            z-order: 0;
+        }
+
+        .process-step {
+            display: table-cell;
+            text-align: center;
+            position: relative;
+        }
+
+            .process-step p {
+                margin-top: 10px;
+            }
+
+        .btn-circle {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+    </style>
+    <form id="trackForm">
+        <div class="contactform">
+            <div class="page_single layout_fullwidth_padding">
+
+                <div class="form_row" id="TrackDiv">
+                    <label>Tracking No :</label>
+                    <input type="text" name="trackNo" value="" class="form_input">
+                </div>
+
+                <div id="process" class="process">
+                    <div class="process-row">
+                        <div class="process-step">
+                            <button type="button" id="1" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-people-carry fa-3x"></i></button>
+                            <p>Post Accepted</p>
+                        </div>
+                        <div class="process-step">
+                            <button type="button" id="2" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-loading fa-3x"></i></button>
+                            <p>Shipment Forwarded</p>
+                        </div>
+                        <div class="process-step">
+                            <button type="button" id="21" class="btn btn-default btn-circle" disabled="disabled"><img style="width:50px;" src="~/Theme/images/icons/customcheck.jpg"></button>
+                            <p>Shipment Hold</p>
+                        </div>
+                        <div class="process-step">
+                            <button type="button" id="3" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-moving fa-3x "></i></button>
+                            <p>On Transit</p>
+                        </div>
+                        <div class="process-step">
+                            <button type="button" id="4" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-box-open fa-3x"></i></button>
+                            <p>Delivered</p>
+                        </div>
+                    </div>
+                </div>
+
+                <table id="tblTrack" class="table table-bordered" style="display:none">
+                    <thead class="bg-primary text-white">
+                        <tr>
+
+
+                            <th>Sender Name</th>
+                            <th>Receiver Name</th>
+                            <th>Sender Country</th>
+
+                            <th>Shipment Date</th>
+
+                            <th>Delivery Country </th>
+                            <th>Total Weight </th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <br />
+                <table id="tblTrackStatus" class="table table-bordered" style="display:none">
+                    <thead class="bg-primary text-white">
+                        <tr>
+
+
+
+
+                            <th>Status</th>
+                            <th>Location</th>
+                            <th>Update Time</th>
+
+
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <input type="button" name="submit" class="form_submit" id="btnsubmittrack" value="Track Order">
+            </div>
+        </div>
+    </form>
+
+
+
+</div>
+
+    <script>
+        var StatusId = 0;
+    var trackNo = 0;
+        $("#btnsubmittrack").click(function () {
+            document.getElementById("1").classList.remove('btn-success');
+            document.getElementById("2").classList.remove('btn-success');
+            document.getElementById("21").classList.remove('btn-success');
+            document.getElementById("3").classList.remove('btn-success');
+
+            document.getElementById("4").classList.remove('btn-success');
+
+            var trackTable = $('#tblTrack tbody');
+            trackTable.empty();
+            var isValid = $("#trackNo").val() !== "";
+            if (isValid) {
+                $("#trackNo").removeClass("has-error");
+                $(".help-block.with-errors").addClass("hidden");
+                trackNo = $("#trackNo").val();
+
+                var form = $("#trackForm").serializeArray();
+
+                  $.ajax({
+            type: "POST",
+            url: "@Url.Action("TrackOrder", "Home")",
+            data: JSON.stringify(form),
+            dataType: "json",
+            contentType: "application/json",
+
+            success: function (data) {
+                {
+                    var x = document.getElementById("process");
+                    var y = document.getElementById("tblTrack"); 
+                    var z = document.getElementById("tblTrackStatus"); 
+                        x.style.display = "table";
+                    y.style.display = "table";
+                    z.style.display = "table";
+
+                    var trackTable = $('#tblTrack tbody');
+                    trackTable.empty();
+                    $(data).each(function (index, prc) {
+                        //(prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
+                        trackTable.append('<tr><td>' + prc.SenderName + '</td><td>' + prc.ContactPersonName + '</td><td>' + prc.SenderCountry + '</td><td>'
+                            + convertToJavaScriptDate(prc.ShipmentDate) + '</td><td>' + prc.ReceiverCountry + '</td><td>' + prc.TotalWeight +'</td></tr>');
+                    });
+
+                      $.ajax({
+            type: "POST",
+            url: "@Url.Action("TrackStatus", "Home")",
+            data: JSON.stringify(form),
+            dataType: "json",
+            contentType: "application/json",
+
+            success: function (data) {
+                 {
+
+
+                    var statusTable = $('#tblTrackStatus tbody');
+                    statusTable.empty();
+                   
+                    $(data).each(function (index, prc) {
+                        statusTable.append('<tr><td>' + prc.Status + '</td><td>' + prc.Location + '</td><td>' + convertToJavaScriptDate(prc.UpdatedDateTime) + '</td></tr>');
+                      
+                    });
+                    data.forEach(function (i, idx, data) {
+                        if (idx === data.length - 1) {
+                           
+                            document.getElementById(i.StatusId).classList.add('btn-success');
+
+                            document.getElementById(i.StatusId).classList.remove('btn-default');
+                        }
+                    });
+                }
+
+
+
+            },
+
+    });
+                }
+            },
+        error: function (hata, ajaxOptions, thrownError) {
+               alert("Not Found!");
+           }
+    });
+            } else {
+                $("#TrackDiv").addClass("has-error");
+                $(".help-block.with-errors").removeClass("hidden");
+
+            }
+
+
+        });
+
+
+    function convertToJavaScriptDate(value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var dt = new Date(parseFloat(results[1]));
+        return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+    }
+
+
+    </script>

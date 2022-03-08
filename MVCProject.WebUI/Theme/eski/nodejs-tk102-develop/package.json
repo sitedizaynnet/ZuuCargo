@@ -1,0 +1,58 @@
+{
+  "author": {
+    "name": "Franklin van de Meent",
+    "email": "fr@nkl.in",
+    "url": "https://frankl.in"
+  },
+  "name": "tk102",
+  "description": "Unofficial Xexun TK102 GPS server",
+  "version": "1.3.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fvdm/nodejs-tk102.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fvdm/nodejs-tk102/issues"
+  },
+  "main": "tk102.js",
+  "dependencies": {
+    "mssql": "^6.3.1"
+  },
+  "devDependencies": {
+    "dotest": "^2.3.0"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "keywords": [
+    "gps",
+    "tk102",
+    "server",
+    "tracker"
+  ],
+  "license": "Unlicense",
+  "scripts": {
+    "test": "dotest"
+  },
+  "tonicExampleFilename": "example.js",
+  "contributors": [
+    {
+      "name": "Franklin van de Meent",
+      "email": "fr@nkl.in",
+      "url": "https://github.com/fvdm",
+      "contributions": 120,
+      "additions": 2004,
+      "deletions": 1113,
+      "hireable": true
+    },
+    {
+      "name": "Sérgio Neves Sacenti",
+      "email": null,
+      "url": "https://github.com/sergions80",
+      "contributions": 1,
+      "additions": 6,
+      "deletions": 1,
+      "hireable": null
+    }
+  ]
+}

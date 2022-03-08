@@ -1,0 +1,39 @@
+﻿<div class="row container">
+    <div class="col-md-8 " style="text-align:center;">
+        <div class="col-6 center-block">
+
+            <br />
+            <br />
+            <!-- method 2 - seperate list groups in gutterless columns -->
+            <div class="row no-gutters">
+                <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                    <div class="d-flex flex-row flex-wrap">
+                        @{
+                            int categoryCount = Model.Count();
+                            for (int i = 0; i < (categoryCount / 2); i++)
+                            {
+
+                                <a href="/Order/Category/@Model[i].Id" class="list-group-item list-group-item-action" style="margin-bottom:-5px;margin-top:-5px;">
+                                    @Model[i].Title
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="col-sm-4" style="padding-left:0px;padding-right:0px;">
+                    <div class="d-flex flex-row flex-wrap">
+                        @{
+                            for (int k = (categoryCount / 2); k < categoryCount; k++)
+                            {
+                                <a href="/Order/Category/@Model[k].Id" class="list-group-item list-group-item-action" style="margin-bottom:-5px;margin-top:-5px;">
+                                    @Model[k].Title
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

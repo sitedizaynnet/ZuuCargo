@@ -1,0 +1,6 @@
+﻿
+@if (@Request.IsAuthenticated){
+@User.Identity.Name
+}else{
+@Html.ActionLink("Giriş Yap","Login","Account")
+}

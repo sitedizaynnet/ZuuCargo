@@ -1,0 +1,305 @@
+﻿@model MVCProject.Common.ViewModels.ShipmentVM
+
+@{
+    ViewBag.Title = "View1";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>View1</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ShipmentVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TrackingNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TrackingNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderIdVATNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderIdVATNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderTelephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderTelephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SenderCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SenderCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiversAccountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiversAccountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiversVatNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiversVatNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactPersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactPersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiverTelephoneNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiverTelephoneNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiverEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiverEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiverPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiverPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsResidental)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsResidental)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceiverCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceiverCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ChargeTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ChargeTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThirdPartyAccountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThirdPartyAccountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThirdPartyCompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThirdPartyCompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThirdPartyCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThirdPartyCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackageCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DimensionalWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DimensionalWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSameSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSameSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdditionalHandlingCharge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalHandlingCharge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LargePacketSurchargeApplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LargePacketSurchargeApplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceNo1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceNo1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReferenceNo2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReferenceNo2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DescriptionOfGoods)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescriptionOfGoods)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSample)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSample)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDocument)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDocument)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsSaturdayDelivery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsSaturdayDelivery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SpecialInstructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SpecialInstructions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,268 @@
+﻿@model MVCProject.Models.EditUserViewModel
+
+@{
+    ViewBag.Title = "Bilgilerimi Düzenle";
+}
+<br />
+<div id="services">
+    <div class="title">
+        <h2>Bilgilerimi Güncelle</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal well">
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(x => x.UserName)
+        <div class="form-group">
+            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "k-textbox" })
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "k-textbox" })
+                @Html.ValidationMessageFor(model => model.LastName)
+            </div>
+        </div>
+
+        @Html.HiddenFor(x => x.Email)
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.City, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DropDownList()
+                                                                                .Name("city")
+                                                                                .DataTextField("SehirAdi")
+                                                                                .DataValueField("SehirId")
+                                                                                 .OptionLabel("Şehir Seçiniz...")
+                                                                                .DataSource(source =>
+                                                                                {
+
+                                                                                    source.Read(read =>
+                                                                                {
+                                                                                    read.Action("RemoteDataSource_SehirleriGetir", "Account");
+
+                                                                                }
+
+                                                                                );
+                                                                                })
+                )
+                @Html.ValidationMessageFor(x => x.City)
+
+
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Ilce, new { @class = "control-label col-md-2" })
+            <div class="col-md-9">
+                @(Html.Kendo().DropDownListFor(x => x.Ilce)
+                                                                        .Name("Ilce")
+                                                                        .DataTextField("IlceAdi")
+                                                                        .DataValueField("IlceId")
+                                                                         .OptionLabel("İlçe Seçiniz...")
+                                                                        .DataSource(source =>
+                                                                        {
+                                                                            source.Read(read =>
+                                                                            {
+                                                                                read.Action("RemoteDataSource_IlceleriGetir", "Account")
+                                                                                .Data("filterCity");
+                                                                            })
+                                                                        .ServerFiltering(true);
+                                                                        })
+                                                                              .Enable(false)
+                                                                              .AutoBind(false)
+                                                                              .CascadeFrom("city")
+                )
+                @Html.ValidationMessageFor(x => x.Ilce)
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(x => x.Semt, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DropDownListFor(x => x.Semt)
+                                                                    .Name("semt")
+                                                                    .DataTextField("SemtAdi")
+                                                                    .DataValueField("SemtId")
+                                                                     .OptionLabel("Semt Seçiniz...")
+                                                                    .DataSource(source =>
+                                                                    {
+                                                                        source.Read(read =>
+                                                                        {
+                                                                            read.Action("RemoteDataSource_SemtGetir", "Account")
+                                                                            .Data("filterIlceler");
+                                                                        })
+                                                                    .ServerFiltering(true);
+                                                                    })
+                                                                          .Enable(false)
+                                                                          .AutoBind(false)
+                                                                          .CascadeFrom("Ilce")
+                )
+                @Html.ValidationMessageFor(x => x.Semt)
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => x.Mahalle, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DropDownListFor(x => x.Mahalle)
+                                                                        .Name("mahalle")
+                                                                        .DataTextField("MahalleAdi")
+                                                                        .DataValueField("MahalleId")
+                                                                         .OptionLabel("Mahalle Seciniz...")
+                                                                        .DataSource(source =>
+                                                                        {
+                                                                            source.Read(read =>
+                                                                        {
+                                                                            read.Action("RemoteDataSource_MahalleGetir", "Account")
+                                                                            .Data("filterSemt");
+                                                                        })
+                                                                        .ServerFiltering(true);
+                                                                        })
+                                                                              .Enable(false)
+                                                                              .AutoBind(false)
+                                                                              .CascadeFrom("semt")
+                )
+                @Html.ValidationMessageFor(x => x.Mahalle)
+
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(x => x.Address, new { @class = "k-textbox" })
+
+                @Html.ValidationMessageFor(model => model.Address)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().MaskedTextBoxFor(x => x.Phone)
+                                                                                                                                .Name("phone")
+                                                                                                                                .Mask("(000) 000-00-00")
+                                                                                                                                                       .HtmlAttributes(new
+                                                                                                                                                       {
+                                                                                                                                                           data_validmask_msg = "Telefon Giriniz...",
+                                                                                                                                                           required = "required"
+                                                                                                                                                       })
+                )
+
+                @Html.ValidationMessageFor(model => model.Phone)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BirthDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @(Html.Kendo().DatePickerFor(x => x.BirthDate)
+
+                                         .Name("BirthDate")
+                .Value((DateTime)Model.BirthDate).Format("dd.MM.yyyy")
+
+
+                .Start(CalendarView.Decade)
+                )
+                @Html.ValidationMessageFor(model => model.BirthDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TCNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(x => x.TCNo, new { @class = "k-textbox" })
+
+                @Html.ValidationMessageFor(model => model.TCNo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Kaydet" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+<script>
+    function filterCity() {
+        return {
+            city: $("#city").val()
+        };
+    }
+
+    function filterIlceler() {
+        return {
+            ilce: $("#Ilce").val()
+        };
+    }
+
+    function filterSemt() {
+        return {
+            semt: $("#semt").val()
+        };
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+        var city = $("#city").data("kendoDropDownList"),
+            ilce = $("#Ilce").data("kendoDropDownList"),
+            semt = $("#semt").data("kendoDropDownList"),
+            mahalle = $("#mahalle").data("kendoDropDownList");
+
+
+        $("#get").click(function () {
+            var cityInfo = "\nSehir: { id: " + city.value() + ", name: " + city.text() + " }",
+                ilceInfo = "\nIlce: { id: " + Ilce.value() + ", name: " + ilce.text() + " }",
+                semtmahInfo = "\nSemt Mah: { id: " + semtmah.value() + ", name: " + semtmah.text() + " }";
+
+        });
+    });
+</script>
+
+
+<a href="../../Account/Home" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-chevron-left"></span> Hesabıma Dön</a>
+
+
+<script type="text/javascript">
+    //set culture of the Kendo UI
+    kendo.culture("tr-TR");
+</script>
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/cultures/kendo.culture.tr-TR.min.js")"></script>
+
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/jszip.min.js")"></script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.all.min.js")"></script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.messages.tr_TR.json")"></script>
+
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.aspnetmvc.min.js")"></script>
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.dataviz.min.css")" rel="stylesheet" as="style" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.default.min.css")" rel="stylesheet" as="style" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />

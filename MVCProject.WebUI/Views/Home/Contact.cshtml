@@ -1,0 +1,88 @@
+﻿@using MVCProject.Common.ViewModels
+@{
+    ViewBag.Title = "İletişim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div id="services">
+    <div class="title">
+        <h2>İletişim</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+
+<h3> destek@ZuuCargo.net </h3>
+<br />
+@Html.Partial("_SendMessage", (MessageReplyVM)ViewBag.MessageVM)
+@*<section id="contact" class="container wow bounceInUp" data-wow-offset="50">
+        <div class="row">
+
+            <div class="col-md-4 col-xs-12 pull-right">
+                <h4 class="contact-box-title">Customer Center</h4>
+                <div class="contact-box">
+                    <img src="~/Theme/img/contact-box-img1.jpg" alt="contact-img">
+                    <div class="contact-box-name">Sarah Connor</div>
+                    <div class="contact-box-phon"><span class="highlight">Phone:</span> 666-999-888</div>
+                    <div class="contact-box-email"><span class="highlight">Email:</span> connor@example.com</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="contact-box-border">&nbsp;</div>
+
+                <div class="contact-box-divider">&nbsp;</div>
+
+                <h4 class="contact-box-title">Change or Cancel Reservation</h4>
+                <div class="contact-box">
+                    <img src="~/Theme/img/contact-box-img2.jpg" alt="contact-img">
+                    <div class="contact-box-name">Mike Smith</div>
+                    <div class="contact-box-phon"><span class="highlight">Phone:</span> 666-999-888</div>
+                    <div class="contact-box-email"><span class="highlight">Email:</span> connor@example.com</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="contact-box-border">&nbsp;</div>
+
+                <div class="contact-box">
+                    <img src="~/Theme/img/contact-box-img3.jpg" alt="contact-img">
+                    <div class="contact-box-name">Jane Doe</div>
+                    <div class="contact-box-phon"><span class="highlight">Phone:</span> 666-999-888</div>
+                    <div class="contact-box-email"><span class="highlight">Email:</span> connor@example.com</div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="contact-box-border">&nbsp;</div>
+            </div>
+            <div class="col-md-8 col-xs-12 pull-left">
+                <p class="contact-info">
+                    You have any questions or need additional information? <br>
+                    <span class="address"><span class="highlight">Address:</span>  Car|Rental / 3861 Sepulveda Blvd. / Culver City, CA 90230</span>
+                </p>
+                <form action="#" method="post" id="contact-form" name="contact-form">
+
+                    <div class="alert hidden" id="contact-form-msg"></div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control first-name text-field" name="first-name" placeholder="First Name:">
+                        <input type="text" class="form-control last-name text-field" name="last-name" placeholder="Last Name:">
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="tel" class="form-control telephone text-field" name="telephone" placeholder="Telephone:">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" class="form-control email text-field" name="email" placeholder="Email:">
+                    </div>
+
+                    <div class="form-group">
+                        <textarea class="form-control message" name="message" placeholder="Message:"></textarea>
+                    </div>
+
+                    <input type="submit" class="btn submit-message" name="submit-message" value="Submit Message">
+
+
+                </form>
+            </div>
+
+        </div>
+    </section>*@
+
+<!-- Contact end -->

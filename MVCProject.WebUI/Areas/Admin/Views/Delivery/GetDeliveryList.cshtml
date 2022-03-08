@@ -1,0 +1,169 @@
+﻿@model List< MVCProject.Common.ViewModels.AccountingVM>
+@{
+    ViewBag.Title = "Delivery List";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+
+
+    @*<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>*@
+
+    <style>
+
+        span.field-validation-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div style="width: 90%;margin: 0 auto; overflow: scroll;" class="tablecontainer">
+      
+
+
+        <table id="myDatatable">
+            <thead>
+                <tr>
+                    <th>InvoiceNo</th>
+                    <th>Customer Name</th>
+                    <th>Telephone</th>
+                    <th>City</th>
+
+                    <th>Quantity</th>
+                    <th>Total Dollar</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+         
+        </table>
+    </div>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            var oTable = $('#myDatatable').DataTable({
+                orderCellsTop: true,
+                dom: 'Bfrtip',
+                buttons: [
+                   'colvis'
+                    ,
+                    {
+                        extend: 'pdfHtml5',
+                        title: function () {
+                            return "Accounting";
+                        },
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6]
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                        titleAttr: 'PDF',
+                        footer: true
+                    }
+
+                ],
+                autoFill: true,
+                colReorder: true,
+                fixedColumns: true,
+                responsive: false,
+                keys: true,
+                rowReorder: true,
+                select: {
+                    style: 'multi'
+                },
+
+                "columnDefs": [
+                    { "targets": [2, 3, 5, 6], "searchable": false }
+                ],
+                "ajax": {
+                    "url": '/Delivery/GetDeliveryListAjax/',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "InvoiceNo", "autoWidth": true },
+                    { "data": "CustomerName", "autoWidth": true },
+                    { "data": "Telephone", "autoWidth": true },
+                    { "data": "City", "autoWidth": true },
+
+                    { "data": "Quantity", "autoWidth": true },
+
+                    { "data": "TotalDollar", "autoWidth": true },
+
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a target="_blank"  href="/Admin/Delivery/SaveLocation/' + data + '">Save Location</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a target="_blank"  href="/Admin/Delivery/DriveLocation/' + data + '">DRIVE</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a target="_blank"  href="/Admin/Accounting/PrintInvoice/' + data + '">Invoice</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a href="#" onClick="MakeDelivered(' + data + ');" >DELIVERED</a>';
+                        }
+                    },
+
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" href="/Admin/Accounting/InvoiceWithEx/' + data + '">InvoiceWithEx</a>';
+                        }
+                    }
+                ]})
+
+            new $.fn.dataTable.Buttons(oTable, {
+                buttons: [
+                    'copy', 'excel', 'pdf'
+
+                ]
+            });
+
+        })
+
+         function MakeDelivered(id) {
+
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Admin/Accounting/MakeDelivered/",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ id: id }),
+                    success: function (data, textStatus, xhr) {
+                        if (confirm("Delivery Saved!")) {
+                            window.location.reload(true);
+                        }
+                    }
+                });
+
+
+    }
+
+
+
+
+    </script>
+</body>

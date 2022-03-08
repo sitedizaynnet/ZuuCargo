@@ -1,0 +1,211 @@
+﻿@model MVCProject.Common.ViewModels.AccountingVM
+
+@{
+    ViewBag.Title = "Create new Accounting Record";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("save", "Accounting", FormMethod.Post, new { id = "popupForm" }))
+{
+    if (Model != null && Model.Id > 0)
+    {
+        @Html.HiddenFor(a => a.Id)
+    }
+    @*<div class="form-group">
+            <label>InvoiceNo</label>
+            @Html.TextBoxFor(a => a.InvoiceNo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(a => a.InvoiceNo)
+        </div>*@
+
+    <div class="form-group">
+        <label>Date</label>
+        @Html.TextBoxFor(a => a.Date, new { @class = "form-control", @placeholder = DateTime.Today.ToShortDateString(), @autocomplete = "off" })
+        @Html.ValidationMessageFor(a => a.Date)
+    </div>
+    <div class="form-group">
+        <label>InvoiceNo</label>
+        @Html.TextBoxFor(a => a.InvoiceNo, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.InvoiceNo)
+    </div>
+    <div class="form-group">
+        <label>IsCargo ?</label>
+        @Html.CheckBox("IsCargo", Model.IsCargo)
+        @Html.ValidationMessageFor(a => a.IsCargo)
+    </div>
+    <div class="form-group">
+        <label>Is Paid ?</label>
+        @Html.CheckBox("IsPaid",Model.IsPaid)
+        @Html.ValidationMessageFor(a => a.IsPaid)
+    </div>
+    <div class="form-group">
+        <label>IsDelivered ?</label>
+        @Html.CheckBox("IsDelivered", Model.IsDelivered)
+        @Html.ValidationMessageFor(a => a.IsDelivered)
+    </div>
+    <div class="form-group">
+        <label>Customer Name</label>
+        @Html.TextBoxFor(a => a.CustomerName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CustomerName)
+    </div>
+    <div class="form-group">
+        <label>Telephone</label>
+        @Html.TextBoxFor(a => a.Telephone, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Telephone)
+    </div>
+    <div class="form-group">
+        <label>City</label>
+        @Html.TextBoxFor(a => a.City, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.City)
+    </div>
+    <div class="form-group">
+        <label>Total $ </label>
+        @Html.TextBoxFor(a => a.TotalDollar, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.TotalDollar)
+    </div>
+    <div class="form-group">
+        <label>ProductName </label>
+        @Html.TextBoxFor(a => a.ProductName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.ProductName)
+    </div>
+    <div class="form-group">
+        <label>Quantity  </label>
+        @Html.TextBoxFor(a => a.Quantity, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Quantity)
+    </div>
+    <div class="form-group">
+        <label>Total TL </label>
+        @Html.TextBoxFor(a => a.TotalLira, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.TotalLira)
+    </div>
+    <div class="form-group">
+        <label>Cargo Price</label>
+        @Html.TextBoxFor(a => a.CargoPrice, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.CargoPrice)
+    </div>
+    <div class="form-group">
+        <label>Exchange</label>
+        @Html.TextBoxFor(a => a.Exchange, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Exchange)
+    </div>
+    <div class="form-group">
+        <label>Expensive</label>
+        @Html.TextBoxFor(a => a.Expensive, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Expensive)
+    </div>
+    <div class="form-group">
+        <label>Tax</label>
+        @Html.TextBoxFor(a => a.Tax, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Tax)
+    </div>
+    <div class="form-group">
+        <label>Notes</label>
+        @Html.TextBoxFor(a => a.Notes, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.Notes)
+    </div>
+    <div class="form-group">
+        <label>InvoiceLink1</label>
+        @Html.TextBoxFor(a => a.InvoiceLink1, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.InvoiceLink1)
+    </div>
+    <div class="form-group">
+        <label>InvoiceLink2</label>
+        @Html.TextBoxFor(a => a.InvoiceLink2, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.InvoiceLink2)
+    </div>
+    <div class="form-group">
+        <label>InvoiceLink3</label>
+        @Html.TextBoxFor(a => a.InvoiceLink3, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.InvoiceLink3)
+    </div>
+    <div class="form-group">
+        <label>InvoiceLink4</label>
+        @Html.TextBoxFor(a => a.InvoiceLink4, new { @class = "form-control" })
+        @Html.ValidationMessageFor(a => a.InvoiceLink4)
+    </div>
+    <div class="form-group">
+        <label>InvoiceLink5</label>
+        @Html.TextBoxFor(a => a.InvoiceLink5, new { @class = "form-control", @id = "InvoiceLink5" })
+        @Html.ValidationMessageFor(a => a.InvoiceLink5)
+    </div>
+    <input type="file" id="fileInput" multiple />
+    <input type="button" id="fileButton" value="Upload Files" />
+
+    <br />
+    <img src="~/Theme/images/loader.gif" id="loadingImg" />
+    <style>
+        #loadingImg {
+            display: none;
+        }
+    </style>
+    <br />
+    <div class="form-group">
+        <label>Send SMS After Saving </label>
+        @Html.CheckBox("IsSendSMSAfterSave", Model.IsSendSMSAfterSave)
+        @Html.ValidationMessageFor(a => a.IsSendSMSAfterSave)
+    </div>
+    
+    <br />
+
+
+
+    <div >
+
+        <input type = "submit" class="btn btn-default" value="Save" />
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#fileButton").click(function () {
+            var files = $("#fileInput").get(0).files;
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append("fileInput", files[i]);
+            }
+            var a = [];
+            $.ajax({
+                type: "POST",
+                url: "/Accounting/UploadFiles",
+                dataType: "json",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result, status, xhr) {
+                    for (i in result) {
+                        a.push(result[i].val);
+                        //JSON.stringify(
+                        if (result[i]) {
+
+                            document.getElementById("InvoiceLink" + (eval(i) + 1)).value = result[i];
+                        }
+
+
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(status);
+                }
+            });
+        });
+
+        $(document).ajaxStart(function () {
+            $("#loadingImg").show();
+            $("#fileButton").prop('disabled', true);
+        });
+
+        $(document).ajaxStop(function () {
+            $("#loadingImg").hide();
+            $("#fileButton").prop('disabled', false);
+            $("#fileInput").val("");
+        });
+
+    });
+</script>

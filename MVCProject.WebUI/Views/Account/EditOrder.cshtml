@@ -1,0 +1,138 @@
+﻿@using MVCProject.Common.ViewModels
+@model RentOrdersVM
+
+@{
+    ViewBag.Title = "EditRentOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var LocationList = ViewBag.LocationList;
+}
+
+<h2>Kiralama Siparişi Düzenle</h2>
+
+
+@using (Html.BeginForm("EditReservation", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="well form-horizontal">
+        @Html.HiddenFor(x => x.Id)
+        @Html.HiddenFor(x => Model.PickUpPlace)
+        @Html.HiddenFor(x => Model.DropOffPlace)
+        @Html.HiddenFor(x => Model.SupplierId)
+        @Html.HiddenFor(x => Model.RentalCarId)
+        @Html.HiddenFor(x => Model.UserId)
+        @Html.HiddenFor(x => Model.UserIp)
+        @Html.HiddenFor(x => Model.DriverAge)
+        @Html.HiddenFor(x => Model.CarPlate)
+        @Html.HiddenFor(x => Model.Confirmed)
+        @Html.HiddenFor(x => Model.Status)
+        @Html.HiddenFor(x => Model.TotalPrice)
+        
+        <div class="row form-margin">
+            <div class="col-md-12">
+                <div class="col-md-3">@Html.LabelFor(x => x.CarId)</div>
+                <div class="col-md-9">
+                    @(Html.Kendo().DropDownListFor(x => x.CarId)
+                       .BindTo(ViewBag.CarsList)
+                       .Name("CarId")
+                       //.Value(Model.CarId)
+                       .DataTextField("CarName")
+                       .DataValueField("Id")
+                       .HeaderTemplate("<div class=\"dropdown-header k-widget k-header\"><span>Araç Adı  </span><span>  Vites Türü</span></div>")
+                       .ValueTemplate("#:data.CarName# - #:data.TransType#")
+                       .Template("<span class=\"selected - value\" \">#:data.CarName#</span><span></span>     <span>#:data.TransType#</span>")
+                       .HtmlAttributes(new { style = "width:60%" }))
+
+                </div>
+            </div>
+        </div>
+     
+        <div class="row form-margin">
+            <div class="col-md-12">
+                <div class="col-md-3">@Html.LabelFor(x => x.PickUpPlace)</div>
+                <div class="col-md-9">
+                    @(Html.Kendo().DropDownListFor(x => x.PickUpPlace)
+.Name("PickUpLocation")
+.HtmlAttributes(new { style = "width:100%" })
+.Filter("contains")
+.OptionLabel("Lokasyon Seçiniz...")
+.BindTo((List<SelectListItem>)LocationList)
+                    )
+                    @Html.ValidationMessageFor(x => x.PickUpPlace)
+                </div>
+            </div>
+        </div>
+
+           <div class="row form-margin">
+            <div class="col-md-12">
+                <div class="col-md-3">@Html.LabelFor(x => x.PickupDateTime)</div>
+                <div class="col-md-9">
+                    @(Html.Kendo().DateTimePickerFor(x => x.PickupDateTime)
+        .Name("PickupDateTime")
+        .Value(Model.PickupDateTime)
+                    )
+                    @Html.ValidationMessageFor(x => x.PickupDateTime)
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-margin">
+            <div class="col-md-12">
+                <div class="col-md-3">@Html.LabelFor(x => x.DropOffPlace)</div>
+                <div class="col-md-9">
+                    @(Html.Kendo().DropDownListFor(x => x.DropOffPlace)
+.Name("DropOffLocation")
+.HtmlAttributes(new { style = "width:100%" })
+.Filter("contains")
+.OptionLabel("Lokasyon Seçiniz...")
+.BindTo((List<SelectListItem>)LocationList)
+                    )
+                    @Html.ValidationMessageFor(x => x.DropOffPlace)
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-margin">
+            <div class="col-md-12">
+                <div class="col-md-3">@Html.LabelFor(x => x.DropOffDateTime)</div>
+                <div class="col-md-9">
+                    @(Html.Kendo().DateTimePickerFor(x => x.DropOffDateTime)
+        .Name("DropOffDateTime")
+        .Value(Model.DropOffDateTime)
+                    )
+                    @Html.ValidationMessageFor(x => x.DropOffDateTime)
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-margin">
+            <div class="col-md-12">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                    @(Html.Kendo().Button()
+        .Name("addrentalcar")
+        .HtmlAttributes(new { type = "submit", @class = "button-width" })
+                .Icon("plus")
+                        .Content("Siparişi Değiştir")
+
+                    )
+                </div>
+            </div>
+        </div>
+        <a class="button" href="@Url.Action("Reservations","Account")"> Geri Dön</a>
+    </div>
+
+
+}
+<style type="text/css">
+    .button-width {
+        min-width: 175px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 12px;
+    }
+
+    .form-margin {
+        margin-bottom: 10px;
+    }
+</style>

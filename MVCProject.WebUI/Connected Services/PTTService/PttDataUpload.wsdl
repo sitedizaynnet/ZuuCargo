@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ax21="http://accept.ptt.gov.tr/xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns="http://accept.ptt.gov.tr" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://accept.ptt.gov.tr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>
+		Please Type your service description here
+	</wsdl:documentation>
+  <wsdl:types>
+    <xs:schema xmlns:ax22="http://accept.ptt.gov.tr/xsd" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://accept.ptt.gov.tr">
+      <xs:import namespace="http://accept.ptt.gov.tr/xsd" />
+      <xs:element name="getHscodeList">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="input" nillable="true" type="ax22:InputHscodeList" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getHscodeListResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax22:OutputHscodeList" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="loadData">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="input" nillable="true" type="ax22:Input" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="loadDataResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax22:Output" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://accept.ptt.gov.tr/xsd">
+      <xs:complexType name="InputHscodeList">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="userName" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="OutputHscodeList">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="error_code" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="error_description" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="hslist" nillable="true" type="ax21:HscodeList" />
+          <xs:element minOccurs="0" name="record_number" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="HscodeList">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="description_en" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="description_tr" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="hscode" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Input">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="barcodeInformation" nillable="true" type="ax21:BarcodeInformation" />
+          <xs:element minOccurs="0" name="folderName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="shipmentKind" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="shipmentType" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="userName" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="BarcodeInformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="additionalDocuments" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="additionalService" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="barcode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="context" nillable="true" type="ax21:InvoceContent" />
+          <xs:element minOccurs="0" name="desi" type="xs:double" />
+          <xs:element minOccurs="0" name="financialAdvisorNo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="height" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="invoceNo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="length" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="paymentConditionalPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="paymentmethod" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="postalAccountNumber" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="price" type="xs:double" />
+          <xs:element minOccurs="0" name="receiverAdres" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverAdres2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverCityID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverCityID2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverCountryId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverCountryId2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverMail" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverMail2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverName2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverPhone" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverPhone2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverPostCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverPostCode2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverSms" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="receiverSms2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved1" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved10" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved3" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved4" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved5" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved6" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved7" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved8" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved9" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverAdres" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverCityID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverCountryId" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverDistrictID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverMail" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverPhone" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverPostCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="returnReceiverSms" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="salesCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderAdres" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderCityID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderDistrictID" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderMail" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderPhone" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderPostCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderSms" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderTCNo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderTaxNo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="senderUpperNumber" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="valuePrice" type="xs:double" />
+          <xs:element minOccurs="0" name="weight" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="width" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="InvoceContent">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="count" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="currency" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="origin" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="productHarmonyCode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="productName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved1" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved2" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="reserved3" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="unitPrice" type="xs:double" />
+          <xs:element minOccurs="0" name="weight" type="xs:double" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="Output">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="barcodeInformation" nillable="true" type="ax21:OutputBarcodeInformation" />
+          <xs:element minOccurs="0" name="faultCode" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="faultDescription" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="OutputBarcodeInformation">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="barcode" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="barcodeURL" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="faultCode" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="faultDescription" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="success" nillable="true" type="xs:boolean" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getHscodeListRequest">
+    <wsdl:part name="parameters" element="ns:getHscodeList" />
+  </wsdl:message>
+  <wsdl:message name="getHscodeListResponse">
+    <wsdl:part name="parameters" element="ns:getHscodeListResponse" />
+  </wsdl:message>
+  <wsdl:message name="loadDataRequest">
+    <wsdl:part name="parameters" element="ns:loadData" />
+  </wsdl:message>
+  <wsdl:message name="loadDataResponse">
+    <wsdl:part name="parameters" element="ns:loadDataResponse" />
+  </wsdl:message>
+  <wsdl:portType name="LoadPortType">
+    <wsdl:operation name="getHscodeList">
+      <wsdl:input wsaw:Action="urn:getHscodeList" message="ns:getHscodeListRequest" />
+      <wsdl:output wsaw:Action="urn:getHscodeListResponse" message="ns:getHscodeListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="loadData">
+      <wsdl:input wsaw:Action="urn:loadData" message="ns:loadDataRequest" />
+      <wsdl:output wsaw:Action="urn:loadDataResponse" message="ns:loadDataResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LoadSoap11Binding" type="ns:LoadPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getHscodeList">
+      <soap:operation soapAction="urn:getHscodeList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loadData">
+      <soap:operation soapAction="urn:loadData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LoadSoap12Binding" type="ns:LoadPortType">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getHscodeList">
+      <soap12:operation soapAction="urn:getHscodeList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loadData">
+      <soap12:operation soapAction="urn:loadData" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="LoadHttpBinding" type="ns:LoadPortType">
+    <http:binding verb="POST" />
+    <wsdl:operation name="getHscodeList">
+      <http:operation location="getHscodeList" />
+      <wsdl:input>
+        <mime:content part="parameters" type="application/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="parameters" type="application/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="loadData">
+      <http:operation location="loadData" />
+      <wsdl:input>
+        <mime:content part="parameters" type="application/xml" />
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="parameters" type="application/xml" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Load">
+    <wsdl:port name="LoadHttpSoap11Endpoint" binding="ns:LoadSoap11Binding">
+      <soap:address location="https://pttwssgt.ptt.gov.tr/PostaKargoService/PttDataUpload" />
+    </wsdl:port>
+    <wsdl:port name="LoadHttpSoap12Endpoint" binding="ns:LoadSoap12Binding">
+      <soap12:address location="https://pttwssgt.ptt.gov.tr/PostaKargoService/PttDataUpload" />
+    </wsdl:port>
+    <wsdl:port name="LoadHttpEndpoint" binding="ns:LoadHttpBinding">
+      <http:address location="https://pttwssgt.ptt.gov.tr/PostaKargoService/PttDataUpload" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

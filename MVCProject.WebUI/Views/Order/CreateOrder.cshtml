@@ -1,0 +1,380 @@
+﻿@using MVCProject.Common.ViewModels;
+@model OrderVM
+@{
+    ViewBag.Title = ViewBag.CategoryName;
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<QuestionVM> questionList = ViewBag.QuestionList;
+    ViewBag.ReturnUrl = ViewData["ReturnUrl"];
+}
+
+<script>
+    $(document).ready(function () {
+
+        $("#sendform").click(function () {
+            if ($("#cityId").val() === "") {
+                alert("Şehir Seçiniz")
+            }
+            if ($("#IlceId").val() === "") {
+                alert("İlçe Seçiniz")
+            }
+            if ($("#semtId").val() === "") {
+                alert("Semt Seçiniz")
+            } else {
+                          $("#loading").show();
+                    var form = $("#questionsform").serializeArray();
+                           $.ajax({
+                            type: "POST",
+                         url: "@Url.Action("CreateOrder","Order")",
+                         data: JSON.stringify(form),
+                         dataType: "json",
+                         contentType: "application/json",
+
+                            success: function (response) {
+
+                            window.location.href = "@Url.Action("OrderCompleted", "Order")";
+                            },
+        //error: function (hata, ajaxOptions, thrownError) {
+        //        alert(hata.status);
+        //        alert(thrownError);
+        //        alert(hata.responseText);
+        //    }
+    });
+            }
+
+        });
+
+                    //$("#loading_status").html("<span style='color:blue'>Processing Donation...</span>");
+
+    });
+</script>
+<br />
+<div id="services">
+    <div class="title">
+        <h2>@ViewBag.CategoryName</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+
+<div class="row">
+    <hr>
+
+    <form Id="questionsform" data-toggle="validator">
+
+
+
+
+        <div class="alert alert-danger error" hidden>
+            <span>@Html.ValidationSummary(true)</span>
+        </div>
+        <div id="sorular" class="col-sm-8 well">
+            <div id="yersec">
+                <div class="row form-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-4">@Html.LabelFor(x => x.CityId)</div>
+                        <div class="col-md-8">
+                            @(Html.Kendo().DropDownList()
+.Name("cityId")
+.DataTextField("SehirAdi")
+.DataValueField("SehirId")
+.OptionLabel("Şehir Seçiniz...")
+.HtmlAttributes(new { @required = "required" })
+.DataSource(source =>
+{
+
+source.Read(read =>
+                                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                read.Action("RemoteDataSource_SehirleriGetir", "Account");
+
+                                                                                                                                                                                                                            }
+
+                                                                                                                                                                                                                                            );
+})
+                            )
+                            @Html.ValidationMessageFor(x => x.CityId)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row form-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-4">@Html.LabelFor(x => x.IlceId)</div>
+                        <div class="col-md-8">
+                            @(Html.Kendo().DropDownListFor(x => x.IlceId)
+.Name("IlceId")
+.DataTextField("IlceAdi")
+.DataValueField("IlceId")
+.OptionLabel("İlçe Seçiniz...")
+.HtmlAttributes(new { @required = "required" })
+.DataSource(source =>
+{
+source.Read(read =>
+                                                                                                                                                                                                                                                                                            {
+                                                                                                                                                                                                                                                                                read.Action("RemoteDataSource_IlceleriGetir", "Account")
+                                                                                                                                                                                                                                                                                                                                                                                                                                                .Data("filterCity");
+                                                                                                                                                                                                                                                                            })
+                                                                                                                                                                                                                                                                                .ServerFiltering(true);
+})
+.Enable(false)
+.AutoBind(false)
+.CascadeFrom("cityId")
+                            )
+                            @Html.ValidationMessageFor(x => x.IlceId)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row form-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-4">@Html.LabelFor(x => x.SemtId)</div>
+                        <div class="col-md-8">
+                            @(Html.Kendo().DropDownListFor(x => x.SemtId)
+.Name("semtId")
+.DataTextField("SemtAdi")
+.DataValueField("SemtId")
+.OptionLabel("Semt Seçiniz...")
+
+.DataSource(source =>
+{
+source.Read(read =>
+                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                            read.Action("RemoteDataSource_SemtGetir", "Account")
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .Data("filterIlceler");
+                                                                                                                                                                                                                                                                                        })
+                                                                                                                                                                                                                                                                                            .ServerFiltering(true);
+})
+.Enable(false)
+.AutoBind(false)
+.CascadeFrom("IlceId")
+                            )
+                            @Html.ValidationMessageFor(x => x.SemtId)
+                           <input name="subCatId" id="subCatId" value="@ViewData["CatId"]"  hidden/>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <hr />
+               
+                @for (int i = 0; i < questionList.Count; i++)
+                {
+                    if (questionList[i].QuestionType == 1)
+                    {
+                        <div class="row form-margin">
+                            <div class="col-md-12">
+                                <div class="col-md-4">@questionList[i].Description</div>
+                                <input name="Soru @i" value="@questionList[i].Description" hidden />
+                                <div class="col-md-8">
+                                    <select name="question+@i" class="form-control" id="exampleFormControlSelect+@questionList[i].Id">
+                                        @foreach (AnswerVM answer in questionList[i].AnswerVM)
+                                        {
+                                            <option>@answer.Description</option>
+                                        }
+                                    </select>
+
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+                    }
+                    if (questionList[i].QuestionType == 2)
+                    {
+                        <div class="row form-margin">
+                            <div class="col-md-12">
+                                <div class="col-md-4">@questionList[i].Description</div>
+                                <input name="Soru @i" value="@questionList[i].Description" hidden />
+
+                                <div class="col-md-8">
+
+                                    @foreach (AnswerVM answer in questionList[i].AnswerVM)
+                                    {
+                                        <div class="checkbox checkbox-primary"><input name="@answer.Description" id="checkbox @answer.Id" type="checkbox"><label for="checkbox @answer.Id">@answer.Description</label></div>
+
+                                    }
+
+
+                                
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+                    }
+                    if (questionList[i].QuestionType == 3)
+                    {
+                        <div class="row form-margin">
+                            <div class="col-md-12">
+                                <div class="col-md-4">@questionList[i].Description</div>
+                                <input name="Soru @i" value="@questionList[i].Description" hidden />
+
+                                <div class="col-md-8">
+                                    <div class="form-group"><textarea name="question+@questionList[i].Id" class="form-control" rows="5" id="comment"></textarea></div>
+
+
+                         
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                <br />
+                <a id="sendform" class="btn btn-primary btn-primary pull-right"><span class="glyphicon glyphicon-check"></span> Devam Etmek İçin Tıklayınız..</a>
+
+                <br />
+
+            </div>
+
+        </div>
+        <div class="col-md-4 wow bounceInRight" data-wow-offset="50">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="panel-title">Bilgilendirme</div>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>Sizin için en uygun fiyatlı ve en deneyimli ustaları bulacağız.</li>
+                        <li>48 saat içerisinde teklifler toplanacak</li>
+                        <li>Mail ve sms ile tekliflerden seni haberdar edeceğiz.</li>
+                        <li>Ustaları; fiyatlara, ve yorumlara bakarak karşılaştırabileceksin.</li>
+                        <li>Ustalarla telefon yada mesaj yoluyla pazarlık yapabileceksin.</li>
+                        <li>Beğendiğin ustayı seçip, işi yaptırıp iş sonunda değerlendirme yapabileceksin.</li>
+                        <li>  Sizin için tamamen ücretsizdir!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+<script>
+    function filterCity() {
+        return {
+            city: $("#cityId").val()
+        };
+    }
+
+    function filterIlceler() {
+        return {
+            ilce: $("#IlceId").val()
+        };
+    }
+
+    function filterSemt() {
+        return {
+            semt: $("#semtId").val()
+        };
+    }
+
+    $(document).ready(function () {
+        var city = $("#cityId").data("kendoDropDownList"),
+            ilce = $("#IlceId").data("kendoDropDownList"),
+            semt = $("#semtId").data("kendoDropDownList");
+          
+
+
+        $("#get").click(function () {
+            var cityInfo = "\nSehir: { id: " + city.value() + ", name: " + city.text() + " }",
+                ilceInfo = "\nIlce: { id: " + Ilce.value() + ", name: " + ilce.text() + " }";
+
+
+        });
+    });
+</script>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/cultures/kendo.culture.tr-TR.min.js")"></script>
+
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/jszip.min.js")"></script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.all.min.js")"></script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/messages/kendo.messages.tr-TR.min.js")"></script>
+
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.aspnetmvc.min.js")"></script>
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.dataviz.min.css")" rel="stylesheet" as="style" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.default.min.css")" rel="stylesheet" as="style" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
+
+<!-- Modal -->
+
+
+
+<script src="~/Scripts/login-register.js"></script>
+<link href="~/Scripts/login-register.css" rel="stylesheet" />
+<script>
+    $(document).ready(function () {
+
+     
+     $("#quickRegisterbtn").click(function () {
+            var form = $("#quickRegisterForm").serializeArray();
+
+         $.ajax({
+             type: "POST",
+             url: "@Url.Action("QuickRegister", "Account")",
+             data: JSON.stringify(form),
+             dataType: "json",
+             async: false,
+             contentType: "application/json",
+
+             done: function (success) {
+                 if (success.responseText == "true") {
+
+                     window.location.replace("/Order/CreateOrder/" + $('#hiddenSelectedCat').val);
+            }
+
+            },
+            //error: function (hata, ajaxOptions, thrownError) {
+            //        alert(hata.status);
+            //        alert(thrownError);
+            //        alert(hata.responseText);
+            //    }
+
+         });
+
+
+     });
+
+            });
+</script>
+<script>
+         @{
+        if (!User.Identity.IsAuthenticated)
+        {
+            <text>
+    $('#loginModal').modal('show');
+    $('#loginModal').removeClass('hide');
+
+    openLoginModal();
+         //$('#loginModal').modal({ backdrop: 'static', keyboard: false });
+            </text>
+        }
+        else
+        {
+            <text>
+    //$('#loginModal').on('shown', function () {
+        $('#loginModal').modal('hide');
+    //})
+    //$('#loginModal').modal('hide'); //start hiding
+   
+    if (window.location.href.toString() != "@ViewData["ReturnUrl"]") {
+        window.location.replace("@ViewData["ReturnUrl"]");
+    } 
+            </text>
+        }
+    }
+  
+
+</script>

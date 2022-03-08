@@ -1,0 +1,551 @@
+﻿@using MVCProject.Common.ViewModels;
+@model List<CategoryVM>
+@{
+    ViewBag.Title = "Hizmet Alanları";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<br />
+<div id="services">
+    <div class="title">
+        <h2>Hizmet Alanları</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+<div class="row">
+    <div class="container">
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Bahçe ve Peyzaj
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/1" class="list-group-item">Sulama Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/2" class="list-group-item">Peyzaj</a>
+                    <a href="../Provider/ProvidersBySubCatId/3" class="list-group-item">Peyzaj Sulama</a>
+                    <a href="../Provider/ProvidersBySubCatId/4" class="list-group-item">Bahçe Aydınlatma</a>
+                    <a href="../Provider/ProvidersBySubCatId/5" class="list-group-item">Hazır Çim</a>
+                    <a href="../Provider/ProvidersBySubCatId/6" class="list-group-item">Bahçe Çiti</a>
+                    <a href="../Provider/ProvidersBySubCatId/7" class="list-group-item">Bahçe Duvarı</a>
+                    <a href="../Provider/ProvidersBySubCatId/8" class="list-group-item">Bahçıvanlık İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/9" class="list-group-item">Çardak, Kamelya Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/10" class="list-group-item">Çocuk Parkı</a>
+                    <a href="../Provider/ProvidersBySubCatId/11" class="list-group-item">Havuz</a>
+                    <a href="../Provider/ProvidersBySubCatId/12" class="list-group-item">Barbekü</a>
+                    <a href="../Provider/ProvidersBySubCatId/218" class="list-group-item">Damlama Sulama</a>
+                    <a href="../Provider/ProvidersBySubCatId/219" class="list-group-item">Yagmurlama Sulama</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Boya, Alçıpan ve Kartonpiyer
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/13" class="list-group-item">İç Mekan Boyama</a>
+                    <a href="../Provider/ProvidersBySubCatId/14" class="list-group-item">Dış Mekan Boyama</a>
+                    <a href="../Provider/ProvidersBySubCatId/15" class="list-group-item">Duvar Kağıdı</a>
+                    <a href="../Provider/ProvidersBySubCatId/16" class="list-group-item">Kartonpiyer</a>
+                    <a href="../Provider/ProvidersBySubCatId/17" class="list-group-item">Alçıpan</a>
+                    <a href="../Provider/ProvidersBySubCatId/18" class="list-group-item">Tavan Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/19" class="list-group-item">Gergi Tavan</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Isıtma Sistemleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/20" class="list-group-item">Kombi ve Radyatör Kurulum ve Değişimi</a>
+                    <a href="../Provider/ProvidersBySubCatId/21" class="list-group-item">Merkezi Isıtma Kurulum ve Değişim</a>
+                    <a href="../Provider/ProvidersBySubCatId/22" class="list-group-item">Şömine Kurulum ve Değişim</a>
+                    <a href="../Provider/ProvidersBySubCatId/23" class="list-group-item">Güneş Enerjisi Kurulum ve Değişim</a>
+                    <a href="../Provider/ProvidersBySubCatId/24" class="list-group-item">Şofben ve Termosifon</a>
+                    <a href="../Provider/ProvidersBySubCatId/25" class="list-group-item">Soba ve Kuzine Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/26" class="list-group-item">Elektrikli Isıtma</a>
+                    <a href="../Provider/ProvidersBySubCatId/27" class="list-group-item">Baca Temizleme</a>
+                    <a href="../Provider/ProvidersBySubCatId/220" class="list-group-item">Kombi ve Radyatör Bakım ve Onarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/221" class="list-group-item">Merkezi Isıtma Onarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/222" class="list-group-item">Şömine Onarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/223" class="list-group-item">Güneş Enerjisi Onarım </a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Kapı Pencere ve Balkon İşleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/28" class="list-group-item">PVC Kapı Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/31" class="list-group-item">Ahşap Kapı Pencere Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/32" class="list-group-item">Cam Balkon Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/33" class="list-group-item">Garaj Kapıları</a>
+                    <a href="../Provider/ProvidersBySubCatId/34" class="list-group-item">Çelik Kapı Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/35" class="list-group-item">Çilingir</a>
+                    <a href="../Provider/ProvidersBySubCatId/36" class="list-group-item">Kepenk Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/37" class="list-group-item">Panjur Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/38" class="list-group-item">Perde Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/39" class="list-group-item">Açılır Tavan Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/40" class="list-group-item">Tente/Branda/Çadır Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/41" class="list-group-item">Kış Bahçesi Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/42" class="list-group-item">Korkuluk</a>
+                    <a href="../Provider/ProvidersBySubCatId/43" class="list-group-item">Menfez Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/44" class="list-group-item">Sineklik Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/45" class="list-group-item">Bina Cam Filmi</a>
+                    <a href="../Provider/ProvidersBySubCatId/225" class="list-group-item">PVC Kapı Tamiri</a>
+                    <a href="../Provider/ProvidersBySubCatId/226" class="list-group-item">PVC Pencere Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/227" class="list-group-item">PVC Pencere Tamiri</a>
+                    <a href="../Provider/ProvidersBySubCatId/228" class="list-group-item">Alüminyum Kapı Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/229" class="list-group-item">Alüminyum Kapı Tamiri</a>
+                    <a href="../Provider/ProvidersBySubCatId/230" class="list-group-item">Alüminyum Pencere Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/232" class="list-group-item">Alüminyum Pencere Tamiri</a>
+                    <a href="../Provider/ProvidersBySubCatId/233" class="list-group-item">Ahşap Kapı Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/234" class="list-group-item">Ahşap Kapı Tamiri</a>
+                    <a href="../Provider/ProvidersBySubCatId/235" class="list-group-item">Ahşap Pencere Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/236" class="list-group-item">Ahşap Pencere Tamiri</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Mimarlık Hizmetleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/46" class="list-group-item">Mimari Tasarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/47" class="list-group-item">Proje Tasarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/48" class="list-group-item">İç Tasarım Hizmetleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/49" class="list-group-item">Peyzaj Mimarlığı Hizmetleri</a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Nakliyat
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/50" class="list-group-item">Şehiriçi Nakliyat</a>
+                    <a href="../Provider/ProvidersBySubCatId/51" class="list-group-item">Şehirlerarası Nakliyat</a>
+                    <a href="../Provider/ProvidersBySubCatId/52" class="list-group-item">Uluslararası Nakliyat</a>
+                    <a href="../Provider/ProvidersBySubCatId/53" class="list-group-item">Kurye Hizmetleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/54" class="list-group-item">Evden Eve Nakliyat</a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Sigorta
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/55" class="list-group-item">Trafik Sigortası</a>
+                    <a href="../Provider/ProvidersBySubCatId/56" class="list-group-item">Kasko Sigortası</a>
+                    <a href="../Provider/ProvidersBySubCatId/57" class="list-group-item">Konut Sigortası</a>
+                    <a href="../Provider/ProvidersBySubCatId/58" class="list-group-item">İşyeri Sigortası</a>
+                    <a href="../Provider/ProvidersBySubCatId/59" class="list-group-item">Hayat Sigortası</a>
+                    <a href="../Provider/ProvidersBySubCatId/60" class="list-group-item">Özel Sağlık Sigortası</a>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Tadilat ve Restorasyon
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/65" class="list-group-item">Modüler Ofis Bölme Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/66" class="list-group-item">İç Mekan Yenileme</a>
+                    <a href="../Provider/ProvidersBySubCatId/67" class="list-group-item">Mutfak Yenileme</a>
+                    <a href="../Provider/ProvidersBySubCatId/68" class="list-group-item">Banyo Yenileme</a>
+                    <a href="../Provider/ProvidersBySubCatId/69" class="list-group-item">Tadilat ve Restorasyon</a>
+                    <a href="../Provider/ProvidersBySubCatId/71" class="list-group-item">Antika Eşya/Tarihi Eser Restorasyonu</a>
+                    <a href="../Provider/ProvidersBySubCatId/72" class="list-group-item">Yıkım,Hafriyat</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Tesisat İşleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/73" class="list-group-item">Doğal Gaz Tesisatı Birim İçi</a>
+                    <a href="../Provider/ProvidersBySubCatId/74" class="list-group-item">Doğal Gaz Tesisatı Ana Hat</a>
+                    <a href="../Provider/ProvidersBySubCatId/75" class="list-group-item">Elektrik Tesisatı Döşeme(Ev tipi)</a>
+                    <a href="../Provider/ProvidersBySubCatId/76" class="list-group-item">Elektrik Tesisatı Tamiri(Ev tipi)</a>
+                    <a href="../Provider/ProvidersBySubCatId/77" class="list-group-item">Elektrik Tesisatı Döşeme(Endüstriyel)</a>
+                    <a href="../Provider/ProvidersBySubCatId/78" class="list-group-item">Elektrik Kablo Döşeme</a>
+                    <a href="../Provider/ProvidersBySubCatId/79" class="list-group-item">Elektrikli Araç Şarj İstasyonu</a>
+                    <a href="../Provider/ProvidersBySubCatId/80" class="list-group-item">Kat Kalorifer Tesisatı</a>
+                    <a href="../Provider/ProvidersBySubCatId/81" class="list-group-item">Merkezi Sistem Kalorifer Tesisatı</a>
+                    <a href="../Provider/ProvidersBySubCatId/82" class="list-group-item">Hidrofor Tesisatı Kurulum ve Değişim</a>
+                    <a href="../Provider/ProvidersBySubCatId/83" class="list-group-item">Hidrofor Tesisatı Tamir ve Bakım</a>
+                    <a href="../Provider/ProvidersBySubCatId/84" class="list-group-item">Su Tesisatı Kurulum ve Değişim</a>
+                    <a href="../Provider/ProvidersBySubCatId/85" class="list-group-item">Su Tesisatı Tamir</a>
+                    <a href="../Provider/ProvidersBySubCatId/86" class="list-group-item">Su Deposu Kurulum ve Değişim</a>
+                    <a href="../Provider/ProvidersBySubCatId/87" class="list-group-item">Su Deposu Temizlik ve Yalıtım</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Zemin Döşeme
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/88" class="list-group-item">Parke Döşeme</a>
+                    <a href="../Provider/ProvidersBySubCatId/89" class="list-group-item">Laminat Döşeme</a>
+                    <a href="../Provider/ProvidersBySubCatId/90" class="list-group-item">Seramik ve Fayans Döşeme</a>
+                    <a href="../Provider/ProvidersBySubCatId/91" class="list-group-item">Yeni Halı Döşeme</a>
+                    <a href="../Provider/ProvidersBySubCatId/92" class="list-group-item">Taş Döşeme</a>
+                    <a href="../Provider/ProvidersBySubCatId/93" class="list-group-item">Zemin Düzleştirme</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Araç Servis Bakım
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/94" class="list-group-item">Oto Servis Bakım</a>
+                    <a href="../Provider/ProvidersBySubCatId/95" class="list-group-item">Oto Kaporta ve Boya</a>
+                    <a href="../Provider/ProvidersBySubCatId/96" class="list-group-item">Oto Mekanik İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/97" class="list-group-item">Oto Cam</a>
+                    <a href="../Provider/ProvidersBySubCatId/98" class="list-group-item">Oto Boya Koruma Hizmetleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/99" class="list-group-item">Oto Modifiye</a>
+                    <a href="../Provider/ProvidersBySubCatId/100" class="list-group-item">Oto Temizlik</a>
+                    <a href="../Provider/ProvidersBySubCatId/101" class="list-group-item">Oto Ses Sistemleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/102" class="list-group-item">Oto Cam Filmi</a>
+                    <a href="../Provider/ProvidersBySubCatId/103" class="list-group-item">Çekici Hizmetleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/104" class="list-group-item">Yat Servis ve Bakım </a>
+                    <a href="../Provider/ProvidersBySubCatId/105" class="list-group-item">Diğer Hizmetler</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Diğer Hizmetler
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/106" class="list-group-item">Boyacı</a>
+                    <a href="../Provider/ProvidersBySubCatId/107" class="list-group-item">İç Cephe Boya</a>
+                    <a href="../Provider/ProvidersBySubCatId/108" class="list-group-item">Çatı Ustası</a>
+                    <a href="../Provider/ProvidersBySubCatId/109" class="list-group-item">Mimar</a>
+                    <a href="../Provider/ProvidersBySubCatId/110" class="list-group-item">İç Mimar</a>
+                    <a href="../Provider/ProvidersBySubCatId/111" class="list-group-item">Tabelacı</a>
+                    <a href="../Provider/ProvidersBySubCatId/112" class="list-group-item">Temizlikçi</a>
+                    <a href="../Provider/ProvidersBySubCatId/113" class="list-group-item">Tesisatçı</a>
+                    <a href="../Provider/ProvidersBySubCatId/114" class="list-group-item">Elektrikçi</a>
+                    <a href="../Provider/ProvidersBySubCatId/115" class="list-group-item">Su Tesisatçısı</a>
+                    <a href="../Provider/ProvidersBySubCatId/116" class="list-group-item">Parkeci</a>
+                    <a href="../Provider/ProvidersBySubCatId/117" class="list-group-item">Alçıpan Asma Tavan</a>
+                    <a href="../Provider/ProvidersBySubCatId/118" class="list-group-item">Alüminyum Doğrama</a>
+                    <a href="../Provider/ProvidersBySubCatId/119" class="list-group-item">Asma Tavan Ustası</a>
+                    <a href="../Provider/ProvidersBySubCatId/120" class="list-group-item">Dış Cephe Mantolama</a>
+                    <a href="../Provider/ProvidersBySubCatId/121" class="list-group-item">Havuz Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/122" class="list-group-item">Katlanır Cam Balkon</a>
+                    <a href="../Provider/ProvidersBySubCatId/123" class="list-group-item">Marangoz</a>
+                    <a href="../Provider/ProvidersBySubCatId/124" class="list-group-item">Salon Dekorasyon</a>
+                    <a href="../Provider/ProvidersBySubCatId/125" class="list-group-item">Ofis Taşıma</a>
+                    <a href="../Provider/ProvidersBySubCatId/126" class="list-group-item">Boya Badana Ustası</a>
+                    <a href="../Provider/ProvidersBySubCatId/127" class="list-group-item">Beyaz Eşya Teknik Servis</a>
+                    <a href="../Provider/ProvidersBySubCatId/128" class="list-group-item">Araç Kiralama</a>
+                    <a href="../Provider/ProvidersBySubCatId/129" class="list-group-item">Çeviri Hizmetleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/130" class="list-group-item">Yazılım ve Web Tasarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/131" class="list-group-item">Koltuk Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/132" class="list-group-item">Trafik Müşavirliği</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Banyo Dekorasyon
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/133" class="list-group-item">Banyo Dekorasyonu</a>
+                    <a href="../Provider/ProvidersBySubCatId/134" class="list-group-item">Banyo Dolabı Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/135" class="list-group-item">Küvet, Duşakabin Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/136" class="list-group-item">Jakuzi</a>
+                    <a href="../Provider/ProvidersBySubCatId/137" class="list-group-item">Buhar Odası Sauna</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Havuz, Sauna, Buhar Odası
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/138" class="list-group-item">Gömme Yüzme Havuzu Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/139" class="list-group-item">Yüzme Havuzu Yenileme</a>
+                    <a href="../Provider/ProvidersBySubCatId/140" class="list-group-item">Yüzme Havuzu Temizlik ve Bakım</a>
+                    <a href="../Provider/ProvidersBySubCatId/141" class="list-group-item">Yüzme Havuzu Isıtıcı Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/143" class="list-group-item">Sauna Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/144" class="list-group-item">Sauna Tamiri veya Bakımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/145" class="list-group-item">Buhar Odası Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/146" class="list-group-item">Buhar Odası Tamir Bakım</a>
+                    <a href="../Provider/ProvidersBySubCatId/147" class="list-group-item">Jakuzi Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/148" class="list-group-item">Jakuzi Tamiri Bakımı</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        İnşaat İşleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/149" class="list-group-item">İnşaat Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/150" class="list-group-item">Dış Cephe Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/151" class="list-group-item">Çatı Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/152" class="list-group-item">Çatı Aktarma</a>
+                    <a href="../Provider/ProvidersBySubCatId/153" class="list-group-item">Çatı Kaplama Değişimi</a>
+                    <a href="../Provider/ProvidersBySubCatId/154" class="list-group-item">Çatı Tadilatı</a>
+                    <a href="../Provider/ProvidersBySubCatId/155" class="list-group-item">Asansör Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/156" class="list-group-item">Asansör Tamiri ve Bakımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/157" class="list-group-item">Hafriyat İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/158" class="list-group-item">Hazır Beton</a>
+                    <a href="../Provider/ProvidersBySubCatId/159" class="list-group-item">Duvar Yıkımı</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Marangoz, Ahşap İşleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/160" class="list-group-item">Ahşap Kapı Yapımı İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/161" class="list-group-item">Ahşap Pencere Yapımı İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/162" class="list-group-item">Ev Mobilyası</a>
+                    <a href="../Provider/ProvidersBySubCatId/163" class="list-group-item">Ofis Mobilyası</a>
+                    <a href="../Provider/ProvidersBySubCatId/164" class="list-group-item">Dolap</a>
+                    <a href="../Provider/ProvidersBySubCatId/165" class="list-group-item">Mobilya Tamiratı</a>
+                    <a href="../Provider/ProvidersBySubCatId/166" class="list-group-item">Mobilya Cila ve Lake İşleri</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Mutfak Dekorasyon
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/167" class="list-group-item">Mutfak Dekorasyonu</a>
+                    <a href="../Provider/ProvidersBySubCatId/168" class="list-group-item">Hazır Mutfak</a>
+                    <a href="../Provider/ProvidersBySubCatId/169" class="list-group-item">Mutfak Tezgahı</a>
+                    <a href="../Provider/ProvidersBySubCatId/170" class="list-group-item">Mutfak Dolabnı Yapımı</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Reklam, Promosyon
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/171" class="list-group-item">Lazer Baskı</a>
+                    <a href="../Provider/ProvidersBySubCatId/172" class="list-group-item">Serigrafi Baskı</a>
+                    <a href="../Provider/ProvidersBySubCatId/173" class="list-group-item">Ofset Matbaa</a>
+                    <a href="../Provider/ProvidersBySubCatId/174" class="list-group-item">Promosyon İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/175" class="list-group-item">Basılı Malzeme Tasarımları</a>
+                    <a href="../Provider/ProvidersBySubCatId/176" class="list-group-item">Matbaa</a>
+                    <a href="../Provider/ProvidersBySubCatId/177" class="list-group-item">Dijital Baskı</a>
+                    <a href="../Provider/ProvidersBySubCatId/178" class="list-group-item">Grafik Tasarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/179" class="list-group-item">Ambalaj Basımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/180" class="list-group-item">Tabela</a>
+                    <a href="../Provider/ProvidersBySubCatId/181" class="list-group-item">Google Reklam (Adwords) Hesap Yönetimi</a>
+                    <a href="../Provider/ProvidersBySubCatId/182" class="list-group-item">Web Tasarım</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Soğutma Sistemleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/183" class="list-group-item">Ev Tipi Klima Kurulum</a>
+                    <a href="../Provider/ProvidersBySubCatId/184" class="list-group-item">Merkezi Klima (VRF) Sistemleri Kurulumu</a>
+                    <a href="../Provider/ProvidersBySubCatId/186" class="list-group-item">Merkezi Klima (VRF) Sistemleri Onarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/187" class="list-group-item">Ev Tipi Klima Bakım/Onarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/189" class="list-group-item">Derin Dondurucu Bakım Onarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/190" class="list-group-item">HVAC Otomasyonu</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Temizlik İşleri
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/191" class="list-group-item">Böcek İlaçlama</a>
+                    <a href="../Provider/ProvidersBySubCatId/192" class="list-group-item">Ev Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/193" class="list-group-item">İşyeri Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/194" class="list-group-item">Bina Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/195" class="list-group-item">Dış Cephe Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/196" class="list-group-item">İnşaat Sonrası Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/197" class="list-group-item">Yer Döşeme Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/198" class="list-group-item">Zemin Cila İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/199" class="list-group-item">Cam Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/200" class="list-group-item">Baca Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/201" class="list-group-item">Çamaşır Temizliği</a>
+                    <a href="../Provider/ProvidersBySubCatId/202" class="list-group-item">Kuru Temizleme</a>
+                    <a href="../Provider/ProvidersBySubCatId/203" class="list-group-item">Halı Yıkama</a>
+                    <a href="../Provider/ProvidersBySubCatId/204" class="list-group-item">Klima Havalandırma</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Yalıtım ve Mantolama
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/205" class="list-group-item">Mantolama</a>
+                    <a href="../Provider/ProvidersBySubCatId/206" class="list-group-item">Söve</a>
+                    <a href="../Provider/ProvidersBySubCatId/207" class="list-group-item">Çatı Yalııtımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/208" class="list-group-item">Nem ve Rutubet Yalıtımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/209" class="list-group-item">Ses Yalıtımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/210" class="list-group-item">Su Yalıtımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/211" class="list-group-item">Yangın Yalıtımı</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Zemin Kaplama
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/212" class="list-group-item">PVC Zemin Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/213" class="list-group-item">Epoksi Zemin Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/214" class="list-group-item">Doğaltaş (Mermer, Granit vb.) Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/215" class="list-group-item">Ahşap Deck Kaplama</a>
+                    <a href="../Provider/ProvidersBySubCatId/216" class="list-group-item">İç Mekan Cila ve Lake İşleri</a>
+                    <a href="../Provider/ProvidersBySubCatId/217" class="list-group-item">Dış Mekan Cila ve Lake İşleri</a>
+
+
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Yazılım ve Bilişim
+                    </h3>
+                </div>
+                <ul class="list-group">
+                    <a href="../Provider/ProvidersBySubCatId/237" class="list-group-item">Android Uygulama</a>
+                    <a href="../Provider/ProvidersBySubCatId/238" class="list-group-item">Grafik Tasarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/239" class="list-group-item">Video Editörü</a>
+                    <a href="../Provider/ProvidersBySubCatId/240" class="list-group-item">Web Site Yapımı</a>
+                    <a href="../Provider/ProvidersBySubCatId/241" class="list-group-item">Web Tasarım Programlama</a>
+                    <a href="../Provider/ProvidersBySubCatId/242" class="list-group-item">Sosyal Medya</a>
+                    <a href="../Provider/ProvidersBySubCatId/243" class="list-group-item">Logo Tasarım</a>
+                    <a href="../Provider/ProvidersBySubCatId/244" class="list-group-item">Freelance Programcı</a>
+
+
+                </ul>
+            </div>
+        </div>
+
+
+    </div>
+
+<style>
+    .list-group {
+        overflow-y: scroll;
+        max-height: 200px;
+    }
+</style>

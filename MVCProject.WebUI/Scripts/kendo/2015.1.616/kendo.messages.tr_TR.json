@@ -1,0 +1,416 @@
+(function ($, undefined) {
+ Filter menu operator messages 
+
+if (kendo.ui.FilterCell) {
+kendo.ui.FilterCell.prototype.options.operators =
+$.extend(true, kendo.ui.FilterCell.prototype.options.operators,{
+  date {
+    eq Eþittir,
+    gt Sonra,
+    gte Sonra ya da eþit,
+    lt Önce,
+    lte Önce ya da eþit,
+    neq Eþit deðildir
+  },
+  enums {
+    eq Eþittir,
+    neq Eþit deðildir
+  },
+  number {
+    eq Eþittir,
+    gt Büyüktür,
+    gte Daha büyük veya eþittir,
+    lt Daha küçük,
+    lte Daha küçük veya eþit,
+    neq Eþit deðildir
+  },
+  string {
+    contains Ýçeriyor,
+    doesnotcontain Ýçermiyor,
+    endswith Ýle biter,
+    eq Eþittir,
+    neq Eþit deðildir,
+    startswith Ýle baþlar
+  }
+});
+}
+
+ Filter menu operator messages 
+
+if (kendo.ui.FilterMenu) {
+kendo.ui.FilterMenu.prototype.options.operators =
+$.extend(true, kendo.ui.FilterMenu.prototype.options.operators,{
+  date {
+    eq Eþittir,
+    gt Sonra,
+    gte Sonra ya da eþit,
+    lt Önce,
+    lte Önce ya da eþit,
+    neq Eþit deðildir
+  },
+  enums {
+    eq Eþittir,
+    neq Eþit deðildir
+  },
+  number {
+    eq Eþittir,
+    gt Büyüktür,
+    gte Daha büyük veya eþittir,
+    lt Daha küçük,
+    lte Daha küçük veya eþit,
+    neq Eþit deðildir
+  },
+  string {
+    contains Ýçeriyor,
+    doesnotcontain Ýçermiyor,
+    endswith Ýle biter,
+    eq Eþittir,
+    neq Eþit deðildir,
+    startswith Ýle baþlar
+  }
+});
+}
+
+ ColumnMenu messages 
+
+if (kendo.ui.ColumnMenu) {
+kendo.ui.ColumnMenu.prototype.options.messages =
+$.extend(true, kendo.ui.ColumnMenu.prototype.options.messages,{
+  columns Sütunlar,
+  settings Sütun ayarlarý,
+  done Tamam,
+  lock Kilitle,
+  sortAscending Artan Sýralama,
+  sortDescending Azalan Sýralama,
+  unlock Kilidini Aç
+});
+}
+
+ RecurrenceEditor messages 
+
+if (kendo.ui.RecurrenceEditor) {
+kendo.ui.RecurrenceEditor.prototype.options.messages =
+$.extend(true, kendo.ui.RecurrenceEditor.prototype.options.messages,{
+  daily {
+    interval Günler,
+    repeatEvery Her gün tekrarla
+  },
+  end {
+    after Sonra,
+    label Bitiþ,
+    mobileLabel Bitiþ,
+    never AslaHiç,
+    occurrence Olay,
+    on Anlýk
+  },
+  frequencies {
+    daily Günlük,
+    monthly Aylýk,
+    never AslaHiç,
+    weekly Haftalýk,
+    yearly Yýllýk
+  },
+  monthly {
+    day Gün,
+    interval Aylar,
+    repeatEvery Her ay tekrarla,
+    repeatOn Tekrarla
+  },
+  offsetPositions {
+    first Ýlk,
+    fourth Dördüncü,
+    last Son,
+    second Ýkinci,
+    third Üçüncü
+  },
+  weekdays {
+    day Gün,
+    weekday Ýþ günü,
+    weekend Haftasonu
+  },
+  weekly {
+    interval Haftalar,
+    repeatEvery Her hafta tekrarla,
+    repeatOn Tekrarla
+  },
+  yearly {
+    interval Yýllar,
+    of Arasýnda,
+    repeatEvery Her Yýl Tekrarla,
+    repeatOn Tekrarla
+  }
+});
+}
+
+ Editor messages 
+
+if (kendo.ui.Editor) {
+kendo.ui.Editor.prototype.options.messages =
+$.extend(true, kendo.ui.Editor.prototype.options.messages,{
+  addColumnLeft Sola kolon ekle,
+  addColumnRight Saða kolon ekle,
+  addRowAbove Yukarýdaki satýr ekle,
+  addRowBelow Aþaðýdaki satýr ekle,
+  backColor Arka plan rengi,
+  bold Kalýn ,
+  createLink Köprü ekleme,
+  createTable Tablo oluþtur,
+  deleteColumn Sütun silme,
+  deleteFile Silmek istediðinizden emin misiniz ,
+  deleteRow Satýr sil,
+  dialogButtonSeparator ya da,
+  dialogCancel Ýptal,
+  dialogInsert Ekle,
+  dialogUpdate Güncelle,
+  directoryNotFound Bu isimde bir dizin bulunamadý.,
+  dropFilesHere Yüklemek için dosyalarý buraya býrakýn,
+  emptyFolder Boþ klasör,
+  fontName Font ailesi Seçiniz,
+  fontNameInherit Devralýnan Karakter,
+  fontSize Font boyutu Seçiniz,
+  fontSizeInherit Devralýnan Boyut,
+  foreColor Renk,
+  formatBlock Biçim,
+  formatting Biçimlendirme,
+  imageAltText Alternatif metin,
+  imageWebAddress Web adresi,
+  indent Aatýrbaþý,
+  insertHtml HTML ekle,
+  insertImage Resim ekle,
+  insertOrderedList Sýralý liste ekleme,
+  insertUnorderedList Sýrasýz liste ekleme,
+  invalidFileType Seçinizilen dosya {0} geçerli deðil. Desteklenen dosya türleri {1} vardýr.,
+  italic Ýtalik karakter,
+  justifyCenter Merkezi metin,
+  justifyFull Doðrulama,
+  justifyLeft Metni sola yasla,
+  justifyRight Metni saða yasla,
+  linkOpenInNewWindow Yeni pencerede aç,
+  linkText Metin,
+  linkToolTip Araç Ýpucu,
+  linkWebAddress Web address,
+  orderBy Düzenleme ölçütü,
+  orderByName Ýsim,
+  orderBySize Boyut,
+  outdent Çýkýntý,
+  overwriteFile Ýsimde bir dosya {0} zaten dizinde mevcut. Bunu üzerine yazmak istiyor musunuz,
+  search Arama,
+  strikethrough Üstü çizili,
+  styles Stiller,
+  subscript Ýndis,
+  superscript Üstyazý,
+  underline Altýný çizmek,
+  unlink Köprüyü Kaldýr,
+  uploadFile Yükle,
+  viewHtml HTML Görünümü ,
+  insertFile Insert file
+});
+}
+
+ FilterCell messages 
+
+if (kendo.ui.FilterCell) {
+kendo.ui.FilterCell.prototype.options.messages =
+$.extend(true, kendo.ui.FilterCell.prototype.options.messages,{
+  clear Temizle,
+  filter Filtre,
+  isFalse Yanlýþ,
+  isTrue Doðru ,
+  operator Operatör(iþletmen)
+});
+}
+
+ FilterMenu messages 
+
+if (kendo.ui.FilterMenu) {
+kendo.ui.FilterMenu.prototype.options.messages =
+$.extend(true, kendo.ui.FilterMenu.prototype.options.messages,{
+  and Ve,
+  cancel Ýptal,
+  clear Temizle,
+  filter Filtre,
+  info bu ile bu arasýndaki deðerleri göster,
+  isFalse Yanlýþ,
+  isTrue Doðru ,
+  operator Operatör(iþletmen),
+  or ya da,
+  selectValue Deðer Seçiniz,
+  value Deðer
+});
+}
+
+ FilterMultiCheck messages 
+
+if (kendo.ui.FilterMultiCheck) {
+kendo.ui.FilterMultiCheck.prototype.options.messages =
+$.extend(true, kendo.ui.FilterMultiCheck.prototype.options.messages,{
+  search Arama
+});
+}
+
+ Grid messages 
+
+if (kendo.ui.Grid) {
+kendo.ui.Grid.prototype.options.messages =
+$.extend(true, kendo.ui.Grid.prototype.options.messages,{
+  commands {
+    canceledit Ýptal,
+    cancel Deðiþiklikleri iptal et,
+    create Yeni Kayýt Ekle,
+    destroy Sil,
+    edit Düzenle,
+    excel Export to Excel,
+    pdf Export to PDF,
+    save Deðiþiklikleri Kaydet,
+    select Seçiniz,
+    update Güncelle
+  },
+  editable {
+    cancelDelete Ýptal,
+    confirmation Kayýtlarý silmek istediðinizden emin misiniz ,
+    confirmDelete Sil
+  }
+});
+}
+
+ Groupable messages 
+
+if (kendo.ui.Groupable) {
+kendo.ui.Groupable.prototype.options.messages =
+$.extend(true, kendo.ui.Groupable.prototype.options.messages,{
+  empty Bir sütun baþlýðýný sürükleyin ve bu sütuna göre gruplandýrmak için buraya býrakýn
+});
+}
+
+ Pager messages 
+
+if (kendo.ui.Pager) {
+kendo.ui.Pager.prototype.options.messages =
+$.extend(true, kendo.ui.Pager.prototype.options.messages,{
+  allPages All,
+  display {0} - {1} aralýðý gösteriliyor. Toplam {2} öðe var,
+  empty Görüntülenecek öðe yok,
+  first Ýlk sayfaya git,
+  itemsPerPage Sayfa baþýna ürün,
+  last Son sayfaya git,
+  morePages Daha fazla sayfa,
+  next Bir sonraki sayfaya git,
+  of {0},
+  page Sayfa,
+  previous Sayfalarý Ýncele,
+  refresh Güncelle
+});
+}
+
+ Scheduler messages 
+
+if (kendo.ui.Scheduler) {
+kendo.ui.Scheduler.prototype.options.messages =
+$.extend(true, kendo.ui.Scheduler.prototype.options.messages,{
+  allDay Tüm gün,
+  cancel Ýptal Et,
+  editable {
+    confirmation Bu etkinliði silmek istediðinizden emin misiniz
+  },
+  date Tarih,
+  deleteWindowTitle Etkinliði sil,
+  destroy Sil,
+  editor {
+    allDayEvent Tüm gün süren olay,
+    description Taným,
+    editorTitle Olay,
+    end Bitiþ,
+    endTimezone Bitiþ saati,
+    noTimezone Zaman Aralýðý belirtilmemiþ,
+    repeat Tekrar,
+    separateTimezones Ayrý bir baþlangýç ve bitiþ Zaman aralýðý kullan,
+    start Baþlangýç,
+    startTimezone Baþlangýç Saati,
+    timezone ,
+    timezoneEditorButton Zaman Aralýðý,
+    timezoneEditorTitle Zaman Aralýðý,
+    title Taným
+  },
+  event Olay,
+  recurrenceMessages {
+    deleteRecurring Sadece bu olayý ya da bütün dizini mi silmek istiyor musunuz,
+    deleteWindowOccurrence Geçerli yinelemeyi Sil,
+    deleteWindowSeries Seriyi Sil,
+    deleteWindowTitle Tekrarlanan Öðeyi Sil,
+    editRecurring Sadece bu olay oluþumunu veya tüm dizini düzenlemek istiyor musunuz,
+    editWindowOccurrence Geçerli Olayý Düzenle,
+    editWindowSeries Seriyi düzenle,
+    editWindowTitle Tekrarlanan Öðeyi Düzenle
+  },
+  save Kaydet,
+  showFullDay Tüm gün göster,
+  showWorkDay Ýþ saatlerini göster,
+  time Zaman,
+  today Bugün,
+  views {
+    agenda Gündem,
+    day Gün,
+    month Ay,
+    week Hafta,
+    workWeek Çalýþma Haftasý
+  }
+});
+}
+
+ Upload messages 
+
+if (kendo.ui.Upload) {
+kendo.ui.Upload.prototype.options.localization =
+$.extend(true, kendo.ui.Upload.prototype.options.localization,{
+  cancel Ýptal Et,
+  dropFilesHere Yüklemek için dosyalarý buraya býrakýn,
+  headerStatusUploaded Tamalandý,
+  headerStatusUploading Yükleniyor,
+  remove Kaldýr,
+  retry Tekrar Dene,
+  select Seçiniz,
+  statusFailed Baþarýz Oldu,
+  statusUploaded Yüklendi,
+  statusUploading Yükleniyor,
+  uploadSelectedFiles seçilen dosyalarý Yükle
+});
+}
+
+ Dialog 
+
+if (kendo.ui.Dialog) {
+kendo.ui.Dialog.prototype.options.messages =
+$.extend(true, kendo.ui.Dialog.prototype.options.localization, {
+  close Kapatmak
+});
+}
+
+ Alert 
+
+if (kendo.ui.Alert) {
+kendo.ui.Alert.prototype.options.messages =
+$.extend(true, kendo.ui.Alert.prototype.options.localization, {
+  okText Tamam
+});
+}
+
+ Confirm 
+
+if (kendo.ui.Confirm) {
+kendo.ui.Confirm.prototype.options.messages =
+$.extend(true, kendo.ui.Confirm.prototype.options.localization, {
+  okText Tamam,
+  cancel Ýptal
+});
+}
+
+ Prompt 
+if (kendo.ui.Prompt) {
+kendo.ui.Prompt.prototype.options.messages =
+$.extend(true, kendo.ui.Prompt.prototype.options.localization, {
+  okText Tamam,
+  cancel Ýptal
+});
+}
+
+})(window.kendo.jQuery);

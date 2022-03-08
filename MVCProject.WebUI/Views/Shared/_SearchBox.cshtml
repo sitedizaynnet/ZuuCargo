@@ -1,0 +1,104 @@
+﻿@using MVCProject.Common.ViewModels
+@model RentalCarsVM
+
+@{ 
+    List<SelectListItem> LocationList = ViewBag.LocationList;
+    var CarsList = TempData["CarsList"];
+}
+<div class="reservation-form-shadow well">
+
+    <div class="alert alert-danger hidden" id="car-select-form-msg">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <strong>Not:</strong> Tüm alanlar gereklidir.!
+    </div>
+
+    @using (Html.BeginForm("SearchRentalCar", "RentalCars", FormMethod.Post))
+    {
+
+                        <!-- Car select start -->
+        @(Html.Kendo().DropDownListFor(x => x.CarsId)
+.Name("CarsId")
+.DataTextField("CarName")
+.DataValueField("Id")
+.OptionLabel("Araç Seçiniz...")
+.HeaderTemplate("<div class=\"dropdown-header k-widget k-header\"><span>Araç Adı  | </span><span>  Vites Türü</span></div>")
+.ValueTemplate("#:data.CarName# - #:data.TransType#")
+
+.HtmlAttributes(new { style = "width:100%; margin-bottom:15px;" })
+.SelectedIndex(Model.CarsId)
+.BindTo((List<CarsVM>)CarsList)
+        )
+      
+                        <!-- Car select end -->
+                        <!-- Pick-up location start -->
+        <div class="location">
+            <div class="input-group pick-up">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span> Teslim Alma </span>
+                                @(Html.Kendo().DropDownListFor(x=>x.Location)
+        .Name("Location")
+        .HtmlAttributes(new { style = "width:100%" })
+        .Filter("contains")
+        .OptionLabel("Lokasyon Seçiniz...")
+        .Value(Model.Location)
+        .BindTo(LocationList)
+                        )
+                       
+            </div>
+            <!-- Pick-up location end -->
+            <a class="different-drop-off" href="#">Farklı bir yerde mi teslim edeceksiniz?</a>
+            <!-- Drop-off location start -->
+          
+            <div class="input-group drop-off">
+                <span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span> Teslim Etme</span>
+                @(Html.Kendo().DropDownListFor(x => x.DropOffLocation)
+.Name("DropOffLocation")
+.OptionLabel("Lokasyon Seçiniz...")
+.HtmlAttributes(new { style = "width:100%" })
+.Value(Model.DropOffLocation)
+.BindTo((List<SelectListItem>)LocationList))
+            </div>
+           
+            </div>
+ 
+                        <!-- Drop-off location end -->
+                        <!-- Pick-up date/time start -->
+                            <div class="datetime pick-up" style="padding-top:15px;">
+                                <div class="date pull-left">
+                                    <div class="input-group">
+                                        <span class="input-group-addon pixelfix"><span class="glyphicon glyphicon-calendar"></span> Teslim Alma</span>
+                                        @(Html.Kendo().DateTimePickerFor(x => x.AvailableFrom)
+.Name("AvailableFrom")
+.Value(Model.AvailableFrom)
+.HtmlAttributes(new { style = "width:100%" })
+
+                                        )
+                                      
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        <!-- Pick-up date/time end -->
+                        <!-- Drop-off date/time start -->
+                            <div class="datetime drop-off" style="padding-top:15px;">
+                                <div class="date pull-left">
+                                    <div class="input-group">
+                                        <span class="input-group-addon pixelfix"><span class="glyphicon glyphicon-calendar"></span> Teslim Etme</span>
+                                        @(Html.Kendo().DateTimePickerFor(x => x.AvailableTo)
+.Name("AvailableTo")
+.Value(Model.AvailableTo)
+.HtmlAttributes(new { style = "width:100%" })
+
+                                        )
+                                     
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        <!-- Drop-off date/time end -->
+
+                            <input class="btn btn-info" style="margin-left:110px;margin-top:15px;"  name="arabuton" value="Uygun Araç Bul" type="submit">
+    }
+</div>
+

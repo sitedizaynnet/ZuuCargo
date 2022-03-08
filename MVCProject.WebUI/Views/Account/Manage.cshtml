@@ -1,0 +1,27 @@
+﻿@using MVCProject.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Hesabımı Düzenle";
+}
+<br />
+<div id="services">
+    <div class="title">
+        <h2>Şifre Değiştirme</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="row">
+    <div class="col-md-12">
+        @if (ViewBag.HasLocalPassword)
+        {
+            @Html.Partial("_ChangePasswordPartial")
+        }
+        else
+        {
+            @Html.Partial("_SetPasswordPartial")
+        }
+    </div>
+</div>
+

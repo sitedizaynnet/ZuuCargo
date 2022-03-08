@@ -1,0 +1,500 @@
+﻿@model IEnumerable<MVCProject.Common.ViewModels.AccountingVM>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQWBQJnAq7Hys-n66zbAOwXUF4_-r_rcs&callback=initMap" type="text/javascript"></script>
+<script src="~/Theme/js/gmap3.min.js"></script>
+
+
+
+
+<style>
+    .icon-gps {
+        /*background-image: url('../../../../MapTheme/images/icon-gps.png');*/
+        height: 50px;
+        display: inline-block;
+    }
+
+    .icon-gsm {
+        /*background-image: url('../../../../MapTheme/images/icon-gsm.png');*/
+        height: 50px;
+        display: inline-block;
+    }
+
+    .icon-on {
+        /*background-image: url('../../../../MapTheme/images/icon-on.png');*/
+        height: 50px;
+        display: inline-block;
+    }
+
+
+    #wrapper {
+        position: relative;
+    }
+
+    #over_map {
+        min-width: 400px;
+        position: absolute;
+        bottom: 0px;
+        z-index: 99;
+    }
+</style>
+
+<div id="wrapper">
+    @*Maps Here*@
+    <div id="map_canvas" style="height: 480px;"></div>
+
+
+    <!--<div id="over_map" style="max-width: 800px;min-height: 200px;max-height: 200px;">
+        <div class="box box-warning">
+            <div class="box-header with-border">
+
+                <a class="btn btn-bitbucket" style="height:30px;">
+                    <i class="icon-on">06 AU 3058</i>
+                </a>
+
+                <a class="btn btn-danger" style="height:25px;">
+                    <i class="icon-on">Kontak</i>
+                </a>
+                <a class="btn btn-danger" style="height:25px;">
+                    <i class="icon-gsm">GSM</i>
+                </a>
+                <a class="btn btn-success" style="height:25px;">
+                    <i class="icon-gps">GPS</i>
+                </a>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                </div>-->
+                <!-- /.box-tools -->
+            <!--</div>-->
+            <!-- /.box-header -->
+            <!--<div class="box-body">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab_1-1" data-toggle="tab">Bilgiler</a></li>
+                        <li><a href="#tab_2-2" data-toggle="tab">Hız İhlalleri</a></li>
+                        <li><a href="#tab_3-2" data-toggle="tab">Güvenlik</a></li>
+                    </ul>
+                    <div class="tab-content">
+
+                        <div class="tab-pane active " id="tab_1-1">
+
+                            <div>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td class="iconInfo">BİLGİ : </td>
+                                            <td class="iconContent" id="commandStatus">Araç Kontağı Kapalı</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="iconInfo">ADRES : </td>
+                                            <td class="iconContent" id="vehicleAddress">Hacı Halim Mah. Estergon Cd. Yıldırım Sk. Kartepe Kocaeli</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>-->
+                        <!-- /.tab-pane -->
+                        <!--<div class="tab-pane" id="tab_2-2">
+                            <table class="table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <th style="width:120px;">Zamanı</th>
+                                        <th style="width:150px;">İhlal Türü</th>
+                                        <th style="width:80px;">Hız</th>
+                                        <th style="width:80px;">Süresi</th>
+                                        <th>Adres</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>-->
+                        <!-- /.tab-pane -->
+                        <!--<div class="tab-pane " id="tab_3-2">
+
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger">
+                                Aracı Kısıtla
+                            </button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-success">
+                                Kısıtlamayı Kaldır
+                            </button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-warning">
+                                Alarm Durumu Kaldır
+                            </button>
+
+                        </div>-->
+                        <!-- /.tab-pane -->
+                    <!--</div>-->
+                    <!-- /.tab-content -->
+                <!--</div>
+            </div>-->
+            <!-- /.box-body -->
+        <!--</div>-->
+        <!-- Custom Tabs (Pulled to the right) -->
+        <!-- nav-tabs-custom -->
+    <!--</div>-->
+</div>
+<div class="modal modal-danger fade" id="modal-danger">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Danger Modal</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal modal-success fade" id="modal-success">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Success Modal</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal modal-warning fade" id="modal-warning">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Warning Modal</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body…</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline">Save changes</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+<section class="scripts">
+
+    <script type="text/javascript">
+                var gmarkers = [];
+                //var kavsaklar = [];
+                $(document).ready(function () {
+                    var deviceCoordinates = new google.maps.LatLng(39.920875, 32.853656);
+
+                    // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
+                    var mapOptions = {
+                        zoom: 8,
+                        center: deviceCoordinates,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    // This makes the div with id "map_canvas" a google map
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                    Initialize();
+
+
+
+
+                });
+
+
+                var deviceCoordinates = new google.maps.LatLng(39.920875, 32.853656);
+
+                // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
+                var mapOptions = {
+                    zoom: 8,
+                    center: deviceCoordinates,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+
+                // This makes the div with id "map_canvas" a google map
+                var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                // Where all the fun happens
+                function Initialize() {
+                    var gmarkers = [];
+
+                    //AMBULANS GET COOR TIMER
+                    var myDelay = 5000;
+                    var thisDelay = 5000;
+                    var start = Date.now();
+                    var beatCount = 0;
+                    function startTimer() {
+                        setTimeout(function () {
+                            beatCount++;
+                            // your code here...
+                            for (var i = 0; i < gmarkers.length; i++) {
+                                gmarkers[i].setMap(null);
+                            }
+
+                            UpdateAllDevicePositions();
+
+
+                            if (beatCount % 2 === 0) {
+                                //code for the chords playing goes here (every 1000 ms)
+                            }
+
+                            if (beatCount % 16) {
+                                //code for the drums playing goes here (every 8000 ms)
+                            }
+
+                            // calculate the actual number of ms since last time
+                            var actual = Date.now() - start;
+                            // subtract any extra ms from the delay for the next cycle
+                            thisDelay = myDelay - (actual - myDelay);
+                            start = Date.now();
+                            // start the timer again
+                            startTimer();
+                        }, thisDelay);
+                    }
+                    //AMBULANS
+
+                    var deviceCoordinates = new google.maps.LatLng(39.920875, 32.853656);
+
+                    // These are options that set initial zoom level, where the map is centered globally to start, and the type of map to show
+                    var mapOptions = {
+                        zoom: 8,
+                        center: deviceCoordinates,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    // This makes the div with id "map_canvas" a google map
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                    function setMapOnAll(map) {
+                        for (var i = 0; i < gmarkers.length; i++) {
+                            gmarkers[i].setMap(map);
+                        }
+
+                    }
+                    //$("#DevicesSelect").change(function () {
+
+                    //    var selectedDevice = $("#DevicesSelect :selected")[0].index;
+                    //    map.setCenter(gmarkers[selectedDevice].position);
+                    //    map.setZoom(17);
+
+                    //    //$.ajax({
+                    //    //    type: "GET",
+                    //    //    dataType: "json",
+                    //    //    url: "/Maps/GetLastCoordByDeviceImeiByDateRange" + "?deviceId=" + $(this).val(),
+                    //    //    async: false,
+                    //    //    success: function (result) {
+                    //    //        gpsDatasByDevId = result;
+                    //    //    },
+                    //    //    error: function (req, status, error) {
+                    //    //    }
+                    //    //});
+                    //});
+
+
+
+                    // Shows any markers currently in the array.
+                    function showMarkers() {
+                        setMapOnAll(map);
+                    }
+
+                    // Google has tweaked their interface somewhat - this tells the api to use that new UI
+                    google.maps.visualRefresh = true;
+
+                    // You can make markers different colors...  google it up!
+                    //marker.setIcon('/MapTheme/images/north_direction.png')
+                    // a sample list of JSON encoded data of places to visit in Liverpool, UK
+                    // you can either make up a JSON list server side, or call it from a controller using JSONResult
+                    //$.getJSON("/Suppliers/GetSuppliersForMap", function (json) {
+                    //    suppliers = json;
+                    //});
+                    function zoomMap() {
+                        map.setZoom(18);
+                    }
+                    GetLastCoordByAllDeviceFunc();
+                    //Devices Select Change Event Get AJAX GetLastCoordByDeviceId
+                    var gpsDatasByDevId = null;
+
+
+                    function UpdateAllDevicePositions() {
+
+                        var UpdateAllDevicePositions = null;
+                        $.ajax({
+                            type: "GET",
+                            dataType: "json",
+                            url: "/Delivery/GetLastCoordByAllDevice",
+                            async: false,
+                            success: function (result) {
+                                UpdateAllDevicePositions = result;
+                            },
+                            error: function (req, status, error) {
+                            }
+                        });
+
+
+
+                        // Using the JQuery "each" selector to iterate through the JSON list and drop device marker pins
+                        $.each(UpdateAllDevicePositions, function (i, item) {
+
+                            gmarkers[i].position = new google.maps.LatLng(item.lat, item.lng);
+                            gmarkers[i].icon.rotation = item.direction;
+
+                            var selectedDevice = 0/*$("#DevicesSelect :selected")[0].index*/;
+                            if (selectedDevice !=null) {
+                                map.setCenter(gmarkers[selectedDevice].position);
+                                map.setZoom(17);
+                            }
+                        });
+                        setMapOnAll(map);
+                    }
+
+
+                    //Live Track Load Event Get AJAX GetLastCoordByAllDevice
+                    function GetLastCoordByAllDeviceFunc() {
+
+
+                        var GetLastCoordByAllDevice = null;
+                        $.ajax({
+                            type: "GET",
+                            dataType: "json",
+                            url: "/Delivery/GetLastCoordByAllDevice",
+                            async: false,
+                            success: function (result) {
+                                GetLastCoordByAllDevice = result;
+                            },
+                            error: function (req, status, error) {
+                            }
+                        });
+
+                        // Using the JQuery "each" selector to iterate through the JSON list and drop device marker pins
+
+                        $.each(GetLastCoordByAllDevice, function (i, item) {
+
+
+                            var marker = new google.maps.Marker({
+                            map: map,
+                            position : new google.maps.LatLng(item.lat, item.lng),
+                            title: item.DeviceImei,
+                            visible: true,
+                                    icon: {
+                                        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+                                        scale: 6,
+                                        strokeWeight:5,
+                                        strokeColor:"#B40404",
+                                        fillColor:"#FFF",
+                                        rotation: parseInt(item.direction),
+                                        id: item.deviceImei
+                            }
+                            });
+
+
+                            // Push your newly created marker into the array:
+                            gmarkers.push(marker);
+
+                            // put in some information about each json object - in this case, the opening hours.
+
+                            var infowindow = new google.maps.InfoWindow({
+                                content: "<div class='infoDiv'><h2>" + item.deviceImei + "</h2>" + "<div><h4>Cihaz Durumu: " + item.state + "</h4><h4>" +  " Hız :" + item.speed + "</h4><h4>Yön :" + item.direction + "</h4><h4> + " + item.Location + "</div></div>"
+                            });
+
+                            // hook up an "OnClick" listener to the map so it pops up out info-window when the marker-pin is clicked!
+                            google.maps.event.addListener(marker, 'click', function () {
+                                infowindow.open(map, marker);
+                            });
+
+
+                        })
+
+                        startTimer();
+                    } // END GetLastCoordByAllDevice
+
+
+                    //var heading = google.maps.geometry.spherical.computeHeading(pointA, station);//
+                    ////google.maps.LatLng.prototype.destinationPoint = DestinationPoint(120, 20, pointA);
+                    //function DestinationPoint(brng, dist, pointA) {
+                    //    var lat1 = pointA.lat * Math.PI / 180;
+                    //    var lon1 = pointA.lng * Math.PI / 180;
+                    //    var lat2 = Math.asin(Math.sin(lat1) * Math.cos(dist) +
+                    //                         Math.cos(lat1) * Math.sin(dist) * Math.cos(brng));
+                    //    var lon2 = lon1 + Math.atan2(Math.sin(brng) * Math.sin(dist) *
+                    //                                 Math.cos(lat1),
+                    //                                 Math.cos(dist) - Math.sin(lat1) *
+                    //                                 Math.sin(lat2));
+                    //    if (isNaN(lat2) || isNaN(lon2)) return null;
+
+                    //    return new google.maps.LatLng(lat2.toDeg(), lon2.toDeg());
+                    //};
+
+
+
+                    function addMarker(location, map) {
+                        // Add the marker at the clicked location, and add the next-available label
+                        // from the array of alphabetical characters.
+                        var marker = new google.maps.Marker({
+                            position: location,
+
+                            map: map
+                        });
+                    }
+
+
+                    function moveToLocation(lat, lng) {
+                        var center = new google.maps.LatLng(lat, lng);
+                        map.setZoom(5); // Back to default zoom
+                        map.panTo(center);
+                        setTimeout(zoomMap(), 2000); // Zoom in after 1 sec
+                        // using global variable:
+
+                    }
+
+                    $("#daterange-btn").change(function () {
+
+                    })
+                };
+
+    </script>
+
+</section>
+<style>
+    #map_canvas img {
+        max-width: none;
+    }
+
+
+    .infoDiv {
+        height: 200px;
+        width: 300px;
+        -webkit-user-select: none;
+        background-color: white;
+    }
+</style>

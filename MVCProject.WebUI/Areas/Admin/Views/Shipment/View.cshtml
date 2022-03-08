@@ -1,0 +1,291 @@
+﻿@model MVCProject.Common.ViewModels.ShipmentMultiVM
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>View</h2>
+
+<div>
+    <h4>ShipmentVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.TrackingNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.TrackingNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SenderName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SenderName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SenderIdVATNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SenderIdVATNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SenderTelephone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SenderTelephone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SenderEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SenderEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SenderPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SenderPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SenderCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SenderCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiversAccountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiversAccountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiversVatNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiversVatNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ContactPersonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ContactPersonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverTelephoneNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverTelephoneNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.IsResidental)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.IsResidental)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ChargeTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ChargeTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ThirdPartyAccountNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ThirdPartyAccountNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ThirdPartyCompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ThirdPartyCompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ThirdPartyCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ThirdPartyCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ServiceLevel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ServiceLevel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.PackageCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.PackageCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.TotalWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.TotalWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.DimensionalWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.DimensionalWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.IsSameSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.IsSameSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.AdditionalHandlingCharge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.AdditionalHandlingCharge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.LargePacketSurchargeApplies)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.LargePacketSurchargeApplies)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReferenceNo1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReferenceNo1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReferenceNo2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReferenceNo2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.DescriptionOfGoods)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.DescriptionOfGoods)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.IsSample)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.IsSample)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.IsDocument)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.IsDocument)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.IsSaturdayDelivery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.IsSaturdayDelivery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.SpecialInstructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.SpecialInstructions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ShipmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ShipmentDate)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ShipmentVM.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

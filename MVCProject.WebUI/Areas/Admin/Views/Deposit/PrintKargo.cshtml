@@ -1,0 +1,105 @@
+﻿
+@model MVCProject.Common.ViewModels.ZuuCargoVM
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="https://varpays.com/Scripts/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="https://varpays.com/Scripts/qrcode.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .container {
+            position: relative;
+            font-family: Arial;
+            height: 560px;
+            width: 879px;
+        }
+
+        .text-block {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            font-size: 20px;
+            color: black;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .text-block2 {
+            position: absolute;
+            top: 125px;
+            right: 10px;
+            background-color: #0000008a;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .text-block3 {
+            position: absolute;
+            top: 225px;
+            right: 100px;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    </style>
+    <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script>
+        function myFunction() {
+            html2canvas(document.querySelector('.container'), {
+                onrendered: function (canvas) {
+                    // document.body.appendChild(canvas);
+                    return Canvas2Image.saveAsPNG(canvas);
+                }
+            });
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <p id="demo" onclick="myFunction()">Click to DOWNLOAD.</p>
+
+    <div class="container" style="background-image: url('http://ZuuCargo.com/Theme/images/kargoslip.jpg');">
+
+        <div class="text-block">
+            <h1>@Model.StockName</h1>
+            <h3>Customers Name : @Model.CustomersName</h3>
+            <h3>Weight : @Model.Kg Kg</h3>
+            <h3>Date : @Model.Date</h3>
+            <h3>Pieces : @Model.Pcs Pcs.</h3>
+            <h3>Price : @Model.Price $</h3>
+            <h4>Notes : @Model.Notes </h4>
+
+
+
+        </div>
+        <div class="text-block2">
+
+            <p>Invoice No : @Model.Id</p>
+
+
+        </div>
+        <div class="text-block3">
+            <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        var qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: "http://ZuuCargo.com/Account/ListKargowithid/@Model.Id",
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
+</body>
+</html>

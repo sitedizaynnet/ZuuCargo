@@ -1,0 +1,10 @@
+﻿@using MVCProject.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Hesabım Menü";
+}
+<div class="row">
+    <div class="col-md-12">
+       @User.Identity.Name
+    </div>
+</div>

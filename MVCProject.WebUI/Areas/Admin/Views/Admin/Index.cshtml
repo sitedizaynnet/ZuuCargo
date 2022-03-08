@@ -1,0 +1,236 @@
+﻿
+@{
+    ViewBag.Title = "Admin";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.0/js/bootstrap-datetimepicker.min.js" integrity="sha512-/j5D43S9a4n1badT1fOz9CNcaQ9lIAn5uXApuT5ayHHKaKwF3vWKrniAu6NVU8Hzq1NPOqs3CgXepvRMW3NPYg==" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepickerfrom').datetimepicker(
+            {
+                
+                format: 'DD-MM-YYYY'
+            }
+        );
+        $('#datetimepickerto').datetimepicker({
+            useCurrent: false,
+          
+            format: 'DD-MM-YYYY'//Important! See issue #1075
+        });
+        $("#datetimepickerfrom").on("dp.change", function (e) {
+            $('#datetimepickerto').data("DateTimePicker").setMinDate(e.date);
+        });
+        $("#datetimepickerto").on("dp.change", function (e) {
+            $('#datetimepickerfrom').data("DateTimePicker").setMaxDate(e.date);
+        });
+    });
+</script>
+<div class='col-md-5'>
+    <div class="form-group">
+        <div class='input-group date' id='datetimepickerfrom'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+    </div>
+</div>
+<div class='col-md-5'>
+    <div class="form-group">
+        <div class='input-group date' id='datetimepickerto'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+
+        </div>
+    </div>
+
+</div>
+<button class="btn btn-primary" id="getReport">Get Report</button>
+<div id="divAlan">
+
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>@ViewBag.ShipmentCount </h3>
+                    <p>Total Shipment</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="../../Admin/Shipment/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>@ViewBag.Accounting $<sup style="font-size: 20px"></sup></h3>
+                    <p>Total Accounting</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="../../Admin/Accounting/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-fuchsia">
+                <div class="inner">
+                    <h3>@ViewBag.Refunds $</h3>
+                    <p>Total Refunds Count</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-arrow-return-left"></i>
+                </div>
+                <a href="../../Admin/Refund/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>@ViewBag.LostOrders $</h3>
+                    <p>Lost Orders Count</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-sad-outline"></i>
+                </div>
+                <a href="../../Admin/Lost/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <!-- ./col -->
+        <!-- small box -->
+        <!-- small box -->
+        <!-- small box -->
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>@ViewBag.TotalArrivedMoney $</h3>
+                    <p>Total Arrived Money </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-cash"></i>
+                </div>
+                <a href="../../Admin/ArrivedMoney/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-purple">
+                <div class="inner">
+                    <h3>@ViewBag.TotalMyBalance $</h3>
+                    <p>Total My Balance </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-cash"></i>
+                </div>
+                <a href="../../Admin/MyBalance/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>@ViewBag.TotalTaxi $</h3>
+                    <p>Total Taxi </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="../../Admin/TaxiCosts/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-fuchsia">
+                <div class="inner">
+                    <h3>@ViewBag.TurkishCargo $</h3>
+                    <p>Turkish Cargo</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="../../Admin/TurkishCargo/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-gray">
+                <div class="inner">
+                    <h3>@ViewBag.TotalKomerk $</h3>
+                    <p>Total Komerk</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="../../Admin/Komerk/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-black">
+                <div class="inner">
+                    <h3>@ViewBag.KamuBorcUK $</h3>
+                    <p>Kamu Borc UK</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="../../Admin/KamuBorc/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+
+            <div class="small-box bg-black">
+                <div class="inner">
+                    <h3>@ViewBag.KamuBorcTurkey $</h3>
+                    <p>Kamu Borc Turkey</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="../../Admin/KamuBorc/Index" class="small-box-footer">Details <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <!-- /.row -->
+    </div>
+
+    </div>
+    <script>
+        $("#getReport").click(function () {
+
+            var startDate = $("#datetimepickerfrom").find("input").val();
+            var endDate = $("#datetimepickerto").find("input").val();
+            var items = [startDate, endDate];
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Admin/Admin/Report/",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ function_param: items }),
+
+                    success: function (data, textStatus, xhr) {
+                        $("#divAlan").html(data);
+                    }
+                });
+
+        });
+    </script>

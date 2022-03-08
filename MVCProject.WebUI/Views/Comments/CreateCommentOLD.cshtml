@@ -1,0 +1,84 @@
+﻿@using MVCProject.Common.ViewModels
+@model List<CommentsVM>
+
+@{
+    ViewBag.Title = "CreateOrderComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="services">
+    <div class="title">
+        <h2>Siparişinize puan verin</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+
+
+<div>
+    <div class="well row">
+      @{
+          foreach (var item in Model)
+          {
+
+            @Html.Partial("_Rating",item)
+
+          }
+    }
+         
+    </div>
+
+</div>
+
+@Html.ActionLink("Rezervasyonlarım","Reservations","Account")
+
+
+
+    <script>
+        $(function () {
+
+
+            // ratting system
+            $('.ratting-item').rating(function (vote, event) {
+                var anchor = $(event.currentTarget),
+                    pid = anchor.closest(".ratting-item").data("pid"),
+                    url = '@Url.Action("RateProduct", "Comments")';
+
+                // show message while doing the database round trip
+                $('.ratting-item[data-pid=' + pid + ']')
+                    .next()
+                    .text("Kaydediliyor...");
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    data: { rate: vote, id: pid },
+                    success: function (data) {
+
+                        if (data.success) {
+                            // all went well, here you can say Thank you
+                            $('.ratting-item[data-pid=' + data.pid + ']')
+                                .next()
+                                .text("Puan Kaydedildi!");
+                        }
+                        else {
+                            // There must be an Exception error, let's show it
+                            $('.ratting-item[data-pid=' + data.pid + ']')
+                                .next()
+                                .text("Sorun olustu...");
+                        }
+                    },
+                    error: function (err) {
+                        // the call thrown an error
+                        $('.result').text(err);
+                    },
+                    complete: function () {
+                        //$(".loading").hide();
+                    }
+                });
+            });
+
+        });
+    </script>
+<link href="@Url.Content("~/Content/rating.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/rating.js")"></script>

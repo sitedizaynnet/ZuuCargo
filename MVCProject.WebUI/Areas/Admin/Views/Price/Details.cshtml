@@ -1,0 +1,75 @@
+﻿@model MVCProject.Common.ViewModels.PriceVM
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PriceVM</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NameOfService)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NameOfService)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsExpress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsExpress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FromWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FromWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ToWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ToWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Zone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Zone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price1)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,84 @@
+﻿@{
+
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model  MVCProject.Models.SelectUserRolesViewModel
+
+@{
+    ViewBag.Title = "Select User Role";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+<div class="form-horizontal">
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label"  })
+
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @disabled = "disabled" })
+        </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label class="col-md-2 control-label" for="isAccounter">Accounter</label>
+
+
+                @Html.CheckBoxFor(model => model.isAccounter, new {@class = "icheckbox_flat-green checked" } )
+                @Html.ValidationMessageFor(model => model.isAccounter, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label class="col-md-2 control-label" for="isCargo">Cargo</label>
+
+                @Html.CheckBoxFor(model => model.isCargo)
+                @Html.ValidationMessageFor(model => model.isCargo, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label class="col-md-2 control-label" for="isCost">Cost</label>
+
+                @Html.CheckBoxFor(model => model.isCost)
+                @Html.ValidationMessageFor(model => model.isCost, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label class="col-md-2 control-label" for="isReport">Report</label>
+
+                @Html.CheckBoxFor(model => model.isReport)
+                @Html.ValidationMessageFor(model => model.isCost, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <input type="submit" value="Save" />
+            </div>
+        </div>
+
+
+    </div>
+        }
+
+        @Html.ActionLink("<- Geri Dön", "Index")

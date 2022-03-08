@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Scan and Send Arrival SMS";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="~/Theme/js/jquery.scannerdetection.js"></script>
+
+<script type="text/javascript">
+    function httpGet(invoiceNo) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "http://www.ZuuCargo.com/Admin/Accounting/SendPackageArrivedSMSBarcode/" + invoiceNo, false); // false for synchronous request
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+        var listContainer = $('#list');
+        listContainer.prepend('<li> ' + data.string + 'SMS SENT </li>');
+    }
+
+    $(window).ready(function () {
+
+        $("#bCode").scannerDetection();
+
+        console.log('all is well');
+
+        $(window).scannerDetection();
+        $(window).bind('scannerDetectionComplete', function (e, data) {
+            console.log('complete ' + data.string);
+            $("#bCode").val(data.string);
+            httpGet(data.string);
+
+        })
+            .bind('scannerDetectionError', function (e, data) {
+                console.log('detection error ' + data.string);
+                httpGet(data.string);
+            })
+            .bind('scannerDetectionReceive', function (e, data) {
+                console.log('Recieve');
+                console.log(data.evt.which);
+
+            })
+    });
+
+</script>
+<input id='bCode' class="form-control form-control-lg" type='text' value='scan barcode ready' />
+<ul id="list"></ul>
+ 

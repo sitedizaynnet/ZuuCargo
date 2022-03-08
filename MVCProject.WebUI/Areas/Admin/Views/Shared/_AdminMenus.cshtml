@@ -1,0 +1,48 @@
+﻿@using MVCProject.Common.ViewModels
+
+
+@{
+    List<MenusVM> mList = null;
+   
+    if (User.IsInRole("Driver"))
+    {
+        mList = (List<MenusVM>)ViewBag.MenuData;
+        mList = mList.Where(x => x.RoleId == 5).ToList();
+        
+    }
+    else
+    {
+        mList = (List<MenusVM>)ViewBag.MenuData;
+    }
+
+    foreach (MenusVM item in mList)
+    {
+
+        <li class="treeview">
+
+
+            <a href="@item.Url">
+                <i class="@item.Icon"></i> <span>@item.MenuAdi</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu" style="display: block;">
+                @if (item.SubMenus != null)
+            {
+
+
+                foreach (SubMenusVM itm in item.SubMenus)
+                {
+
+                        <li><a href="@itm.Url"><i class="@itm.Icon"></i>  @itm.SubMenuAdi</a></li>
+
+
+                    }
+
+    }
+            </ul>
+        </li>
+
+    }
+}

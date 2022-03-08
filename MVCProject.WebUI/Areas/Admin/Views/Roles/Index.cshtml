@@ -1,0 +1,64 @@
+﻿@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Rolleri Düzenle</h2>
+@Html.ActionLink("Yeni Rol Yarat", "Create") | @Html.ActionLink("Rolleri Düzenle", "Index")
+<hr/>
+
+<h3>Kullanıcıya Rol Ekle</h3>
+
+@using (Html.BeginForm("RoleAddToUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Kulllanıcı : @Html.TextBox("UserName")
+        Rol Adı: @Html.DropDownList("RoleName", (IEnumerable <SelectListItem>) ViewBag.Roles, "Seçiniz ...")
+
+    </p>
+
+    <input type="submit" value="Rol Ekle" />
+}
+<hr/>
+<h3>Kullanıcının Rolü</h3>
+@using (Html.BeginForm("GetRoles", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    <p>
+        Kullanıcı Adı : @Html.TextBox("UserName")
+        <input type="submit" value="Rol Adı Getir" />
+    </p>
+}
+
+@if (ViewBag.RolesForThisUser != null)
+{
+    <div style="background-color:yellow;">
+        <h3>Bu kullanıcı rolü </h3>
+        <ol>
+            @foreach (string s in ViewBag.RolesForThisUser)
+            {
+                <li>@s</li>
+            }
+        </ol>
+    </div>
+}
+
+<hr />
+<h3>Kullanıcıdan Rol Kaldır</h3>
+
+@using (Html.BeginForm("DeleteRoleForUser", "Roles"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <p>
+        Username : @Html.TextBox("UserName")
+        Role Name: @Html.DropDownList("RoleName", (IEnumerable<SelectListItem>)ViewBag.Roles, "Seçiniz ...")
+
+    </p>
+
+    <input type="submit" value="Rol Kaldır" />
+}
+

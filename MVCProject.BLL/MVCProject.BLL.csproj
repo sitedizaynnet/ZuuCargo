@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{15227E82-946A-49E9-80AC-337E8D97B46A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVCProject.BLL</RootNamespace>
+    <AssemblyName>MVCProject.BLL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountingProductsServices.cs" />
+    <Compile Include="Services\Accounting.cs" />
+    <Compile Include="Services\ArrivedExchangeServices.cs" />
+    <Compile Include="Services\ReklamServices.cs" />
+    <Compile Include="Services\ShipmentTurpexBarcodesServices.cs" />
+    <Compile Include="Services\ShipmentBarcodesServices.cs" />
+    <Compile Include="Services\KomerkServices.cs" />
+    <Compile Include="Services\TurkishCargoServices.cs" />
+    <Compile Include="Services\ExpensiveServices.cs" />
+    <Compile Include="Services\TaxiCostsServices.cs" />
+    <Compile Include="Services\MyBalanceServices.cs" />
+    <Compile Include="Services\ArrivedMoneyServices.cs" />
+    <Compile Include="Services\CustomerLocationServices.cs" />
+    <Compile Include="Services\GpsDataServices.cs" />
+    <Compile Include="Services\DepositServices.cs" />
+    <Compile Include="Services\VarKargoServices.cs" />
+    <Compile Include="Services\BoxsVarServices.cs" />
+    <Compile Include="Services\KamuBorcServices.cs" />
+    <Compile Include="Services\IlcelerServices.cs" />
+    <Compile Include="Services\MessageServices.cs" />
+    <Compile Include="Services\LostOrderServices.cs" />
+    <Compile Include="Services\CargosServices.cs" />
+    <Compile Include="Services\TotalCargoServices.cs" />
+    <Compile Include="Services\RefundServices.cs" />
+    <Compile Include="Services\StatusUpdatesServices.cs" />
+    <Compile Include="Services\ZoneServices.cs" />
+    <Compile Include="Services\PriceServices.cs" />
+    <Compile Include="Services\ReplyServices.cs" />
+    <Compile Include="Services\SehirlerServices.cs" />
+    <Compile Include="Services\SemtServices.cs" />
+    <Compile Include="Services\OrderServices.cs" />
+    <Compile Include="Services\CommentServices.cs" />
+    <Compile Include="Services\CategoryServices.cs" />
+    <Compile Include="Services\MenuServices.cs" />
+    <Compile Include="Services\ShipmentServices.cs" />
+    <Compile Include="Services\SubMenuServices.cs" />
+    <Compile Include="Services\UsersServices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MVCProject.Common\MVCProject.Common.csproj">
+      <Project>{cf376057-fe50-4a2e-9bd6-4c75f0fb5754}</Project>
+      <Name>MVCProject.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVCProject.DAL\MVCProject.DAL.csproj">
+      <Project>{87a4e4fa-eced-4944-8bfd-d5a6b852060e}</Project>
+      <Name>MVCProject.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MVCProject.Entities\MVCProject.Entities.csproj">
+      <Project>{118fe274-6ce2-4729-be23-89083a113d59}</Project>
+      <Name>MVCProject.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

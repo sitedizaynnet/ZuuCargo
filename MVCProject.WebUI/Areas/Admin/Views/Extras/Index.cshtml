@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Araçlar";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using MVCProject.Common.ViewModels
+@model IEnumerable<ExtrasVM>
+
+<h2>Extra Hizmetler</h2>
+
+
+@(Html.Kendo().Grid<ExtrasVM>()
+    .Name("Extras")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Id).Width(50).Locked(true) ;
+        columns.Bound(p => p.ExtraName).Width(200);
+        columns.Bound(p => p.ExtraDetails).Width(500);
+        columns.Bound(p => p.ExtraPrice).Width(100);
+
+
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(110);
+
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Selectable()
+       .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+    .HtmlAttributes(new { style = "height:350px;width:960px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.Id))
+        .Create(update => update.Action("Extra_Create", "Extras"))
+        .Read(read => read.Action("Extra_Read", "Extras"))
+        .Update(update => update.Action("Extra_Update", "Extras"))
+        .Destroy(update => update.Action("Extra_Destroy", "Extras"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

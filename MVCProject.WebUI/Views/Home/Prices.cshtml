@@ -1,0 +1,183 @@
+﻿
+<div class="container">
+
+    <form id="calculateForm">
+        <div class="contactform">
+            <div class="page_single layout_fullwidth_padding">
+
+                <div class="form_row" id="WeightDiv">
+                    <label>Weight:</label>
+                    <input type="text" name="Weight" value="" class="form_input">
+                </div>
+                <div class="form_row">
+                    <label>Post Type:</label>
+                    <div class="form_row_right">
+                        <label class="label-radio item-content">
+                            <!-- Checked by default -->
+                            <input type="radio" name="postType" value="Dox" checked="checked">
+                            <div class="item-inner">
+                                <div class="item-title">Dox</div>
+                            </div>
+                        </label>
+
+                        <label class="label-radio item-content">
+                            <!-- Checked by default -->
+                            <input type="radio" name="postType" value="Clothes">
+                            <div class="item-inner">
+                                <div class="item-title">Clothes</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+             
+                <!--<div class="form_row">
+        <label>Post :</label>
+        <div class="form_row_right">
+            <label class="label-radio item-content">-->
+                <!-- Checked by default -->
+                <!--<input type="radio" name="isExpress" value="Normal" checked="checked">
+        <div class="item-inner">
+            <div class="item-title">Normal</div>
+        </div>
+    </label>
+
+    <label class="label-radio item-content">-->
+                <!-- Checked by default -->
+                <!--<input type="radio" name="isExpress" value="Express">
+                <div class="item-inner">
+                    <div class="item-title">Express</div>
+                </div>
+            </label>
+        </div>
+    </div>-->
+                <div class="form_row">
+                    <label>Select Country :</label>
+                    <div class="row-fluid">
+                        <select name="country" id="country" class="selectpicker" data-show-subtext="true" data-live-search="true">
+                            @foreach (MVCProject.Common.ViewModels.ZoneVM zone in (List<MVCProject.Common.ViewModels.ZoneVM>)ViewData["ZoneList"])
+                            {
+                                <option class="zone" data-zone="@zone.ZoneNo" data-subtext="@Html.Raw((zone.IsExpress == true) ? "Express" : "Normal")">@zone.Country</option>
+                            }
+
+
+                        </select>
+                        <br />
+
+
+                    </div>                <br />
+
+                </div>
+                <table id="tblPrice" class="table table-bordered">
+                    <thead class="bg-primary text-white">
+                        <tr>
+
+
+
+
+
+                            <th>Type</th>
+
+                            <th>Time </th>
+                            <th>Price ($) </th>
+
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+                <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+                <input name="zoneId" id="zoneId" value="0" hidden />
+                <input type="button" name="submit" class="form_submit" id="btnsubmit" value="Calculate Price">
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+
+    (function () {
+
+        // get references to select list and display text box
+        var sel = document.getElementById('country');
+        var el = document.getElementById('zoneId');
+
+
+        function getSelectedOption(sel) {
+
+            return this.find(':selected').dataset.zone;
+        }
+
+
+
+        document.getElementById('btnsubmit').onclick = function () {
+            // access text property of selected option
+            var abc = $(sel).children('option:selected');
+            var xyz = abc.data("zone");
+            el.value = xyz;
+        }
+
+
+
+    }());
+
+
+    $body = $("#content-body");
+
+    $(document).on({
+        ajaxStart: function () { $body.addClass("loading"); },
+        ajaxStop: function () { $body.removeClass("loading"); }    
+    });
+</script>
+<script>
+    $(document).ready(function () {
+
+        $("#btnsubmit").click(function () {
+            var priceTable = $('#tblPrice tbody');
+            priceTable.empty();
+            var isValid = $("#Weight").val() !== "";
+            if (isValid) {
+                $("#WeightDiv").removeClass("has-error");
+                $(".help-block.with-errors").addClass("hidden");
+                
+              
+                var form = $("#calculateForm").serializeArray();
+                  $.ajax({
+            type: "POST",
+            url: "@Url.Action("CalculatePrice", "Home")",
+            data: JSON.stringify(form),
+            dataType: "json",
+            contentType: "application/json",
+
+            success: function (data) {
+                 {
+                    var priceTable = $('#tblPrice tbody');
+                    priceTable.empty();
+                    $(data).each(function (index, prc) {
+                        (prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
+                        priceTable.append('<tr><td>' +  prc.IsExpress + '</td><td>'
+                            + prc.NameOfService + '</td><td>' + prc.ServicePrice + '</td></tr>');
+                    });
+
+                } 
+
+
+
+            },
+        //error: function (hata, ajaxOptions, thrownError) {
+        //        alert(hata.status);
+        //        alert(thrownError);
+        //        alert(hata.responseText);
+        //    }
+    });
+
+            } else {
+                $("#WeightDiv").addClass("has-error");
+                $(".help-block.with-errors").removeClass("hidden");
+
+            }
+
+
+        });
+    });
+
+   
+</script>

@@ -1,0 +1,230 @@
+﻿@using MVCProject.Common.ViewModels
+@model List<OrderVM>
+@{
+    ViewBag.Title = "İlanlarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div id="services">
+    <div class="title">
+        <h2>İlanlarım</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script><div class="container">
+
+    <div class="container">
+        <div class="row">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="myTable" class="table table-list-search">
+                        <thead>
+                            <tr>
+                                <th><i>İlan No</i></th>
+                                <th><i>Kategori</i></th>
+                                <th class="hidden-xs"><i>Şehir</i></th>
+                                <th class="hidden-xs"><i>İlçe</i></th>
+                                <th class="hidden-xs"><i>Semt</i></th>
+                                <
+                                <th class="hidden-xs"><i>Tarih Saat</i></th>
+                                <th><i>Gelen Teklif Sayısı</i></th>
+                                <th><i>İlan Durumu</i></th>
+                                <th></th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                foreach (var item in Model)
+                                {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.SubCatName</td>
+                                <td class="hidden-xs">@item.CityAdi</td>
+                                <td class="hidden-xs">@item.IlceAdi</td>
+                                <td class="hidden-xs">@item.SemtAdi</td>
+                            
+                                <td class="hidden-xs">@item.OrderTime</td>
+                                <td style="text-align:center">
+                                    @if (item.BidList != null)
+        {
+            if (@item.BidList.Count() > 0)
+            {
+                            <span class="badge badge-success"> @item.BidList.Count() </span>
+}
+else
+{
+                            <span class="badge badge-warning"> @item.BidList.Count() </span>
+}
+
+
+}
+                                </td>
+                                <td>@item.Status</td>
+
+
+                                <td>
+                                    @*@if (item.Status.ToString() != "Süresi Doldu                                      " & item.Status.ToString() != "Tamamlandı                                        " & item.Status.ToString() != "Puan Bekleniyor                                   ")
+    {
+                                <a href="@Url.Action("DeleteOrder", "Order", new { @Id = item.Id })" style="height: 25px" , onclick="return confirm_delete()" class="label label-danger">İptal Et</a>
+
+}*@
+                                    @if (item.Status.ToString() == "Puan Bekleniyor                                   " && item.BidList.Count > 0)
+    {
+                                <a href="#" style="height: 25px" class="label label-success" data-toggle="modal" data-id="@item.Id" data-target="#createComment">Puan Ver</a>
+
+}
+                                    @if (item.Status.ToString() == "Süresi Doldu                                      " && @item.BidList.Count() > 0)
+    {
+                                <a href="@Url.Action("SelectBid", "Order", new { @Id = item.Id })" style="height: 25px" class="label label-success">Teklif Seçin</a>
+
+}
+                                    <a href="@Url.Action("OrderDetails", "Account", new { @Id = item.Id })" style="height: 25px" class="label label-success">Detaylar</a>
+
+                                </td>
+                            </tr>
+
+
+
+                                }
+                            }
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="createComment" class="modal fade" role="dialog">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title green">Yapılan İşi Değerlendir</h4>
+                </div>
+
+                <div class="modal-body">
+                    @Html.Partial("_CreateComment")
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-custom-grey full-width custom_bold" data-dismiss="modal">Sonra Değerlendir</button>
+                        </div>
+
+                        <div class="col-md-9">
+                            <button id="send_rating" type="button" class="btn btn-custom-blue full-width custom_bold" data-loading-text="İşleniyor..." onclick="sendRating()">Gönder</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+        function sendRating()
+        {
+            if ($("#rate_content").val() == "") {
+                $.notify({
+
+                    message: " Lütfen yorumunuzu yazınız !"
+                }, {
+
+                        type: 'danger',
+                          z_index: 2000
+                    });
+
+
+            } else {
+                $.ajax({
+                                url: '@Url.Action("CreateComment", "Account")',
+                                  type: "POST",
+                  data: {
+                      rate_1: $("#rate1").val(),
+                      rate_2: $("#rate2").val(),
+                      rate_3: $("#rate3").val(),
+                      rate_4: $("#rate4").val(),
+                      rate_content: $("#rate_content").val(),
+                      orderId: $("#orderId").val(),
+                      orderId: $("#orderId").val(),
+
+
+                  },
+                                    success: function (answerresult) {
+
+                                },
+                                error: function (err) {
+                                    // the call thrown an error
+                                    console.log("Hata Oluştu")
+                                },
+                                complete: function () {
+                                    //$(".loading").hide();
+                                    $('#createComment').modal('hide');
+                                    $.notify({
+
+                                        icon: "/theme/img/ok.png",
+                                        message: " Yorumunuz için teşekkür ederiz."
+                                    }, {
+                                            icon_type: 'image',
+                                            type: 'success'
+
+                                        });
+                                    location.reload();
+                                }
+                            });
+            }
+
+        }
+
+
+
+    </script>
+    <script src="~/Scripts/bootstrap-notify.min.js"></script>
+
+    <script type="text/javascript">
+        function confirm_delete() {
+            return confirm('İlanınızı iptal etmek istiyor musunuz?');
+        }
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+        $('#myTable').DataTable({
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json'
+            }
+        });
+        var table = $('#myTable').DataTable();
+        $('#myTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            }
+            else {
+                table.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+    </script>
+
+    <style>
+        .badge-warning {
+            background-color: #f89406 !important
+        }
+
+        .badge-success {
+            background-color: #82af6f !important
+        }
+    </style>
+
+

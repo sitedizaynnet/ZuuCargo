@@ -1,0 +1,222 @@
+﻿@model MVCProject.Models.ExternalLoginConfirmationViewModel
+@{
+    ViewBag.Title = "Hesap Oluşturma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h3>Hesabınız @ViewBag.LoginProvider ile doğrulandı.</h3>
+
+@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <p class="text-info">
+        Hesabınız başarıyla <strong>@ViewBag.LoginProvider</strong> hesabınız ile eşleştirildi.
+        Kayıt işlemini tamamlamak için ihtiyaç duyduğumuz diğer bilgileri girerek kaydı tamamla butonuna basınız.
+
+    </p>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Adınız <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-6">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Adınızı Giriniz" value="">
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Soyadınız <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-6">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input type="text" class="form-control" name="lastname" id="lastname" placeholder="Soyadınızı Giriniz" value="">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Email Adresiniz <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-6">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email Adresinizi Giriniz" value="">
+            </div>
+            <small> Hesabınıza giriş yapmak için e-posta adresinizi kullanacaksınız.  </small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Şehir <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-8">
+
+            <div class="input-group">
+                @(Html.Kendo().ComboBox()
+                                                                                                                        .Name("city")
+                                                                                                                        .DataTextField("SehirAdi")
+                                                                                                                        .DataValueField("SehirId")
+                                                                                                                        .Suggest(true)
+                                                                                                                        .Placeholder("Şehir Seçiniz...")
+                                                                                                                            .HtmlAttributes(new { style = "width:%140;" })
+
+                                                                                                                        .DataSource(source =>
+                                                                                                                        {
+
+                                                                                                                            source.Read(read =>
+                                                                                                                            {
+                                                                                                                                read.Action("RemoteDataSource_SehirleriGetir", "Account");
+
+                                                                                                                            }
+
+                                                                                                                        );
+                                                                                                                        })
+                )
+                @Html.ValidationMessageFor(x => x.City)
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">İlçe <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-8">
+
+            <div class="input-group">
+                @(Html.Kendo().ComboBoxFor(x => x.Ilce)
+                                                                                                            .Name("Ilce")
+                                                                                                            .DataTextField("IlceAdi")
+                                                                                                            .DataValueField("IlceId")
+                                                                                                            .Placeholder("İlçe Seçiniz...")
+                                                                                                            .Suggest(true)
+                                                                                                            .DataSource(source =>
+                                                                                                            {
+                                                                                                                source.Read(read =>
+                                                                                                                {
+                                                                                                                    read.Action("RemoteDataSource_IlceleriGetir", "Account")
+                                                                                                                    .Data("filterCity");
+                                                                                                                })
+                                                                                                            .ServerFiltering(true);
+                                                                                                            })
+                                                                                                                  .Enable(false)
+                                                                                                                  .AutoBind(false)
+                                                                                                                  .CascadeFrom("city")
+                )
+                @Html.ValidationMessageFor(x => x.Ilce)
+
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-sm-3">Semt <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-8">
+
+            <div class="input-group">
+                @(Html.Kendo().ComboBoxFor(x => x.Semt)
+                                                                                                        .Name("semt")
+                                                                                                        .DataTextField("SemtAdi")
+                                                                                                        .DataValueField("SemtId")
+                                                                                                        .Placeholder("Semt Seçiniz...")
+                                                                                                        .Suggest(true)
+                                                                                                        .DataSource(source =>
+                                                                                                        {
+                                                                                                            source.Read(read =>
+                                                                                                            {
+                                                                                                                read.Action("RemoteDataSource_SemtGetir", "Account")
+                                                                                                                .Data("filterIlceler");
+                                                                                                            })
+                                                                                                        .ServerFiltering(true);
+                                                                                                        })
+                                                                                                              .Enable(false)
+                                                                                                              .AutoBind(false)
+                                                                                                              .CascadeFrom("Ilce")
+                )
+                @Html.ValidationMessageFor(x => x.Semt)
+
+
+            </div>
+        </div>
+    </div>
+  
+
+
+    <div class="form-group">
+        <label class="control-label col-sm-3">Adresiniz  <span class="text-danger">*</span></label>
+        <div class="col-md-5 col-sm-8">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
+                <textarea class="form-control" placeholder="Adresinizi Giriniz" rows="5" id="address" name="address"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Kaydı Tamamla" />
+        </div>
+    </div>
+}
+<script>
+    function filterCity() {
+        return {
+            city: $("#city").val()
+        };
+    }
+
+    function filterIlceler() {
+        return {
+            ilce: $("#Ilce").val()
+        };
+    }
+
+    function filterSemt() {
+        return {
+            semt: $("#semt").val()
+        };
+    }
+</script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/cultures/kendo.culture.tr-TR.min.js")"></script>
+
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/jszip.min.js")"></script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.all.min.js")"></script>
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.messages.tr_TR.json")"></script>
+
+
+<script src="@Url.Content("~/Scripts/kendo/2015.1.616/kendo.aspnetmvc.min.js")"></script>
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.common.min.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.mobile.all.min.css")" rel="stylesheet" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.dataviz.min.css")" rel="stylesheet" as="style" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.default.min.css")" rel="stylesheet" as="style" type="text/css" />
+
+<link href="@Url.Content("~/Content/kendo/2015.1.616/kendo.dataviz.default.min.css")" rel="stylesheet" type="text/css" />
+
+<script>
+    $(document).ready(function () {
+        var city = $("#city").data("kendoDropDownList"),
+            ilce = $("#Ilce").data("kendoDropDownList"),
+            semt = $("#semt").data("kendoDropDownList");
+           
+
+        $("#get").click(function () {
+            var cityInfo = "\nSehir: { id: " + city.value() + ", name: " + city.text() + " }",
+                ilceInfo = "\nIlce: { id: " + Ilce.value() + ", name: " + ilce.text() + " }",
+                semtmahInfo = "\nSemt Mah: { id: " + semtmah.value() + ", name: " + semtmah.text() + " }";
+
+        });
+    });
+    $('.button-width').one('submit', function () {
+
+        $(this).find('input[type="submit"]').attr('disabled', 'disabled');
+    });
+
+</script>

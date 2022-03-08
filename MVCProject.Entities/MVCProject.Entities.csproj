@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{118FE274-6CE2-4729-BE23-89083A113D59}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MVCProject.Entities</RootNamespace>
+    <AssemblyName>MVCProject.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net451\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounting.cs" />
+    <Compile Include="AccountingProducts.cs" />
+    <Compile Include="ArrivedExchange.cs" />
+    <Compile Include="Migrations\202203061202555_reklam.cs" />
+    <Compile Include="Migrations\202203061202555_reklam.Designer.cs">
+      <DependentUpon>202203061202555_reklam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203061509406_reklam0.cs" />
+    <Compile Include="Migrations\202203061509406_reklam0.Designer.cs">
+      <DependentUpon>202203061509406_reklam0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reklam.cs" />
+    <Compile Include="Migrations\202202251847445_shipment.cs" />
+    <Compile Include="Migrations\202202251847445_shipment.Designer.cs">
+      <DependentUpon>202202251847445_shipment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202271406009_shipment23.cs" />
+    <Compile Include="Migrations\202202271406009_shipment23.Designer.cs">
+      <DependentUpon>202202271406009_shipment23.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203010818491_shipment230.cs" />
+    <Compile Include="Migrations\202203010818491_shipment230.Designer.cs">
+      <DependentUpon>202203010818491_shipment230.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203010946199_shipment2300.cs" />
+    <Compile Include="Migrations\202203010946199_shipment2300.Designer.cs">
+      <DependentUpon>202203010946199_shipment2300.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203011150122_shipment23000.cs" />
+    <Compile Include="Migrations\202203011150122_shipment23000.Designer.cs">
+      <DependentUpon>202203011150122_shipment23000.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203021236480_shipment230003.cs" />
+    <Compile Include="Migrations\202203021236480_shipment230003.Designer.cs">
+      <DependentUpon>202203021236480_shipment230003.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203021519472_shipment2300033.cs" />
+    <Compile Include="Migrations\202203021519472_shipment2300033.Designer.cs">
+      <DependentUpon>202203021519472_shipment2300033.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203021617202_shipment23000332.cs" />
+    <Compile Include="Migrations\202203021617202_shipment23000332.Designer.cs">
+      <DependentUpon>202203021617202_shipment23000332.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203021657517_shipment230003323.cs" />
+    <Compile Include="Migrations\202203021657517_shipment230003323.Designer.cs">
+      <DependentUpon>202203021657517_shipment230003323.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203031156002_shipment2300033233.cs" />
+    <Compile Include="Migrations\202203031156002_shipment2300033233.Designer.cs">
+      <DependentUpon>202203031156002_shipment2300033233.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShipmentTurpexBarcodes.cs" />
+    <Compile Include="ShipmentBarcodes.cs" />
+    <Compile Include="Komerk.cs" />
+    <Compile Include="Migrations\202202200807265_turkishcargo.cs" />
+    <Compile Include="Migrations\202202200807265_turkishcargo.Designer.cs">
+      <DependentUpon>202202200807265_turkishcargo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202200900382_turk.cs" />
+    <Compile Include="Migrations\202202200900382_turk.Designer.cs">
+      <DependentUpon>202202200900382_turk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202211542173_turkp.cs" />
+    <Compile Include="Migrations\202202211542173_turkp.Designer.cs">
+      <DependentUpon>202202211542173_turkp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202241326587_zones.cs" />
+    <Compile Include="Migrations\202202241326587_zones.Designer.cs">
+      <DependentUpon>202202241326587_zones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202241406196_zonesp.cs" />
+    <Compile Include="Migrations\202202241406196_zonesp.Designer.cs">
+      <DependentUpon>202202241406196_zonesp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202241659305_ptt.cs" />
+    <Compile Include="Migrations\202202241659305_ptt.Designer.cs">
+      <DependentUpon>202202241659305_ptt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TurkishCargo.cs" />
+    <Compile Include="Migrations\202201221339122_initial2.cs" />
+    <Compile Include="Migrations\202201221339122_initial2.Designer.cs">
+      <DependentUpon>202201221339122_initial2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202181626391_SenderAddress.cs" />
+    <Compile Include="Migrations\202202181626391_SenderAddress.Designer.cs">
+      <DependentUpon>202202181626391_SenderAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202181639513_receiver.cs" />
+    <Compile Include="Migrations\202202181639513_receiver.Designer.cs">
+      <DependentUpon>202202181639513_receiver.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202191335033_receivere.cs" />
+    <Compile Include="Migrations\202202191335033_receivere.Designer.cs">
+      <DependentUpon>202202191335033_receivere.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202191340569_receiverep.cs" />
+    <Compile Include="Migrations\202202191340569_receiverep.Designer.cs">
+      <DependentUpon>202202191340569_receiverep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TaxiCosts.cs" />
+    <Compile Include="Expensive.cs" />
+    <Compile Include="MyBalance.cs" />
+    <Compile Include="ArrivedMoney.cs" />
+    <Compile Include="CustomerLocation.cs" />
+    <Compile Include="GpsData.cs" />
+    <Compile Include="Deposit.cs" />
+    <Compile Include="VarKargo.cs" />
+    <Compile Include="Cargos.cs" />
+    <Compile Include="Category.cs" />
+    <Compile Include="BoxsVar.cs" />
+    <Compile Include="KamuBorc.cs" />
+    <Compile Include="TotalCargo.cs" />
+    <Compile Include="Refund.cs" />
+    <Compile Include="LostOrder.cs" />
+    <Compile Include="Price.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="Ilceler.cs" />
+    <Compile Include="Menus.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reply.cs" />
+    <Compile Include="Sehirler.cs" />
+    <Compile Include="Semt.cs" />
+    <Compile Include="Shipment.cs" />
+    <Compile Include="StatusUpdates.cs" />
+    <Compile Include="SubMenus.cs" />
+    <Compile Include="VarkargoEntities.cs" />
+    <Compile Include="Zone.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202201221339122_initial2.resx">
+      <DependentUpon>202201221339122_initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202181626391_SenderAddress.resx">
+      <DependentUpon>202202181626391_SenderAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202181639513_receiver.resx">
+      <DependentUpon>202202181639513_receiver.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202191335033_receivere.resx">
+      <DependentUpon>202202191335033_receivere.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202191340569_receiverep.resx">
+      <DependentUpon>202202191340569_receiverep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202200807265_turkishcargo.resx">
+      <DependentUpon>202202200807265_turkishcargo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202200900382_turk.resx">
+      <DependentUpon>202202200900382_turk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202211542173_turkp.resx">
+      <DependentUpon>202202211542173_turkp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202241326587_zones.resx">
+      <DependentUpon>202202241326587_zones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202241406196_zonesp.resx">
+      <DependentUpon>202202241406196_zonesp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202241659305_ptt.resx">
+      <DependentUpon>202202241659305_ptt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202251847445_shipment.resx">
+      <DependentUpon>202202251847445_shipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202271406009_shipment23.resx">
+      <DependentUpon>202202271406009_shipment23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203010818491_shipment230.resx">
+      <DependentUpon>202203010818491_shipment230.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203010946199_shipment2300.resx">
+      <DependentUpon>202203010946199_shipment2300.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203011150122_shipment23000.resx">
+      <DependentUpon>202203011150122_shipment23000.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203021236480_shipment230003.resx">
+      <DependentUpon>202203021236480_shipment230003.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203021519472_shipment2300033.resx">
+      <DependentUpon>202203021519472_shipment2300033.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203021617202_shipment23000332.resx">
+      <DependentUpon>202203021617202_shipment23000332.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203021657517_shipment230003323.resx">
+      <DependentUpon>202203021657517_shipment230003323.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203031156002_shipment2300033233.resx">
+      <DependentUpon>202203031156002_shipment2300033233.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203061202555_reklam.resx">
+      <DependentUpon>202203061202555_reklam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203061509406_reklam0.resx">
+      <DependentUpon>202203061509406_reklam0.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

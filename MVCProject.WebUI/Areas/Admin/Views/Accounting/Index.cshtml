@@ -1,0 +1,544 @@
+﻿
+@{
+    ViewBag.Title = "Accounting";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+
+
+    @*<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>*@
+
+    <style>
+
+        span.field-validation-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div style="width: 90%;margin: 0 auto; overflow: scroll;" class="tablecontainer">
+        <a class="popup btn btn-primary" href="/Admin/Accounting/Save/0" style="margin-bottom:20px; margin-top:20px;">Add New Record</a>
+       
+        <div id="reportrange" class="btn btn-success btn-lg">
+
+            <span></span> <b class="caret"></b>
+        </div>
+
+        <table id="myDatatable">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>InvoiceNo</th>
+
+                    <th>IsCargo</th>
+                    <th>IsPaid</th>
+                    <th>IsDelivered</th>
+                    <th>Customer Name</th>
+                    <th>Telephone</th>
+                    <th>City</th>
+                    <th>ProductName</th>
+                    <th>Quantity</th>
+                    <th>Total Dollar</th>
+                    <th>Total Lira</th>
+                    <th>Total Cargo</th>
+                    <th>Exchange</th>
+                    <th>Expensive</th>
+                    <th>Tax</th>
+
+                    <th>Invoice</th>
+
+                    <th class="hidden-print">Edit</th>
+                    <th class="hidden-print">Delete</th>
+                    <th class="hidden-print">Make Paid</th>
+                    <th>SMS Invoice</th>
+                    <th>InvoiceWithExp</th>
+                    <th>SMS Arrived</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                  
+                    <th>TOTALS</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            var oTable = $('#myDatatable').DataTable({
+                orderCellsTop: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'colvis'
+                    ,
+                    {
+                        extend: 'pdfHtml5',
+                        title: function () {
+                            return "Accounting";
+                        },
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                        titleAttr: 'PDF',
+                        footer: true
+                    }
+
+                ],
+                autoFill: true,
+                colReorder: true,
+                fixedColumns: true,
+                responsive: false,
+                keys: true,
+                rowReorder: true,
+                select: true,
+
+                "columnDefs": [
+                    { "targets": [2, 3, 4, 6, 8, 9, 10, 11, 12], "searchable": false }
+                ],
+                "ajax": {
+                    "url": '/Accounting/GetAccounting/',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "Date", render: function (data, type, full) { return dtConvFromJSON(data); }, "autoWidth": true },
+                    { "data": "InvoiceNo", "autoWidth": true },
+                    { "data": "IsCargo", "autoWidth": true },
+                    { "data": "IsPaid", "autoWidth": true },
+                    { "data": "IsDelivered", "autoWidth": true },
+                    { "data": "CustomerName", "autoWidth": true },
+                    { "data": "Telephone", "autoWidth": true },
+                    { "data": "City", "autoWidth": true },
+                    { "data": "ProductName", "autoWidth": true },
+                    { "data": "Quantity", "autoWidth": true },
+
+                    { "data": "TotalDollar", "autoWidth": true },
+                    { "data": "TotalLira", "autoWidth": true },
+                    { "data": "CargoPrice", "autoWidth": true },
+                    { "data": "Exchange", "autoWidth": true },
+                    { "data": "Expensive", "autoWidth": true },
+                    { "data": "Tax", "autoWidth": true },
+
+
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a target="_blank"  href="/Admin/Accounting/PrintInvoice/' + data + '">Invoice</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a  class="hidden-print" href="/Admin/Accounting/Save/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" href="/Admin/Accounting/DeleteGet/' + data + '">Delete</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a target="_blank" class="hidden-print" href="/Admin/Accounting/AddAccountingFromId/' + data + '">Make Paid</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" target="_blank" href="/Admin/Accounting/SendInvoiceSMS/' + data + '">SMS Invoice</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" href="/Admin/Accounting/InvoiceWithEx/' + data + '">InvoiceWithEx</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" target="_blank" href="/Admin/Accounting/SendPackageArrivedSMS/' + data + '">ArrivedSMS</a>';
+                        }
+                    }
+
+
+
+                ],
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // Total over all pages
+                    total8 = api
+                        .column(8, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total9 = api
+                        .column(9, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total10 = api
+                        .column(10, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total11 = api
+                        .column(11, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total12 = api
+                        .column(12, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total13 = api
+                        .column(13, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total14 = api
+                        .column(14, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    // Total over this page
+                    pageTotal8 = api
+                        .column(8, {  })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    pageTotal9 = api
+                        .column(9, {  })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    pageTotal10 = api
+                        .column(10, {})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    pageTotal11 = api
+                        .column(11, {})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    pageTotal12 = api
+                        .column(12, {})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    pageTotal13 = api
+                        .column(13, {})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    pageTotal14 = api
+                        .column(14, {})
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    // Update footer
+                    // Update footer
+                    $(api.column(8).footer()).html(
+                        '' + pageTotal8 + ' (' + total8 + ' page)'
+                    );
+                    $(api.column(9).footer()).html(
+                        '$' + pageTotal9 + ' ($' + total9 + ' page)'
+                    );
+                    $(api.column(10).footer()).html(
+                        '$' + pageTotal10 + ' ($' + total10 + ' page)'
+                    );
+                    $(api.column(11).footer()).html(
+                        '$' + pageTotal8 + ' ($' + total11 + ' page)'
+                    );
+                    $(api.column(12).footer()).html(
+                        '$' + pageTotal12 + ' ($' + total12 + ' page)'
+                    );
+                    $(api.column(13).footer()).html(
+                        '$' + pageTotal13 + ' ($' + total13 + ' page)'
+                    );
+                    $(api.column(14).footer()).html(
+                        '$' + pageTotal14 + ' ($' + total14 + ' page)'
+                    );
+
+                }
+
+
+            })
+
+            new $.fn.dataTable.Buttons(oTable, {
+                buttons: [
+                    'copy', 'excel', 'pdf'
+
+                ]
+            });
+
+
+            // Extend dataTables search
+
+
+            var start = moment("2017-01-01 12:34:16");
+            var end = moment("2018-03-03 10:08:07");
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+        var start = picker.startDate;
+        var end = picker.endDate;
+
+
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var min = start;
+                var max = end;
+                var startDate = new Date(data[0]);
+
+                if (min == null && max == null) {
+                    return true;
+                }
+                if (min == null && startDate <= max) {
+                    return true;
+                }
+                if (max == null && startDate >= min) {
+                    return true;
+                }
+                if (startDate <= max && startDate >= min) {
+                    return true;
+                }
+                return false;
+            }
+        );
+        oTable.draw();
+        $.fn.dataTable.ext.search.pop();
+    });
+
+            function dtConvFromJSON(data) {
+                if (data == null) return '1-1-1950';
+
+                var dateFormat = function () {
+                    var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+                        timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+                        timezoneClip = /[^-+\dA-Z]/g,
+                        pad = function (val, len) {
+                            val = String(val);
+                            len = len || 2;
+                            while (val.length < len) val = "0" + val;
+                            return val;
+                        };
+
+                    // Regexes and supporting functions are cached through closure
+                    return function (date, mask, utc) {
+                        var dF = dateFormat;
+
+                        // You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+                        if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+                            mask = date;
+                            date = undefined;
+                        }
+
+                        // Passing date through Date applies Date.parse, if necessary
+                        date = date ? new Date(date) : new Date;
+                        if (isNaN(date)) throw SyntaxError("invalid date");
+
+                        mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+                        // Allow setting the utc argument via the mask
+                        if (mask.slice(0, 4) == "UTC:") {
+                            mask = mask.slice(4);
+                            utc = true;
+                        }
+
+                        var _ = utc ? "getUTC" : "get",
+                            d = date[_ + "Date"](),
+                            D = date[_ + "Day"](),
+                            m = date[_ + "Month"](),
+                            y = date[_ + "FullYear"](),
+                            H = date[_ + "Hours"](),
+                            M = date[_ + "Minutes"](),
+                            s = date[_ + "Seconds"](),
+                            L = date[_ + "Milliseconds"](),
+                            o = utc ? 0 : date.getTimezoneOffset(),
+                            flags = {
+                                d: d,
+                                dd: pad(d),
+                                ddd: dF.i18n.dayNames[D],
+                                dddd: dF.i18n.dayNames[D + 7],
+                                m: m + 1,
+                                mm: pad(m + 1),
+                                mmm: dF.i18n.monthNames[m],
+                                mmmm: dF.i18n.monthNames[m + 12],
+                                yy: String(y).slice(2),
+                                yyyy: y,
+                                h: H % 12 || 12,
+                                hh: pad(H % 12 || 12),
+                                H: H,
+                                HH: pad(H),
+                                M: M,
+                                MM: pad(M),
+                                s: s,
+                                ss: pad(s),
+                                l: pad(L, 3),
+                                L: pad(L > 99 ? Math.round(L / 10) : L),
+                                t: H < 12 ? "a" : "p",
+                                tt: H < 12 ? "am" : "pm",
+                                T: H < 12 ? "A" : "P",
+                                TT: H < 12 ? "AM" : "PM",
+                                Z: utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+                                o: (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+                                S: ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+                            };
+
+                        return mask.replace(token, function ($0) {
+                            return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+                        });
+                    };
+                }();
+
+                // Some common format strings
+                dateFormat.masks = {
+                    "default": "ddd mmm dd yyyy HH:MM:ss",
+                    shortDate: "m/d/yy",
+                    mediumDate: "mmm d, yyyy",
+                    longDate: "mmmm d, yyyy",
+                    fullDate: "dddd, mmmm d, yyyy",
+                    shortTime: "h:MM TT",
+                    mediumTime: "h:MM:ss TT",
+                    longTime: "h:MM:ss TT Z",
+                    isoDate: "yyyy-mm-dd",
+                    isoTime: "HH:MM:ss",
+                    isoDateTime: "yyyy-mm-dd'T'HH:MM:ss",
+                    isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+                };
+
+                // Internationalization strings
+                dateFormat.i18n = {
+                    dayNames: [
+                        "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+                        "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+                    ],
+                    monthNames: [
+                        "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+                        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+                    ]
+                };
+
+                // For convenience...
+                Date.prototype.format = function (mask, utc) {
+                    return dateFormat(this, mask, utc);
+                };
+
+
+
+
+
+                today = new Date();
+                var dateString = today.format("dd-m-yy");
+                return new Date(parseInt(data.replace('/Date(', ''))).format("mmmm d, yyyy");
+               
+            }
+
+
+            $('#myDatatable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    oTable.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            //// Setup - add a text input to each footer cell
+            //$('#myDatatable thead tr').clone(true).appendTo('#myDatatable thead');
+            //$('#myDatatable thead tr:eq(1) th').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (oTable.column(i).search() !== this.value) {
+            //            oTable
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+
+        })
+
+
+
+    </script>
+</body>

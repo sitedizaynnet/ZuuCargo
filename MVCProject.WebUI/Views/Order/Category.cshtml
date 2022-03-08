@@ -1,0 +1,764 @@
+﻿@using MVCProject.Common.ViewModels;
+@model OrderVM
+@{
+    ViewBag.Title = "Yeni İlan";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+
+}
+<br />
+
+<div id="services">
+    <div class="title">
+        <h2>Yeni ilan</h2>
+        <span class="underline">&nbsp;</span>
+    </div>
+</div>
+<img src="~/Theme/img/2.jpg" class="img-responsive" style="display:block;margin:0 auto;" />
+<div class="row">
+    <hr>
+
+    <div class="col-sm-4">
+        <!-- <form> -->
+        <div class="form-group">
+            <input type="input" class="form-control" id="input-search" placeholder="Aradığınız hizmeti yazınız..." value="">
+        </div>
+
+        <!-- </form> -->
+        <div id="treeview-searchable" class="treeview">
+
+        </div>
+
+
+    </div>
+    <form id="questionsform">
+        @Html.ValidationSummary(true)
+        <div id="sorular" class="col-sm-8 well" style="visibility:hidden">
+            <div id="yersec">
+                <div class="row form-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-3">@Html.LabelFor(x => x.CityId)</div>
+                        <div class="col-md-9">
+                            @(Html.Kendo().DropDownList()
+                                .Name("cityId")
+                                .DataTextField("SehirAdi")
+                                .DataValueField("SehirId")
+                                 .OptionLabel("Şehir Seçiniz...")
+                                .DataSource(source =>
+                                {
+
+                                    source.Read(read =>
+                                {
+                                    read.Action("RemoteDataSource_SehirleriGetir", "Account");
+
+                                }
+
+                                );
+                                })
+                            )
+                            @Html.ValidationMessageFor(x => x.CityId)
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row form-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-3">@Html.LabelFor(x => x.IlceId)</div>
+                        <div class="col-md-9">
+                            @(Html.Kendo().DropDownListFor(x => x.IlceId)
+                        .Name("IlceId")
+                        .DataTextField("IlceAdi")
+                        .DataValueField("IlceId")
+                         .OptionLabel("İlçe Seçiniz...")
+                        .DataSource(source =>
+                        {
+                            source.Read(read =>
+                            {
+                                read.Action("RemoteDataSource_IlceleriGetir", "Account")
+                                .Data("filterCity");
+                            })
+                        .ServerFiltering(true);
+                        })
+                              .Enable(false)
+                              .AutoBind(false)
+                              .CascadeFrom("cityId")
+                            )
+                            @Html.ValidationMessageFor(x => x.IlceId)
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row form-margin">
+                    <div class="col-md-12">
+                        <div class="col-md-3">@Html.LabelFor(x => x.SemtId)</div>
+                        <div class="col-md-9">
+                            @(Html.Kendo().DropDownListFor(x => x.SemtId)
+                    .Name("semtId")
+                    .DataTextField("SemtAdi")
+                    .DataValueField("SemtId")
+                     .OptionLabel("Semt Seçiniz...")
+                    .DataSource(source =>
+                    {
+                        source.Read(read =>
+                        {
+                            read.Action("RemoteDataSource_SemtGetir", "Account")
+                            .Data("filterIlceler");
+                        })
+                    .ServerFiltering(true);
+                    })
+                          .Enable(false)
+                          .AutoBind(false)
+                          .CascadeFrom("IlceId")
+                            )
+                            @Html.ValidationMessageFor(x => x.SemtId)
+                        </div>
+                    </div>
+                </div>
+                <br />
+           
+            </div>
+            <div id="checkboxes"></div>
+            <div id="textarea"></div>
+            <div class="modal">
+                <div id="loader">
+                    <div id="box"></div>
+                    <div id="hill"></div>
+
+                </div>
+            </div>
+            <a href="#" id="sendform" class="btn btn-primary btn-primary" ><span class="glyphicon glyphicon-check"></span> Devam Etmek İçin Tıklayınız..</a>
+        </div>
+    </form>
+
+</div>
+<script type="text/javascript">
+
+    $(function () {
+        var defaultData = [
+        @foreach (SubCategoryVM subcategory in (IEnumerable<SubCategoryVM>)ViewData["SubCategoryList"])  {
+<text>
+            {
+                text: '@(subcategory.Title)',
+                href: '#Kategori1',
+                selectable: true,
+
+            },
+    </text>
+        }
+       ];
+
+        var $searchableTree = $('#treeview-searchable').treeview({
+            data: defaultData,
+            onNodeSelected: function (event, data) {
+                $('#sorular').css('visibility', 'visible');
+                var table;
+                var selectedSubCategory = data.text;
+                $("#sorularform").remove();
+
+
+
+                $('html, body').animate({ scrollTop: $('#sorular').offset().top }, 'slow');
+                $("#textarea > .form-group").remove();
+                $("#checkboxes > b[id^='checkboxsorusu']").remove();
+
+                $.ajax({//GET QUESTIONS
+                    url: '@Url.Action("GetQuestionsBySubCategory", "Order")',
+                    type: "GET",
+                    data: { subcattext : selectedSubCategory },
+                    success: function (result) {
+
+                        $('<div class=\"form-group\" id=\"sorularform\" ><input name=\"altcat\" value=\"' + selectedSubCategory + '\" type=\"hidden\">').prependTo("#sorular");
+
+                            // loop each question
+                        for (var i = 0; i < result.length; i++) {
+                            //IF QUESTION 1 START
+                            if (result[i].QuestionType == 1) {
+                                $('<label for=\"exampleFormControlSelect' + i + '\" > ' + result[i].Description + '</label ><select name=\"' + result[i].Description + ' \" class=\"form-control\" id=\"exampleFormControlSelect' + result[i].Id + '\"></select>').appendTo("#sorularform");
+
+                                var questionid;
+                              $.ajax({//GET ANSWERS
+                                url: '@Url.Action("GetAnswersByQuestionId", "Order")',
+                                  type: "GET",
+                                  data: { questionid: result[i].Id },
+                                    success: function (answerresult) {
+                                        for (var a = 0; a < answerresult.length; a++) {
+                                            $('<option>' + answerresult[a].Description + '</option>').prependTo("#exampleFormControlSelect" + answerresult[a].Question_Id);
+                                        }
+
+                                },
+                                error: function (err) {
+                                    // the call thrown an error
+                                    console.log("Hata Oluştu")
+                                },
+                                complete: function () {
+                                    //$(".loading").hide();
+
+                                }
+                            });
+
+                            };
+                            //IF QUESTION ID 2
+                            if (result[i].QuestionType == 2) {
+                                $('<input name=\"' + result[i].Description + '\" type=\"hidden\"><b id=\"checkboxsorusu' + result[i].Id + '\">' + result[i].Description + '</b>').prependTo('#checkboxes');
+
+                                var questionid;
+                              $.ajax({//GET ANSWERS
+                                url: '@Url.Action("GetAnswersByQuestionId", "Order")',
+                                  type: "GET",
+                                  data: { questionid: result[i].Id },
+                                    success: function (answerresult) {
+                                        for (var a = 0; a < answerresult.length; a++) {
+                                            $("<div class=\"checkbox checkbox-primary\"><input name=\"" + answerresult[a].Description + " \" id=\"checkbox" + answerresult[a].Id + "\" type=\"checkbox\"><label for=\"checkbox" + answerresult[a].Id + "\">" + answerresult[a].Description + "</label ></div >").appendTo("#checkboxsorusu" + answerresult[a].Question_Id)
+                                        }
+
+                                },
+                                error: function (err) {
+                                    // the call thrown an error
+                                    console.log("Hata Oluştu")
+                                },
+                                complete: function () {
+                                    //$(".loading").hide();
+                                    //$("</label></div>").appendTo("checkboxes");
+
+                                }
+                            });
+
+                            };
+                            //IF QUESTION ID 2 END
+                            //IF QUESTION ID 3
+                            if (result[i].QuestionType == 3) {
+                                $("<div class=\"form-group\"><label for=\"comment\">" + result[i].Description + "</label><textarea name=\"" + result[i].Description + "\" class=\"form-control\" rows=\"5\" id=\"comment\"></textarea></div>").appendTo('#textarea');
+
+                            };
+                            //IF QUESTION ID 3 END
+
+                            }
+                    },
+                    error: function (err) {
+                        // the call thrown an error
+                        console.log("Hata Oluştu")
+
+                    },
+                    complete: function () {
+                        //$(".loading").hide();
+                        $("</div>").appendTo(".form-group");
+                        $('#yersec').insertBefore('#sorularform');
+
+                        //$('#sorular').html(table);
+
+                    }
+                });
+
+
+            },
+            onNodeUnselected: function (event, data) {
+                $('#sorular').css('visibility', 'hidden');
+
+            }
+
+        });
+
+
+
+        var search = function(e) {
+          var pattern = $('#input-search').val();
+          var options = {
+
+            exactMatch: $('#chk-exact-match').is(':checked'),
+              revealResults: $('#chk-reveal-results').is(':checked'),
+
+
+          };
+          var results = $searchableTree.treeview('search', [ pattern, options ]);
+
+        }
+        var hide = function (e) {
+            var pattern = $('#input-search').val();
+            $('#treeview-searchable li:not(:contains(' + pattern + '))').hide();
+            var selected = $('#treeview-searchable li:contains(' + pattern + ')').show();
+
+
+
+
+
+            //$('#treeview-searchable').treeview('expandAll', { silent: true });
+            //var selected = $('#treeview-searchable li:contains(' + pattern + ')').select();
+
+
+                if (!pattern) {
+                $('#treeview-searchable li').show();
+                    //$('#treeview-searchable').treeview('collapseAll', { silent: true });
+            }
+        };
+
+        // DO SEARCH
+        $('#btn-search').on('click', search,hide);
+        $('#input-search').on('keyup', search,hide);
+
+  		});
+</script>
+
+
+<script src="~/Theme/js/bootstrap-treeview.js"></script>
+
+
+<script>
+    $body = $("#sorular");
+
+    $(document).on({
+        ajaxStart: function () { $body.addClass("loading"); },
+        ajaxStop: function () { $body.removeClass("loading"); }
+    });
+</script>
+<style type="text/css">
+    /* Start by setting display:none to make this hidden.
+    Then we position it in relation to the viewport window
+    with position:fixed. Width, height, top and left speak
+    for themselves. Background we set to 80% white with
+    our animation centered, and no-repeating */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba( 255, 255, 255, .8 ) 50% 50% no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+    the scrollbar off with overflow:hidden */
+    #sorular.loading .modal {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+    modal element will be visible */
+    #sorular.loading .modal {
+        display: block;
+    }
+</style>
+<style type="text/css">
+    #loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -2.7em;
+        margin-left: -2.7em;
+        width: 5.4em;
+        height: 5.4em;
+    }
+
+    #hill {
+        position: absolute;
+        width: 7.1em;
+        height: 7.1em;
+        top: 1.7em;
+        left: 1.7em;
+        background-color: transparent;
+        border-left: .25em solid grey;
+        transform: rotate(45deg);
+    }
+
+        #hill:after {
+            content: '';
+            position: absolute;
+            width: 7.1em;
+            height: 7.1em;
+            left: 0;
+        }
+
+    #box {
+        position: absolute;
+        left: 0;
+        bottom: -.1em;
+        width: 1em;
+        height: 1em;
+        background-color: transparent;
+        border: .25em solid grey;
+        border-radius: 15%;
+        transform: translate(0, -1em) rotate(-45deg);
+        animation: push 2.5s cubic-bezier(.79, 0, .47, .97) infinite;
+    }
+
+    @@keyframes push {
+        0% {
+            transform: translate(0, -1em) rotate(-45deg);
+        }
+
+        5% {
+            transform: translate(0, -1em) rotate(-50deg);
+        }
+
+        20% {
+            transform: translate(1em, -2em) rotate(47deg);
+        }
+
+        25% {
+            transform: translate(1em, -2em) rotate(45deg);
+        }
+
+        30% {
+            transform: translate(1em, -2em) rotate(40deg);
+        }
+
+        45% {
+            transform: translate(2em, -3em) rotate(137deg);
+        }
+
+        50% {
+            transform: translate(2em, -3em) rotate(135deg);
+        }
+
+        55% {
+            transform: translate(2em, -3em) rotate(130deg);
+        }
+
+        70% {
+            transform: translate(3em, -4em) rotate(217deg);
+        }
+
+        75% {
+            transform: translate(3em, -4em) rotate(220deg);
+        }
+
+        100% {
+            transform: translate(0, -1em) rotate(-225deg);
+        }
+    }
+
+    .checkbox {
+        padding-left: 20px;
+    }
+
+        .checkbox label {
+            display: inline-block;
+            position: relative;
+            padding-left: 5px;
+        }
+
+            .checkbox label::before {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                width: 17px;
+                height: 17px;
+                left: 0;
+                margin-left: -20px;
+                border: 1px solid #cccccc;
+                border-radius: 3px;
+                background-color: #fff;
+                -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+                transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+            }
+
+            .checkbox label::after {
+                display: inline-block;
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                left: 0;
+                top: 0;
+                margin-left: -20px;
+                padding-left: 3px;
+                padding-top: 1px;
+                font-size: 11px;
+                color: #555555;
+            }
+
+        .checkbox input[type="checkbox"] {
+            opacity: 0;
+        }
+
+            .checkbox input[type="checkbox"]:focus + label::before {
+                outline: thin dotted;
+                outline: 5px auto -webkit-focus-ring-color;
+                outline-offset: -2px;
+            }
+
+            .checkbox input[type="checkbox"]:checked + label::after {
+                font-family: 'FontAwesome';
+                content: "\f00c";
+            }
+
+            .checkbox input[type="checkbox"]:disabled + label {
+                opacity: 0.65;
+            }
+
+                .checkbox input[type="checkbox"]:disabled + label::before {
+                    background-color: #eeeeee;
+                    cursor: not-allowed;
+                }
+
+        .checkbox.checkbox-circle label::before {
+            border-radius: 50%;
+        }
+
+        .checkbox.checkbox-inline {
+            margin-top: 0;
+        }
+
+    .checkbox-primary input[type="checkbox"]:checked + label::before {
+        background-color: #428bca;
+        border-color: #428bca;
+    }
+
+    .checkbox-primary input[type="checkbox"]:checked + label::after {
+        color: #fff;
+    }
+
+    .checkbox-danger input[type="checkbox"]:checked + label::before {
+        background-color: #d9534f;
+        border-color: #d9534f;
+    }
+
+    .checkbox-danger input[type="checkbox"]:checked + label::after {
+        color: #fff;
+    }
+
+    .checkbox-info input[type="checkbox"]:checked + label::before {
+        background-color: #5bc0de;
+        border-color: #5bc0de;
+    }
+
+    .checkbox-info input[type="checkbox"]:checked + label::after {
+        color: #fff;
+    }
+
+    .checkbox-warning input[type="checkbox"]:checked + label::before {
+        background-color: #f0ad4e;
+        border-color: #f0ad4e;
+    }
+
+    .checkbox-warning input[type="checkbox"]:checked + label::after {
+        color: #fff;
+    }
+
+    .checkbox-success input[type="checkbox"]:checked + label::before {
+        background-color: #5cb85c;
+        border-color: #5cb85c;
+    }
+
+    .checkbox-success input[type="checkbox"]:checked + label::after {
+        color: #fff;
+    }
+
+    .radio {
+        padding-left: 20px;
+    }
+
+        .radio label {
+            display: inline-block;
+            position: relative;
+            padding-left: 5px;
+        }
+
+            .radio label::before {
+                content: "";
+                display: inline-block;
+                position: absolute;
+                width: 17px;
+                height: 17px;
+                left: 0;
+                margin-left: -20px;
+                border: 1px solid #cccccc;
+                border-radius: 50%;
+                background-color: #fff;
+                -webkit-transition: border 0.15s ease-in-out;
+                -o-transition: border 0.15s ease-in-out;
+                transition: border 0.15s ease-in-out;
+            }
+
+            .radio label::after {
+                display: inline-block;
+                position: absolute;
+                content: " ";
+                width: 11px;
+                height: 11px;
+                left: 3px;
+                top: 3px;
+                margin-left: -20px;
+                border-radius: 50%;
+                background-color: #555555;
+                -webkit-transform: scale(0, 0);
+                -ms-transform: scale(0, 0);
+                -o-transform: scale(0, 0);
+                transform: scale(0, 0);
+                -webkit-transition: -webkit-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+                -moz-transition: -moz-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+                -o-transition: -o-transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+                transition: transform 0.1s cubic-bezier(0.8, -0.33, 0.2, 1.33);
+            }
+
+        .radio input[type="radio"] {
+            opacity: 0;
+        }
+
+            .radio input[type="radio"]:focus + label::before {
+                outline: thin dotted;
+                outline: 5px auto -webkit-focus-ring-color;
+                outline-offset: -2px;
+            }
+
+            .radio input[type="radio"]:checked + label::after {
+                -webkit-transform: scale(1, 1);
+                -ms-transform: scale(1, 1);
+                -o-transform: scale(1, 1);
+                transform: scale(1, 1);
+            }
+
+            .radio input[type="radio"]:disabled + label {
+                opacity: 0.65;
+            }
+
+                .radio input[type="radio"]:disabled + label::before {
+                    cursor: not-allowed;
+                }
+
+        .radio.radio-inline {
+            margin-top: 0;
+        }
+
+    .radio-primary input[type="radio"] + label::after {
+        background-color: #428bca;
+    }
+
+    .radio-primary input[type="radio"]:checked + label::before {
+        border-color: #428bca;
+    }
+
+    .radio-primary input[type="radio"]:checked + label::after {
+        background-color: #428bca;
+    }
+
+    .radio-danger input[type="radio"] + label::after {
+        background-color: #d9534f;
+    }
+
+    .radio-danger input[type="radio"]:checked + label::before {
+        border-color: #d9534f;
+    }
+
+    .radio-danger input[type="radio"]:checked + label::after {
+        background-color: #d9534f;
+    }
+
+    .radio-info input[type="radio"] + label::after {
+        background-color: #5bc0de;
+    }
+
+    .radio-info input[type="radio"]:checked + label::before {
+        border-color: #5bc0de;
+    }
+
+    .radio-info input[type="radio"]:checked + label::after {
+        background-color: #5bc0de;
+    }
+
+    .radio-warning input[type="radio"] + label::after {
+        background-color: #f0ad4e;
+    }
+
+    .radio-warning input[type="radio"]:checked + label::before {
+        border-color: #f0ad4e;
+    }
+
+    .radio-warning input[type="radio"]:checked + label::after {
+        background-color: #f0ad4e;
+    }
+
+    .radio-success input[type="radio"] + label::after {
+        background-color: #5cb85c;
+    }
+
+    .radio-success input[type="radio"]:checked + label::before {
+        border-color: #5cb85c;
+    }
+
+    .radio-success input[type="radio"]:checked + label::after {
+        background-color: #5cb85c;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+       
+        $("#sendform").click(function () {
+
+            $("#questionsform").validate({ // initialize the plugin
+                rules: {
+                    cityId: {
+                        required: true
+                        
+                    },
+                    IlceId: {
+                        required: true
+                       
+                    },
+                    SemtId: {
+                        required: true
+                       
+                    };
+                   
+                }
+            });
+            var form = $("#questionsform").serializeArray();
+          
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CreateOrder","Order")",
+            data: JSON.stringify(form),
+            dataType: "json",
+            contentType: "application/json",
+
+            success: function (response) {
+
+                window.location.href = "@Url.Action("OrderCompleted", "Order")";
+            },
+        //error: function (hata, ajaxOptions, thrownError) {
+        //        alert(hata.status);
+        //        alert(thrownError);
+        //        alert(hata.responseText);
+        //    }
+    });
+        });
+    });
+</script>
+
+<script>
+    function filterCity() {
+        return {
+            city: $("#cityId").val()
+        };
+    }
+
+    function filterIlceler() {
+        return {
+            ilce: $("#IlceId").val()
+        };
+    }
+
+    function filterSemt() {
+        return {
+            semt: $("#semtId").val()
+        };
+    }
+
+    $(document).ready(function () {
+        var city = $("#cityId").data("kendoDropDownList"),
+            ilce = $("#IlceId").data("kendoDropDownList"),
+            semt = $("#semtId").data("kendoDropDownList");
+           
+           
+
+        $("#get").click(function () {
+            var cityInfo = "\nSehir: { id: " + city.value() + ", name: " + city.text() + " }",
+                ilceInfo = "\nIlce: { id: " + Ilce.value() + ", name: " + ilce.text() + " }";
+              
+
+        });
+    });
+</script>

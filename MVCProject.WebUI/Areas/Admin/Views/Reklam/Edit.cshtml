@@ -1,0 +1,84 @@
+﻿@model MVCProject.Common.ViewModels.ReklamVM
+
+@{
+    ViewBag.Title = "Edit Reklam ";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link href="~/Theme/Admin/plugins/toastr/build/toastr.min.css" rel="stylesheet" />
+
+<link href="~/Theme/Admin/plugins/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+<link href="~/Theme/Admin/plugins/dropzone/css/dropify.min.css" rel="stylesheet" type="text/css" />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Text, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="Image">Image</label>
+
+            <input type="file" name="Image" id="Image" data-plugins="dropify"
+                   data-default-file="@Model.Image" value="@Model.Image"
+                   class="form-control" />
+            <p class="text-muted text-center mt-2 mb-0">Upload Image</p>
+        </div>
+
+
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    document.getElementById('Image').onchange = function () {
+        var formdata = new FormData(); //FormData object
+        var fileInput = document.getElementById('Image');
+        //Iterating through each files selected in fileInput
+        for (i = 0; i < fileInput.files.length; i++) {
+            //Appending each file to FormData object
+            formdata.append(fileInput.files[i].name, fileInput.files[i]);
+        }
+        //Creating an XMLHttpRequest and sending
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/Admin/Reklam/UploadImage');
+        xhr.send(formdata);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                toastr.success("File Saved!");
+
+            }
+        }
+        return false;
+    }
+</script>
+<script src="~/Theme/Admin/plugins/dropzone/js/dropify.min.js"></script>
+<script src="~/Theme/Admin/plugins/dropzone/min/dropzone.min.js"></script>
+<script src="~/Theme/Admin/plugins/form-fileuploads.init.js"></script>
+<script src="~/Theme/Admin/plugins/toastr/build/toastr.min.js"></script>

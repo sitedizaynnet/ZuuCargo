@@ -1,0 +1,363 @@
+﻿<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="~/Theme/~/Theme/images/apple-touch-icon.png" />
+    <link rel="apple-touch-startup-image" href="~/Theme/~/Theme/images/apple-touch-startup-image-640x920.png">
+    <title>ZuuCargo</title>
+    <link rel="stylesheet" href="~/Theme/css/swiper.css">
+    <link rel="stylesheet" href="~/Theme/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,900" rel="stylesheet">
+    <script src="~/Theme/js/jquery-3.5.1.min.js"></script>
+    <script src="~/Theme/js/jquery.validate.min.js"></script>
+    <script src="~/Theme/js/swiper.min.js"></script>
+    <script src="~/Theme/js/jquery.custom.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+    <script src="~/Theme/js/jquery.mask.js"></script>
+
+</head>
+<body id="mobile_wrap">
+
+    <div class="panel-overlay"></div>
+
+    <div class="panel panel-left panel-reveal">
+        <!-- Slider -->
+        <div class="swiper-container-subnav multinav">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <nav class="main_nav_underline">
+                        <ul>
+                            <li><a href="index.html"><img src="~/Theme/~/Theme/images/icons/gray/home.png" alt="" title="" /><span>Home</span></a></li>
+                            @*
+                            <li><a href="about.html"><img src="~/Theme/~/Theme/images/icons/gray/mobile.png" alt="" title="" /><span>About</span></a></li>*@
+                            @*
+                            <li><a href="features.html"><img src="~/Theme/~/Theme/images/icons/gray/features.png" alt="" title="" /><span>Features</span></a></li>*@
+                            @*
+                            <li><a href="team.html"><img src="~/Theme/~/Theme/images/icons/gray/users.png" alt="" title="" /><span>Team</span></a></li>
+                            <li><a href="blog.html"><img src="~/Theme/~/Theme/images/icons/gray/blog.png" alt="" title="" /><span>Blog</span></a></li>
+
+                            <li><a href="photos.html"><img src="~/Theme/~/Theme/images/icons/gray/photos.png" alt="" title="" /><span>Photos</span></a></li>
+                            <li><a href="videos.html"><img src="~/Theme/~/Theme/images/icons/gray/video.png" alt="" title="" /><span>Videos</span></a></li>
+                            <li><a href="music.html"><img src="~/Theme/~/Theme/images/icons/gray/music.png" alt="" title="" /><span>Music</span></a></li>
+
+                            <li><a href="shop.html"><img src="~/Theme/~/Theme/images/icons/gray/shop.png" alt="" title="" /><span>Shop</span></a></li>
+                            <li class="subnav opensubnav"><img src="~/Theme/~/Theme/images/icons/gray/categories.png" alt="" title="" /><span>Sub level menu</span></li>
+                            <li><a href="cart.html"><img src="~/Theme/~/Theme/images/icons/gray/cart.png" alt="" title="" /><span>Cart</span></a></li>
+
+                            <li><a href="tables.html"><img src="~/Theme/~/Theme/images/icons/gray/tables.png" alt="" title="" /><span>Tables</span></a></li>
+
+                            <li><a href="form.html"><img src="~/Theme/~/Theme/images/icons/gray/form.png" alt="" title="" /><span>Custom Form</span></a></li>*@
+
+
+                            <li><a href="tel:012345678"><img src="~/Theme/~/Theme/images/icons/gray/phone.png" alt="" title="" /><span>Call now!</span></a></li>
+                            @*
+                            <li><a href="contact.html"><img src="~/Theme/~/Theme/images/icons/gray/contact.png" alt="" title="" /><span>Contact</span></a></li>*@
+                        </ul>
+                    </nav>
+                </div>
+                <div class="swiper-slide">
+                    <div class="subnav_header backtonav"><img src="~/Theme/~/Theme/images/icons/gray/back.png" alt="" title="" /><span>BACK TO MAIN MENU</span></div>
+                    <nav class="main_nav_underline">
+                        <ul>
+                            <li class="subnav opensubsubnav"><img src="~/Theme/~/Theme/images/icons/gray/categories.png" alt="" title="" /><span>Third sublevel menu</span></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="swiper-slide">
+                    <div class="subnav_header backtosubnav"><img src="~/Theme/~/Theme/images/icons/gray/back.png" alt="" title="" /><span>BACK TO 2 SUBLEVEL MENU</span></div>
+                    <nav class="main_nav_underline">
+                        <ul>
+
+                            <li><a href="shop.html"><img src="~/Theme/~/Theme/images/icons/gray/car.png" alt="" title="" /><span>Subcategory 01</span></a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-right panel-reveal">
+        <div class="user_login_info">
+
+
+            <nav class="user-nav">
+                <ul>
+                    @{
+                    if (User.Identity.IsAuthenticated)
+                    {
+
+                    Html.Raw("
+                    <li><a href=\"/Account/Logout\"><img src=\"~/Theme/~/Theme/images/icons/gray/lock.png\" alt=\"\" title=\"\" /><span>Logout</span></a></li>\"" +
+                    "
+                    <li><a href=\"features.html\"><img src=\"~/Theme/~/Theme/images/icons/gray/briefcase.png\" alt=\"\" title=\"\" /><span>My Account</span></a></li>");
+
+                    }
+
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="views">
+
+        <div class="view view-main">
+
+
+
+            <div class="pages">
+                @RenderBody()
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Login Popup -->
+    <div class="popup popup-login">
+        <div class="content-block">
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+            <h4>LOGIN</h4>
+            <div class="loginform">
+                <text>
+                    <span class="warning" style="color:red">
+                        @if (TempData["Error"] != null)
+                        {
+                        <text>Wrong username or Password!</text>
+                        }
+                    </span>
+                </text>
+
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", role = "form" }))
+                {
+                <input type="text" name="Email" value="" class="form_input required" placeholder="Email" />
+                <input type="password" name="Password" value="" class="form_input required" placeholder="password" />
+                <div class="forgot_pass"><a href="#" data-popup=".popup-forgot" class="open-popup">Forgot Password?</a></div>
+                <input type="submit" name="submit" class="form_submit" id="submit" value="SIGN IN" />
+                }
+                <div class="signup_bottom">
+                    <p>Don't have an account?</p>
+                    <a href="#" data-popup=".popup-signup" class="open-popup">SIGN UP</a>
+                </div>
+            </div>
+
+
+
+
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+            <ul class="responsive_table" style="font-size:26px">
+                <li class="table_row">
+                    <div class="table_section">Balance</div>
+
+                </li>
+                <li class="table_row">
+                    <div class="table_section"> @ViewBag.Balance $</div>
+
+                </li>
+            </ul>
+
+
+            <br />
+
+
+
+
+            <a href="/Account/ListKargo" class="css-button">
+                <span class="css-button-text">CARGO LIST</span>
+                <span class="css-button-icon">
+                    <svg width="42" height="42" id="i_pos" viewBox="2 2 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M14.643 17C15.979 17 17 15.845 17 14.5V7H3v7.5C3 15.845 4.021 17 5.357 17h9.286zM8 9a.5.5 0 000 1h4a.5.5 0 000-1H8zM3 3a1 1 0 00-1 1v1.5a1 1 0 001 1h14a1 1 0 001-1V4a1 1 0 00-1-1H3z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </a>
+
+
+
+            <a class="css-button">
+                <span class="css-button-text">   LOGOUT</span>
+                <span class="css-button-icon">
+                    <svg width="42" height="42" id="i_pos" viewBox="2 2 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M6.646 13.646a.5.5 0 01.708 0L10 16.293l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M10 6.5a.5.5 0 01.5.5v9a.5.5 0 01-1 0V7a.5.5 0 01.5-.5z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd" d="M4.5 4A1.5 1.5 0 016 2.5h8A1.5 1.5 0 0115.5 4v7a1.5 1.5 0 01-1.5 1.5h-1.5a.5.5 0 010-1H14a.5.5 0 00.5-.5V4a.5.5 0 00-.5-.5H6a.5.5 0 00-.5.5v7a.5.5 0 00.5.5h1.5a.5.5 0 010 1H6A1.5 1.5 0 014.5 11V4z" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </a>
+
+            }
+            <style>
+                .css-button {
+                    font-size: 21px;
+                    border-radius: 5px;
+                    border: solid 1px #3866A3;
+                    color: #FFFFFF;
+                    background: linear-gradient(180deg, #63B8EE 5%, #468CCF 100%);
+                    text-shadow: 1px 1px 0px #528ecc;
+                    box-shadow: inset 1px 1px 2px 0px #bbdaf7;
+                    font-family: Arial;
+                    cursor: pointer;
+                    text-align: center;
+                    user-select: none;
+                    display: inline-block;
+                }
+
+                    .css-button:hover {
+                        background: linear-gradient(180deg, #468CCF 5%, #63B8EE 100%);
+                    }
+
+                    .css-button:active {
+                        position: relative;
+                        top: 1px;
+                    }
+
+                    .css-button > span {
+                        display: block;
+                    }
+
+                .css-button-icon {
+                    padding: 13px 17px;
+                    border-top: 1px solid rgba(255, 255, 255, 0.16);
+                    box-shadow: rgba(0, 0, 0, 0.14) 0px 1px 0px inset;
+                }
+
+                    .css-button-icon svg {
+                        vertical-align: middle;
+                        position: relative;
+                    }
+
+                .css-button-text {
+                    padding: 13px 17px;
+                    white-space: pre;
+                }
+            </style>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup" data-popup=".popup-login"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function ($) {
+            $("#phone").mask('+000 (000) 000-0000');
+
+        });
+    </script>
+
+    <!-- Register Popup -->
+    <div class="popup popup-signup">
+        <div class="content-block">
+            <h4>REGISTER</h4>
+            <div class="loginform">
+                @using (Html.BeginForm("Register", "Account", new { id = "registerform" }, FormMethod.Post))
+                {
+                @Html.AntiForgeryToken()
+                <input type="text" name="username" value="" class="form_input required" placeholder="Username" />
+
+                <input type="text" name="firstname" value="" class="form_input required" placeholder="First Name" />
+
+                <input type="text" name="lastname" value="" class="form_input required" placeholder="Last Name" />
+
+
+                <input type="text" name="email" value="" class="form_input required" placeholder="Email" />
+
+                <input type="text" id="phone" name="phone" value="" class="form_input required" placeholder="+964 (111)111-1111" required />
+
+                <input type="password" name="Password" value="" class="form_input required" placeholder="Password" />
+
+                <div class="form_row">
+
+                    <div class="form_row_icon"><div class="g-recaptcha" data-sitekey="6LdYsNAZAAAAAEq56TkUr4o0gbX-5yXSy6VadBm-"></div></div>
+
+
+                </div>
+
+                <input type="submit" name="submit" class="form_submit" id="submitregister" value="SIGN UP" />
+                }
+                <h5>- OR REGISTER WITH A SOCIAL ACCOUNT -</h5>
+                <div class="signup_social">
+                    <a href="http://www.facebook.com/" class="signup_facebook">FACEBOOK</a>
+                    <a href="http://www.twitter.com/" class="signup_twitter">TWITTER</a>
+                </div>
+            </div>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup" data-popup=".popup-signup"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Popup -->
+    <div class="popup popup-forgot">
+        <div class="content-block">
+            <h4>FORGOT PASSWORD</h4>
+            <div class="loginform">
+                <form id="ForgotForm" method="post">
+                    <input type="text" name="Email" value="" class="form_input required" placeholder="email" />
+                    <input type="submit" name="submit" class="form_submit" id="submitforgot" value="RESEND PASSWORD" />
+                </form>
+                <div class="signup_bottom">
+                    <p>Check your email and follow the instructions to reset your password.</p>
+                </div>
+            </div>
+            <div class="close_popup_button">
+                <a href="#" class="close-popup" data-popup=".popup-forgot"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Social Icons Popup -->
+    <div class="popup popup-social">
+        <div class="content-block">
+            <h4>Social Share</h4>
+            <p>Share icons solution that allows you share and increase your social popularity.</p>
+            <ul class="social_share">
+                <li><a href="http://twitter.com/"><img src="~/Theme/~/Theme/images/icons/orange/twitter.png" alt="" title="" /><span>TWITTER</span></a></li>
+                <li><a href="http://www.facebook.com/"><img src="~/Theme/~/Theme/images/icons/orange/facebook.png" alt="" title="" /><span>FACEBOOK</span></a></li>
+                <li><a href="http://plus.google.com"><img src="~/Theme/~/Theme/images/icons/orange/gplus.png" alt="" title="" /><span>GOOGLE</span></a></li>
+                <li><a href="http://www.dribbble.com/"><img src="~/Theme/~/Theme/images/icons/orange/dribbble.png" alt="" title="" /><span>DRIBBBLE</span></a></li>
+                <li><a href="http://www.linkedin.com/"><img src="~/Theme/~/Theme/images/icons/orange/linkedin.png" alt="" title="" /><span>LINKEDIN</span></a></li>
+                <li><a href="http://www.pinterest.com/"><img src="~/Theme/~/Theme/images/icons/orange/pinterest.png" alt="" title="" /><span>PINTEREST</span></a></li>
+            </ul>
+            <div class="close_popup_button"><a href="#" class="close-popup" data-popup=".popup-social"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a></div>
+        </div>
+    </div>
+
+    <!--TRACK ORDER Popup -->
+    <div class="popup popup-track">
+        <div class="content-block">
+            <h4>Track Order</h4>
+
+            @Html.Partial("~/Views/Home/Track.cshtml")
+            <div class="close_popup_button"><a href="#" class="close-popup" data-popup=".popup-track"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a></div>
+        </div>
+    </div>
+    <!--Zones Popup -->
+    <div class="popup popup-zones">
+        <div class="content-block">
+
+            <h4>Zones</h4>
+            @Html.Partial("~/Views/Home/Zones.cshtml")
+
+            <div class="close_popup_button"><a href="#" class="close-popup" data-popup=".popup-zones"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a></div>
+        </div>
+    </div>
+    <!--Prices Popup -->
+    <div class="popup popup-prices">
+        <div class="content-block">
+            <h4>Post Prices</h4>
+            @Html.Partial("~/Views/Home/Prices.cshtml")
+
+            <div class="close_popup_button"><a href="#" class="close-popup" data-popup=".popup-prices"><img src="~/Theme/~/Theme/images/icons/orange/menu_close.png" alt="" title="" /></a></div>
+        </div>
+    </div>
+
+</body>
+</html>
+

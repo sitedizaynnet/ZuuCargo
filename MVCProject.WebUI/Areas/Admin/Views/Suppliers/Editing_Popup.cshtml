@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Tedarikçiler";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using MVCProject.Common.ViewModels
+@model IEnumerable<SuppliersVM>
+
+<h2>Tedarikçiler</h2>
+
+@(Html.Kendo().Grid<SuppliersVM>()
+    .Name("Suppliers")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Id).Width(20).Visible(false);
+        columns.Bound(p => p.SupplierName).Width(70);
+        columns.Bound(p => p.Name).Width(50);
+        columns.Bound(p => p.Surname).Width(50);
+        columns.Bound(p => p.City).Width(60);
+        columns.Bound(p => p.Gsm).Width(60);
+        columns.Bound(p => p.CarCount).Width(60);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(110);
+
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Selectable()
+    .HtmlAttributes(new { style = "height:350px;width:700px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.Id))
+        .Create(update => update.Action("EditingPopup_Create", "Suppliers"))
+        .Read(read => read.Action("EditingPopup_Read", "Suppliers"))
+        .Update(update => update.Action("EditingPopup_Update", "Suppliers"))
+        .Destroy(update => update.Action("EditingPopup_Destroy", "Suppliers"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>
+
+<script type="text/javascript">
+     //set current to the "en-GB" culture script
+     kendo.culture("tr-TR");
+</script>

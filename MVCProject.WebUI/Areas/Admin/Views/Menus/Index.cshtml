@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Menüler";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using MVCProject.Common.ViewModels
+@model IEnumerable<MenusVM>
+
+<h2>Menüler</h2>
+
+
+@(Html.Kendo().Grid<MenusVM>()
+    .Name("Menus")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.Id).Width(100).Locked(true);
+        columns.Bound(p => p.MenuAdi).Width(200);
+        columns.Bound(p => p.Url).Width(300);
+        columns.Bound(p => p.Icon).Width(200);
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(110);
+
+    })
+    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.PopUp))
+    .Pageable()
+    .Sortable()
+    .Scrollable()
+    .Selectable()
+       .Filterable(ftb => ftb.Mode(GridFilterMode.Menu))
+    .HtmlAttributes(new { style = "height:350px;width:960px;" })
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Events(events => events.Error("error_handler"))
+        .Model(model => model.Id(p => p.Id))
+        .Create(update => update.Action("KendoMenu_Create", "Menus"))
+        .Read(read => read.Action("KendoMenu_Read", "Menus"))
+        .Update(update => update.Action("KendoMenu_Update", "Menus"))
+        .Destroy(update => update.Action("KendoMenu_Destroy", "Menus"))
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

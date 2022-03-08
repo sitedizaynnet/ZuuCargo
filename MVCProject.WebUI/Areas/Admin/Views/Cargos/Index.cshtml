@@ -1,0 +1,362 @@
+﻿
+@{
+    ViewBag.Title = "Cargo List";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+   
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+
+
+    @*<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>*@
+
+    <style>
+
+        span.field-validation-error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div style="width: 90%;margin: 0 auto; overflow: scroll;" class="tablecontainer">
+        <a class="popup btn btn-primary" href="/Admin/Cargos/Create" style="margin-bottom:20px; margin-top:20px;">Add New Record</a>
+        <div class="input-group input-daterange">
+
+            <input type="text" id="min-date" class="form-control date-range-filter" data-date-format="dd/mm/yyyy" placeholder="From:">
+
+            <div class="input-group-addon">to</div>
+
+            <input type="text" id="max-date" class="form-control date-range-filter" data-date-format="dd/mm/yyyy" placeholder="To:">
+
+        </div>
+        <table id="myDatatable">
+            <thead>
+                <tr>
+
+
+                    <th>Customer Name</th>
+                    <th>Telephone</th>
+
+                    <th>Quantity</th>
+                    <th>Total Dollar</th>
+                    <th>Total Cargo</th>
+
+                    <th>Expensive</th>
+                    <th>Tax</th>
+                    <th>Notes</th>
+                    <th>Date</th>
+
+                    <th>Invoice</th>
+                    <th>Invoice SMS</th>
+
+                    <th class="hidden-print">Edit</th>
+                    <th class="hidden-print">Delete</th>
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th></th>
+                    <th>TOTALS</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/buttons.colVis.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+            var oTable = $('#myDatatable').DataTable({
+               
+                orderCellsTop: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel',  'colvis'      ,
+                    {
+                        extend: 'pdfHtml5',
+                        footer: true,
+                        title: function () {
+                            return "Cargos";
+                        },
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                        },
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                        titleAttr: 'PDF'
+                    }
+
+                ],
+                autoFill: true,
+                colReorder: true,
+                fixedColumns: true,
+                responsive: false,
+                keys: true,
+                rowReorder: true,
+                select: true,
+                ServerSide: true,
+               
+                //"columnDefs": [
+                //    { "targets": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "searchable": false }
+                //],
+                "ajax": {
+                    "url": '/Cargos/GetCargos/',
+                    "type": "get",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "CustomerName", "autoWidth": true },
+                    { "data": "Telephone", "autoWidth": true },
+                    { "data": "Quantity", "autoWidth": true },
+                    { "data": "TotalDollar", "autoWidth": true },
+                    { "data": "TotalCargo", "autoWidth": true },
+                    { "data": "Expensive", "autoWidth": true },
+                    { "data": "Tax", "autoWidth": true },
+                    { "data": "Notes", "autoWidth": true },
+                    { "data": "Date", render: function (data, type, full) { return dtConvFromJSON(data); }, "autoWidth": true },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a target="_blank"  href="/Admin/Cargos/PrintInvoice/' + data + '">Invoice</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" target="_blank" href="/Admin/Cargos/SendInvoiceSMS/' + data + '">Invoice SMS</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a  class="hidden-print" href="/Admin/Cargos/Edit/' + data + '">Edit</a>';
+                        }
+                    },
+                    {
+                        "data": "Id", "width": "50px", "render": function (data) {
+                            return '<a class="hidden-print" href="/Admin/Cargos/Delete/' + data + '">Delete</a>';
+                        }
+                    }
+
+
+
+                ],
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+                    // Total over all pages
+                    total0 = api
+                        .column(2, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total1 = api
+                        .column(3, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total2 = api
+                        .column(4, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total3 = api
+                        .column(5, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    total4 = api
+                        .column(6, { search: 'applied', page: 'all' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    // Total over this page
+                    pageTotal = api
+                        .column(3, { page: 'current' })
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+                    // Update footer
+                    $(api.column(2).footer()).html(total0);
+                    $(api.column(3).footer()).html( total1 );
+                    $(api.column(4).footer()).html(total2);
+                    $(api.column(5).footer()).html(total3);
+                    $(api.column(6).footer()).html(total4);
+                }
+
+
+            })
+
+            new $.fn.dataTable.Buttons(oTable, {
+                buttons: [
+                    'copy', 'excel', 'pdf'
+
+                ]
+            });
+
+
+            // Bootstrap datepicker
+            $('.input-daterange input').each(function () {
+                $(this).datepicker('clearDates');
+            });
+
+
+            // Extend dataTables search
+            $.fn.dataTable.ext.search.push(
+                function (settings, data, dataIndex) {
+                    var min = $('#min-date').val();
+                    var max = $('#max-date').val();
+                    var createdAt = data[8] || 8; // Our date column in the table
+
+                    if (
+                        (min == "" || max == "")
+                        ||
+                        (moment(createdAt).isSameOrAfter(min) && moment(createdAt).isSameOrBefore(max))
+                    ) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            // Re-draw the table when the a date range filter changes
+            $('.date-range-filter').change(function () {
+                oTable.draw();
+            });
+
+
+
+            function dtConvFromJSON(data) {
+                if (data == null) return '1/1/1950';
+                var r = /\/Date\(([0-9]+)\)\//gi
+                var matches = data.match(r);
+                if (matches == null) return '1/1/1950';
+                var result = matches.toString().substring(6, 19);
+                var epochMilliseconds = result.replace(
+                    /^\/Date\(([0-9]+)([+-][0-9]{4})?\)\/$/,
+                    '$1');
+                var b = new Date(parseInt(epochMilliseconds));
+                var c = new Date(b.toString());
+                var curr_date = c.getDate();
+                var curr_month = c.getMonth() + 1;
+                var curr_year = c.getFullYear();
+                var curr_h = c.getHours();
+                var curr_m = c.getMinutes();
+                var curr_s = c.getSeconds();
+                var curr_offset = c.getTimezoneOffset() / 60
+                var d = curr_date + '/' + curr_month.toString() + '/' + curr_year;
+                return d;
+            }
+            function OpenPopup(pageUrl) {
+                var $pageContent = $('<div/>');
+                $pageContent.load(pageUrl, function () {
+                    $('#popupForm', $pageContent).removeData('validator');
+                    $('#popupForm', $pageContent).removeData('unobtrusiveValidation');
+                    $.validator.unobtrusive.parse('form');
+
+                });
+
+                $dialog = $('<div class="popupWindow" style="overflow:auto"></div>')
+                    .html($pageContent)
+                    .dialog({
+                        draggable: false,
+                        autoOpen: false,
+                        resizable: false,
+                        model: true,
+                        title: 'Popup Dialog',
+                        height: 550,
+                        width: 600,
+                        close: function () {
+                            $dialog.dialog('destroy').remove();
+                        }
+                    })
+
+                $('.popupWindow').on('submit', '#popupForm', function (e) {
+                    var url = $('#popupForm')[0].action;
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: $('#popupForm').serialize(),
+                        success: function (data) {
+                            if (data.status) {
+                                $dialog.dialog('close');
+                                oTable.ajax.reload();
+                            }
+                        }
+                    })
+
+                    e.preventDefault();
+                })
+                $dialog.dialog('open');
+            }
+
+            $('#myDatatable tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    oTable.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            //// Setup - add a text input to each footer cell
+            //$('#myDatatable thead tr').clone(true).appendTo('#myDatatable thead');
+            //$('#myDatatable thead tr:eq(1) th').each(function (i) {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+
+            //    $('input', this).on('keyup change', function () {
+            //        if (oTable.column(i).search() !== this.value) {
+            //            oTable
+            //                .column(i)
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+
+
+        })
+
+
+
+    </script>
+</body>

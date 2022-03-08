@@ -1,0 +1,361 @@
+﻿@{
+    ViewBag.Title = "Track Shipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="search"> <i class="fa fa-search"></i> <input id="txtTrackingCode" type="text" class="form-control" placeholder="Enter your tracking code?" value="@(ViewBag.Id != null ? ViewBag.Id : "")"> <button id="btnTrack" class="btn btn-primary">Track</button> </div>
+        </div>
+    </div>
+</div>
+<script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>
+@{
+    var ModelforTracking = (MVCProject.WebUI.PTTTrack.TrackingInfo[])ViewBag.TrackingInfo;
+    if (ModelforTracking != null)
+    {
+
+        <div class="container padding-bottom-3x mb-1" id="trackingResult" style="display: block;">
+            <div class="card mb-3">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span>  @ModelforTracking.First().ulke_ad -->  @ModelforTracking.Last().ulke_ad <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"> Service: ZuuCargo</span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Last Status: @ModelforTracking.Last().gonderi_durum_aciklama</span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate">Date : @ModelforTracking.Last().islem_saati @ModelforTracking.Last().islem_tarihi </span></div>
+                </div>
+                <div class="card-body">
+                    <div class="card card-timeline px-2 border-none">
+                        <ul class="bs4-order-tracking">
+                            <li class="step active" id="step1">
+                                <div><i class="fas fa-user"></i></div> Package Accepted
+                            </li>
+                            <li class="step active" id="step2">
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                            </li>
+                            <li class="step active" id="step3">
+                                <div><i class="fas fa-truck"></i></div> Out for delivery
+                            </li>
+                            <li class="step active" id="step4">
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container mt-5 mb-5" id="eventsDiv" style="display: block;">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h4>Events</h4>
+                    <ul class="timeline" id="listevents">
+                        @foreach (var item in ModelforTracking)
+                        {
+                            <li class="events">
+                                <a target="_blank" href="">
+                                    <i class="fa fa-map-marker-alt"></i> @item.ulke_ad
+                                </a>
+                                <a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i> @item.islem_saati @item.islem_tarihi</a>
+                                <p>@item.gonderi_durum_aciklama</p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <script>
+                $(document).ready(function () {
+                    $("#eventsDiv").hide();
+                    $("#trackingResult").hide();
+
+
+                    $("#btnTrack").click(function () {
+                        var trackingNumber = $("#txtTrackingCode").val();
+                        const settings = {
+                            "async": true,
+                            "crossDomain": true,
+                            "url": "https://api-eu.dhl.com/track/shipments?trackingNumber=" + trackingNumber,
+                            "method": "GET",
+                            "headers": {
+                                "DHL-API-Key": "Mtatsy0Rk1MIcQG3gGFkfZKpADKOHgD0"
+                            }
+                        };
+
+                        $.ajax(settings).done(function (response) {
+                            let regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+
+                            var jsonData = response;
+                            for (var i = 0; i < jsonData.shipments.length; i++) {
+                                var counter = jsonData.shipments[i];
+
+                                var originCountryCode = counter.origin.address.countryCode;
+                                if (originCountryCode != null) {
+                                    var originCountryCodediv = document.getElementById('originCountryCodediv');
+                                    originCountryCodediv.innerHTML = regionNames.of(originCountryCode);
+
+                                }
+                                var destinationCountryCode = counter.destination.address.countryCode;
+                                if (destinationCountryCode != null) {
+                                    var destinationCountryCodediv = document.getElementById('destinationCountryCodediv');
+                                    destinationCountryCodediv.innerHTML = regionNames.of(destinationCountryCode);
+                                }
+
+
+
+                                var shippingService = counter.service;
+                                var shippingServicediv = document.getElementById('shippingServicediv');
+                                shippingServicediv.innerHTML = " Service: " + shippingService;
+
+
+                                var destinationPostalCode = counter.destination.address.postalCode;
+                                var destinationAddressLocality = counter.destination.address.addressLocality;
+
+                                if (counter.details.dimensions != null) {
+                                    var detailsWidth = counter.details.dimensions.width.value;
+                                    var detailsHeight = counter.details.dimensions.height.value;
+                                    var detailsLength = counter.details.dimensions.length.value;
+                                    var detailsWeight = counter.details.weight.value;
+                                }
+
+                                var originPostalCode = counter.origin.address.postalCode;
+                                var originAddressLocality = counter.origin.address.addressLocality;
+
+                                var status = counter.status.status;
+                                var statusdiv = document.getElementById('statusdiv');
+                                statusdiv.innerHTML = "Last Status: " + status;
+
+                                if (status == "pre-transit") {
+                                    var step1div = document.getElementById("step1");
+                                    step1div.className += " active";
+                                }
+                                if (status == "transit") {
+                                    var step2div = document.getElementById("step2");
+                                    step2div.className += " active";
+                                }
+                                if (status == "delivered") {
+                                    var step1div = document.getElementById("step1");
+                                    step1div.className += " active";
+                                    var step2div = document.getElementById("step2");
+                                    step2div.className += " active";
+                                    var step3div = document.getElementById("step3");
+                                    step3div.className += " active";
+                                    var step4div = document.getElementById("step4");
+                                    step4div.className += " active";
+                                }
+
+                                var timeStamp = counter.status.timestamp;
+                                var lastUpdateDatediv = document.getElementById('spnLastUpdateDate');
+
+                                lastUpdateDatediv.innerHTML = "Date : " + new Date(timeStamp).toDateString() + " " + new Date(timeStamp).toLocaleTimeString();
+
+                                $("#eventsDiv").show();
+                                $("#trackingResult").show();
+
+
+                                for (var ev = 0; ev < counter.events.length; ev++) {
+                                    var counterEvent = counter.events[ev];
+
+                                    document.getElementById('listevents').innerHTML += '<li class="events"><a target="_blank" href=""><i class="fa fa-map-marker-alt"></i> ' + counterEvent.location.address.addressLocality + ' </a><a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  ' + new Date(counterEvent.timestamp).toDateString() + " " + new Date(counterEvent.timestamp).toLocaleTimeString() + '</a><p>' + counterEvent.description + '</p></li>';
+                                }
+
+                            }
+                        });
+                    });
+
+                });
+
+
+
+            </script>
+
+    }
+}
+<style>
+    @@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+    ul .listevents {
+        -moz-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    ul > li .events {
+        -moz-transform: rotate(-180deg);
+        -webkit-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+    }
+
+
+    .height {
+        height: 30vh
+    }
+
+    .search {
+        position: relative;
+        box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+    }
+
+        .search input {
+            height: 60px;
+            text-indent: 25px;
+            border: 2px solid #d6d4d4
+        }
+
+            .search input:focus {
+                box-shadow: none;
+                border: 2px solid blue
+            }
+
+        .search .fa-search {
+            position: absolute;
+            top: 20px;
+            left: 16px
+        }
+
+        .search button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            height: 50px;
+            width: 110px;
+            background: blue
+        }
+
+
+    .bs4-order-tracking {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #878788;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+        .bs4-order-tracking li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+            color: #878788;
+            text-align: center
+        }
+
+            .bs4-order-tracking li:first-child:before {
+                margin-left: 15px !important;
+                padding-left: 11px !important;
+                text-align: left !important
+            }
+
+            .bs4-order-tracking li:last-child:before {
+                margin-right: 5px !important;
+                padding-right: 11px !important;
+                text-align: right !important
+            }
+
+            .bs4-order-tracking li > div {
+                color: #fff;
+                width: 29px;
+                text-align: center;
+                line-height: 29px;
+                display: block;
+                font-size: 12px;
+                background: #878788;
+                border-radius: 50%;
+                margin: auto
+            }
+
+            .bs4-order-tracking li:after {
+                content: '';
+                width: 150%;
+                height: 2px;
+                background: #878788;
+                position: absolute;
+                left: 0%;
+                right: 0%;
+                top: 15px;
+                z-index: -1
+            }
+
+            .bs4-order-tracking li:first-child:after {
+                left: 50%
+            }
+
+            .bs4-order-tracking li:last-child:after {
+                left: 0% !important;
+                width: 0% !important
+            }
+
+            .bs4-order-tracking li.active {
+                font-weight: bold;
+                color: #dc3545
+            }
+
+                .bs4-order-tracking li.active > div {
+                    background: #dc3545
+                }
+
+                .bs4-order-tracking li.active:after {
+                    background: #dc3545
+                }
+
+    .card-timeline {
+        background-color: #fff;
+        z-index: 0
+    }
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<div class="container padding-bottom-3x mb-1" id="trackingResult">
+    <div class="card mb-3">
+        <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span> --> <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
+        <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
+            <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"></span></div>
+            <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Status:</span></div>
+            <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate"></span></div>
+        </div>
+        <div class="card-body">
+            <div class="card card-timeline px-2 border-none">
+                <ul class="bs4-order-tracking">
+                    <li class="step" id="step1">
+                        <div><i class="fas fa-user"></i></div> Package Accepted
+                    </li>
+                    <li class="step" id="step2">
+                        <div><i class="fas fa-bread-slice"></i></div> In transit
+                    </li>
+                    <li class="step" id="step3">
+                        <div><i class="fas fa-truck"></i></div> Out for delivery
+                    </li>
+                    <li class="step" id="step4">
+                        <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    @*<div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+            <div class="custom-control custom-checkbox mr-3">
+                <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
+                <label class="custom-control-label" for="notify_me">Notify me when order is delivered</label>
+            </div>
+            <div class="text-left text-sm-right"><a class="btn btn-outline-primary btn-rounded btn-sm" href="orderDetails" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+        </div>*@
+</div>
+
+<div class="container mt-5 mb-5" id="eventsDiv">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h4>Events</h4>
+            <ul class="timeline" id="listevents">
+            </ul>
+        </div>
+    </div>
+</div>

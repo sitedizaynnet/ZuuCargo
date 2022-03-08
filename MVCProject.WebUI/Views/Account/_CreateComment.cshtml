@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "CreateComment";
+
+}
+
+
+
+<form id="comment">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table-striped" style="margin-bottom: 0px;">
+                    <tbody>
+                        <tr class="custom-odd">
+                            <td style="padding: 10px !important;">
+                                Hız / Zamanlama ?
+                            </td>
+                            <td style="padding: 0px !important;">
+
+                                <div id="rate1" class="rating"></div>
+
+                            </td>
+                        </tr>
+                        <tr class="custom-even">
+                            <td style="padding: 10px !important;">
+                                Fiyat / Kalite Oranı ?
+                            </td>
+                            <td style="padding: 0px !important;">
+                                <div id="rate2" class="rating"></div>
+
+                            </td>
+                        </tr>
+                        <tr class="custom-odd">
+                            <td style="padding: 10px !important;">
+                                İletişim Becerisi ?
+                            </td>
+                            <td style="padding: 0px !important;">
+                                <div id="rate3" class="rating"></div>
+
+                            </td>
+                        </tr>
+                        <tr class="custom-even">
+                            <td style="padding: 10px !important;">Tavsiye eder misiniz ?               </td>
+                            <td style="padding: 0px !important;">
+                                <div id="rate4" class="rating"></div>
+                                @Html.Hidden("orderId")
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <textarea id="rate_content" class="form-control" placeholder="Yorumunuz" required></textarea>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $(".rating").rating({
+            min: 0,
+            max: 5,
+            step: 1,
+            size: 'xs',
+            emptyStar: '<i class="glyphicon glyphicon-star"></i>',
+            showCaption: true,
+            starCaptions: {
+                1: 'Çok Kötü',
+                2: 'Kötü',
+                3: 'Orta',
+                4: 'İyi',
+                5: 'Çok İyi'
+            },
+            showClear: false,
+            clearCaption: "Oy Verilmedi"
+        });
+    });
+    $(document).on("click", ".label-success", function () {
+
+        var orderId = $(this).data('id');
+        $("#orderId").val(orderId);
+        // As pointed out in comments,
+        // it is superfluous to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+</script>
+<link href="~/Scripts/src/bootsrap-stars/css/star-rating.css" rel="stylesheet" />
+<script src="~/Scripts/src/bootsrap-stars/js/star-rating.js" type="text/javascript"></script>
+<script src="~/Scripts/src/bootsrap-stars/js/locales/tr.js"></script>

@@ -1,0 +1,41 @@
+﻿@model MVCProject.Common.ViewModels.AccountingVM
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>Delete Record</h2>
+@using (Html.BeginForm("Delete", "Accounting", FormMethod.Post, new { id = "popupForm" }))
+{
+    @Html.HiddenFor(a => a.Id)
+    <div class="form-group">
+        <label>Customer Name</label>
+        <p>@Model.CustomerName</p>
+    </div>
+
+    <div class="form-group">
+        <label>Telephone</label>
+        <p>@Model.Telephone</p>
+    </div>
+
+    <div class="form-group">
+        <label>City</label>
+        <p>@Model.City</p>
+    </div>
+
+    <div class="form-group">
+        <label>Cargo Price</label>
+        <p>@Model.CargoPrice</p>
+    </div>
+
+
+
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

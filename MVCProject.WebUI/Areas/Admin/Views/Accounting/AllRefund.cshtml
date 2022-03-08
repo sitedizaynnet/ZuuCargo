@@ -1,0 +1,55 @@
+﻿@model MVCProject.Common.ViewModels.AccountReportVM
+
+<h2>Refund Report</h2>
+
+<div class="row">
+    <!-- small box -->
+    <div class="col-lg-3 col-xs-6">
+
+        <div class="small-box bg-blue">
+            <div class="inner">
+                <h3>@Model.TotalRefundDolar</h3>
+                <p>Total Dollar</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./small box -->
+    <!-- small box -->
+    <div class="col-lg-3 col-xs-6">
+
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>@Model.TotalRefundLira</h3>
+                <p>Total Lira</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./small box -->    <!-- small box -->
+    <div class="col-lg-3 col-xs-6">
+
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>@Model.TotalRefundAdet</h3>
+                <p>Total Adet</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+        </div>
+    </div>
+    <!-- ./small box -->
+</div>
+<center>
+    <button class="btn btn-primary hidden-print" onclick="myFunction()"><span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print</button>
+</center>
+<script>
+    function myFunction() {
+        window.print();
+    }
+</script>

@@ -1,0 +1,64 @@
+﻿@model MVCProject.Common.ViewModels.ShipmentVM
+ 
+<!DOCTYPE html>
+<html lang="en" style="border-style: none;width: 400px;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Untitled</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="~/Theme/js/JsBarcode.all.min.js"></script>
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/6e243d5adb.js" crossorigin="anonymous"></script>
+    <script src="https://adminlte.io/themes/AdminLTE/dist/js/adminlte.min.js"></script>
+
+</head>
+
+<body style="border-style: none;">
+    <div class="card" style="border-style: none;padding-left:30px">
+        <div class="card-body" style="border-style: none;">
+
+            
+            <h4 class="card-title" style="font-size: 20px;"><i class="fa fa-map-marker-alt"></i> SENDER</h4>
+            <h6 class="text-muted card-subtitle mb-2" style="font-size: 14px;margin-bottom: 0px;">@Model.SenderName </h6>
+            <p class="card-text" style="margin-bottom: 0px;font-size: 16px;">@Model.SenderAddress</p>
+            <p class="card-text" style="font-size: 16px;margin-bottom: 0px;">@Model.SenderPostalCode / @Model.SenderCountry </p>
+            <p class="card-text" style="font-size: 16px;">@Model.SenderTelephone</p>
+            <hr style="margin-bottom: 0px;margin-top: 0px;width: 269px;text-align: left;margin-left: 0px;border-width: 2px;border-color: rgb(0,0,0);">
+        </div>
+        <div class="card-body" style="padding-top: 0px;padding-bottom: 0px;">
+            <h4 class="card-title" style="margin-bottom: 12px;font-size: 20px;"><i class="fa fa-map-marker-alt"></i> RECEIVER</h4>
+            <h6 class="text-muted card-subtitle mb-2">@Model.ReceiverName</h6>
+            <p class="card-text" style="margin-bottom: 0px;font-size: 16px;">@Model.ReceiverAddress</p>
+            <p class="card-text" style="margin-bottom: 0px;font-size: 16px;">@Model.ReceiverPostalCode /@Model.ReceiverCityId  / @Model.ReceiverCountryId</p>
+            <p class="card-text" style="font-size: 16px;">@Model.ReceiverTelephoneNo</p>
+            <hr style="width: 269px;text-align: left;margin-left: 0px;border-width: 2px;border-color: rgb(0,0,0);border-radius: 0px;">
+        </div>
+        <div class="card-body" style="border-style: none;padding-top: 0px;padding-bottom: 0px;">
+            <h6 class="card-title" style="margin: 0px;font-size: 16px;">Weight : @Model.Weight kg</h6>
+            <h6 class="card-title" style="margin: 0px;font-size: 16px;">Invoice Price: @Model.TotalDolar $</h6>
+            <h6 class="card-title" style="margin: 0px; font-size: 16px;">Notes: @Model.Notes</h6>
+            <h6 class="card-title" style="margin: 0px; font-size: 16px;">Content and Content Price: @Model.Content - ( @Model.ValueOfPackage USD)</h6>
+
+        </div>
+        <div class="card-body" style="border-style: none;padding-left:90px">
+            <svg class="barcode"
+                 jsbarcode-format="CODE39"
+                 jsbarcode-value="@Model.TrackingNo"
+                 jsbarcode-textmargin="0"
+                 jsbarcode-fontoptions="bold">
+            </svg>
+            <script>
+                JsBarcode(".barcode").init();
+
+            </script>
+        </div>
+    </div>
+    <script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

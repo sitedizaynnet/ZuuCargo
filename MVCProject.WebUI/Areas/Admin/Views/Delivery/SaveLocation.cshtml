@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "SaveLocation";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQWBQJnAq7Hys-n66zbAOwXUF4_-r_rcs" type="text/javascript"></script>
+<script src="~/Theme/js/gmap3.min.js"></script>
+
+
+<h4>Customer : @ViewBag.CustomerName</h4>
+<a href="#" id="getBtn" onClick="getLocation();" class="btn btn-lg btn-info"><span class="glyphicon glyphicon-map-marker"></span> Get Location</a>
+<a href="#" id="saveBtn" onClick="saveLocation();" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-floppy-save"></span> Save Location</a>
+
+<div id="map_canvas" style="height: 480px;"></div>
+<script type="text/javascript">
+
+
+    var mapOptions = {
+        zoom: 8,
+
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+
+    function moveToLocation(lat, lng) {
+        var center = new google.maps.LatLng(lat, lng);
+        map.setZoom(5); // Back to default zoom
+        map.panTo(center);
+        setTimeout(zoomMap(), 2000); // Zoom in after 1 sec
+        // using global variable:
+
+    }
+
+    var x = document.getElementById("map_canvas");
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+
+    function showPosition(position) {
+        const myLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
+        moveToLocation(position.coords.latitude, position.coords.longitude);
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+
+            map: map
+        });
+        $('#coordinateLat').text(position.coords.latitude);
+        $('#coordinateLong').text(position.coords.longitude);
+
+    }
+    function zoomMap() {
+        map.setZoom(18);
+    }
+
+    function saveLocation() {
+
+            var customerName = "@ViewBag.CustomerName";
+        var coordinateLat = $('#coordinateLat').text();
+        var coordinateLong = $('#coordinateLong').text();
+
+        var items = [customerName, coordinateLat, coordinateLong];
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/Admin/Delivery/SaveLocationAjax/",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ function_param: items }),
+                    success: function (data, textStatus, xhr) {
+                        if (confirm("Position Saved! Close Window?")) {
+                            window.close();
+                        }
+                    }
+                });
+
+       
+    }
+
+</script>
+
+<p id="coordinateLat"></p>
+<p id="coordinateLong"></p>

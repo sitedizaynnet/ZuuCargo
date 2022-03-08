@@ -1,0 +1,260 @@
+﻿@model IList<SelectListItem>
+
+@{
+    ViewBag.Title = "Report";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.0/js/bootstrap-datetimepicker.min.js" integrity="sha512-/j5D43S9a4n1badT1fOz9CNcaQ9lIAn5uXApuT5ayHHKaKwF3vWKrniAu6NVU8Hzq1NPOqs3CgXepvRMW3NPYg==" crossorigin="anonymous"></script>
+
+
+
+<div class="container hidden-print">
+
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepickerfrom'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-5'>
+        <div class="form-group">
+            <div class='input-group date' id='datetimepickerto'>
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-10'>
+        <div class="form-group">
+            @Html.DropDownList("Customers", new SelectList(Model, "Value", "Text"))
+            <button id="getcustomer">Get Report</button>
+            <select id="Category" name="Category">
+                <option value="Cost Online Turkey">Cost Online Turkey</option>
+                <option value="Cost Online China">Cost Online China</option>
+                <option value="Cost Online USA">Cost Online USA</option>
+                <option value="Cost Post">Cost Post</option>
+                <option value="Cost ZuuCargo">Cost ZuuCargo</option>
+                <option value="Ticket & visa">Ticket & visa</option>
+                <option value="Expensive">Expensive</option>
+                <option value="Exchange">Exchange</option>
+            </select>
+            <button id="costreport">Get Cost Report</button>
+            <button id="allcostreport">Get All Cost Report</button>
+
+            @*<button id="cargoreportbycustomer">Cargo Report By Customer</button>*@<button id="allcustomer">All Reports</button>  <button id="cargoreport">All Cargo Report</button>
+            <button id="allrefund">Refunds</button>
+            <button id="alllost">Lost Order</button>
+            @*<select id="kamuBorcid" name="Category">
+                <option value="Kamu Borc Turkey">Kamu Borc Turkey</option>
+                <option value="Kamu Borc UK">Kamu Borc UK</option>
+                <option value="Post">Post</option>
+                <option value="ZuuCargo">ZuuCargo</option>
+
+
+            </select>*@
+            <button id="kamuborc">Kamu Borc</button>
+        </div>
+
+    </div>
+
+    <div class='col-md-10'>
+        <div class="form-group">
+
+
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepickerfrom').datetimepicker(
+            {
+                minView: 2,
+                format: 'DD-MM-YYYY'
+            }
+        );
+        $('#datetimepickerto').datetimepicker({
+            useCurrent: false,
+            minView: 2,
+            format: 'DD-MM-YYYY'//Important! See issue #1075
+        });
+        $("#datetimepickerfrom").on("dp.change", function (e) {
+            $('#datetimepickerto').data("DateTimePicker").setMinDate(e.date);
+        });
+        $("#datetimepickerto").on("dp.change", function (e) {
+            $('#datetimepickerfrom').data("DateTimePicker").setMaxDate(e.date);
+        });
+    });
+</script>
+
+<script>
+    $("#cargoreport").click(function () {
+
+        var startDate = $("#datetimepickerfrom").find("input").val();
+        var endDate = $("#datetimepickerto").find("input").val();
+        var items = [startDate, endDate];
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/CargoReport/",
+                contentType: 'application/json',
+                data: JSON.stringify({ function_param: items }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+    $("#cargoreportbycustomer").click(function () {
+        var customerid = $('#Customers').find(":selected").val();
+        var startDate = $("#datetimepickerfrom").find("input").val();
+        var endDate = $("#datetimepickerto").find("input").val();
+        var items = [customerid, startDate, endDate];
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/GetCargoReportByCustomer/",
+                contentType: 'application/json',
+                data: JSON.stringify({ function_param: items }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+
+    $("#allcustomer").click(function () {
+       
+        var startDate = $("#datetimepickerfrom").find("input").val();
+        var endDate = $("#datetimepickerto").find("input").val();
+        var items = [ startDate, endDate];
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/AllReport/",
+                contentType: 'application/json',
+                data: JSON.stringify({ function_param: items }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+    $("#allrefund").click(function () {
+
+        var startDate = $("#datetimepickerfrom").find("input").val();
+        var endDate = $("#datetimepickerto").find("input").val();
+        var items = [startDate, endDate];
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/allrefund/",
+                contentType: 'application/json',
+                data: JSON.stringify({ function_param: items }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+    $("#alllost").click(function () {
+
+        var startDate = $("#datetimepickerfrom").find("input").val();
+        var endDate = $("#datetimepickerto").find("input").val();
+        var items = [startDate, endDate];
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/allLost/",
+                contentType: 'application/json',
+                data: JSON.stringify({ function_param: items }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+    $("#getcustomer").click(function () {
+        var customerid = $('#Customers').find(":selected").val();
+        var startDate = $("#datetimepickerfrom").find("input").val();
+        var endDate = $("#datetimepickerto").find("input").val();
+        var items = [customerid, startDate, endDate];
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/GetReport/",
+                contentType: 'application/json',
+                data: JSON.stringify({ function_param: items }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+    });
+    $("#costreport").click(function () {
+        var categoryid = $('#Category').find(":selected").val();
+       
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/CostsReport/",
+                contentType: 'application/json',
+                data: JSON.stringify({ categoryid: categoryid }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+    $("#kamuborc").click(function () {
+        var categoryid = $('#kamuBorcid').find(":selected").val();
+
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/KamuBorcReport/",
+                contentType: 'application/json',
+                data: JSON.stringify({ categoryid: categoryid }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+    $("#allcostreport").click(function () {
+        var categoryid = $('#Category').find(":selected").val();
+
+        $.ajax(
+            {
+                type: "POST",
+                url: "/Admin/Accounting/AllCostsReport/",
+                contentType: 'application/json',
+                data: JSON.stringify({ categoryid: categoryid }),
+
+                success: function (data, textStatus, xhr) {
+                    $("#divAlan").html(data);
+                }
+            });
+
+    });
+</script>
+
+
+<div id="divAlan">
+
+</div>

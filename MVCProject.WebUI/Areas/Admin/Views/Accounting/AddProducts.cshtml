@@ -1,0 +1,150 @@
+﻿@model MVCProject.Common.ViewModels.AccountingProductsVM
+
+@{
+    ViewBag.Title = "AddProducts";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+
+
+<script src="~/Scripts/jquery-ui-1.9.2.min.js"></script>
+
+<style>
+
+    span.field-validation-error {
+        color: red;
+    }
+</style>
+<div style="width:90%; margin:0 auto" class="tablecontainer">
+    
+    <table id="myDatatable">
+        <thead>
+            <tr>
+                <th>Date</th>
+
+                <th>AccountingID</th>
+                <th>ProductName</th>
+                <th>Quantity</th>
+                <th>PriceDollar</th>
+                <th>PriceLira</th>
+                <th>Tax</th>
+                <th>Cargo</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Add Products to Accounting</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.AccountingID,
+              new { id = "natureOfVisitField", Value = ViewBag.AccountingId })
+    <div class="form-group">
+        @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PriceDollar, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PriceDollar, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PriceDollar, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PriceLira, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PriceLira, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PriceLira, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Tax, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Tax, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Tax, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Cargo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Cargo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Cargo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script>
+    $(document).ready(function () {
+        var oTable = $('#myDatatable').DataTable({
+            "ajax": {
+                "url": '/Accounting/GetProducts/@ViewBag.AccountingId',
+                "type": "get",
+                "datatype": "json"
+            },
+            "columns": [
+                { "data": "Date", "autoWidth": true },
+                { "data": "AccountingID", "autoWidth": true },
+                { "data": "ProductName", "autoWidth": true },
+                { "data": "Quantity", "autoWidth": true },
+                { "data": "PriceDollar", "autoWidth": true },
+                { "data": "PriceLira", "autoWidth": true },
+                { "data": "Tax", "autoWidth": true },
+                { "data": "Cargo", "autoWidth": true },
+
+                {
+                    "data": "Id", "width": "50px", "render": function (data) {
+                        return '<a  href="/Admin/Accounting/DeleteProducts/' + data + '">Delete</a>';
+                    }
+                },
+                {
+                    "data": "Id", "width": "50px", "render": function (data) {
+                        return '<a  href="/Admin/Accounting/EditProducts/' + data + '">Edit</a>';
+                    }
+                }
+            ]
+        }
+        )
+    })
+</script>

@@ -1,0 +1,65 @@
+﻿
+@{
+    ViewBag.Title = "Onay Bekleyen Firmalar";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using MVCProject.Common.ViewModels
+@model List<ProviderVM>
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <table id="myTable" class="table table-list-search">
+                <thead>
+                    <tr>
+                        <th><i>Firma Adı</i></th>
+                        <th><i>Şehir</i></th>
+                        <th><i>İlçe</i></th>
+                        <th><i>Yetkili Personel Adı</i></th>
+                    
+                        <th><i>Telefon</i></th>
+                        <th><i>Şube Sayısı</i></th>
+                        <th><i>İşlemler</i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ProviderName</td>
+                                <td>@item.City</td>
+                                <td>@item.Ilce</td>
+                                <td>@item.AuthorizedPersonnelName</td>
+                                <td>@item.Phone</td>
+                                <th><i>@item.OfficeCount</i></th>
+                                <td><a href="@Url.Action("EditProvider","AdminProvider",new { @Id = @item.Id })" style="height: 25px" class="label label-info">Düzenle</a></td>
+                            </tr>
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+    $('#myTable').DataTable({
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json'
+        }
+    });
+
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script><div class="container">

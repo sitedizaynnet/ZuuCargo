@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewBag.Title = "Shipment";
+    var shipment = ViewData["Shipment"] as MVCProject.Common.ViewModels.ShipmentMultiVM;
+}
+
+<div class="contactform">
+    <div class="page_single layout_fullwidth_padding">
+
+
+        <div id="process" class="process" style="display: table;">
+            <div class="process-row">
+                <div class="process-step">
+                    <button type="button" id="1" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-people-carry fa-3x" aria-hidden="true"></i></button>
+                    <p>Post Accepted</p>
+                </div>
+                <div class="process-step">
+                    <button type="button" id="2" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-loading fa-3x" aria-hidden="true"></i></button>
+                    <p>Shipment Forwarded</p>
+                </div>
+                <div class="process-step">
+                    <button type="button" id="21" class="btn btn-default btn-circle" disabled="disabled"><img style="width:50px;" src="~/Theme/images/icons/customcheck.jpg"></button>
+                    <p>Shipment Hold</p>
+                </div>
+                <div class="process-step">
+                    <button type="button" id="3" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-moving fa-3x " aria-hidden="true"></i></button>
+                    <p>On Transit</p>
+                </div>
+                <div class="process-step">
+                    <button type="button" id="4" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-box-open fa-3x" aria-hidden="true"></i></button>
+                    <p>Delivered</p>
+                </div>
+            </div>
+        </div>
+
+        <table id="tblTrack" class="table table-bordered" style="display: table;">
+            <thead class="bg-primary text-white">
+                <tr>
+
+
+                    <th>Sender Name</th>
+                    <th>Receiver Name</th>
+                    <th>Sender Country</th>
+
+                    <th>Shipment Date</th>
+
+                    <th>Delivery Country </th>
+                    <th>Total Weight </th>
+
+                </tr>
+            </thead>
+            <tbody><tr><td>@shipment.ShipmentVM.SenderName</td><td>@shipment.ShipmentVM.ContactPersonName</td><td>@shipment.ShipmentVM.SenderCountry</td><td>@shipment.ShipmentVM.ShipmentDate</td><td>@shipment.ShipmentVM.ReceiverCountry</td><td>@shipment.ShipmentVM.TotalWeight</td></tr></tbody>
+        </table>
+        <br>
+        <table id="tblTrackStatus" class="table table-bordered" style="display: table;">
+            <thead class="bg-primary text-white">
+                <tr>
+
+
+
+
+                    <th>Status</th>
+                    <th>Location</th>
+                    <th>Update Time</th>
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (MVCProject.Common.ViewModels.StatusUpdatesVM statusUpdates in shipment.StatusUpdatesVMList)
+                {
+                    <tr><td>@statusUpdates.Status</td><td>@statusUpdates.Location</td><td>@statusUpdates.UpdatedDateTime</td></tr>
+                }
+
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+@if (shipment.StatusUpdatesVMList.Last().ShipmentId.ToString().Trim() == "1")
+{
+    <script>
+        document.getElementById("1").classList.add('btn-success');
+        document.getElementById("1").classList.remove('btn-default');
+    </script>
+}
+@if (shipment.StatusUpdatesVMList.Last().ShipmentId.ToString().Trim() == "2")
+{
+    <script>
+        document.getElementById("2").classList.add('btn-success');
+        document.getElementById("2").classList.remove('btn-default');
+    </script>
+}
+@if (shipment.StatusUpdatesVMList.Last().ShipmentId.ToString().Trim() == "21")
+{
+    <script>
+        document.getElementById("21").classList.add('btn-success');
+        document.getElementById("21").classList.remove('btn-default');
+    </script>
+}
+@if (shipment.StatusUpdatesVMList.Last().ShipmentId.ToString().Trim() == "3")
+{
+    <script>
+        document.getElementById("3").classList.add('btn-success');
+        document.getElementById("3").classList.remove('btn-default');
+    </script>
+}
+@if (shipment.StatusUpdatesVMList.Last().ShipmentId.ToString().Trim() == "4")
+{
+    <script>
+        document.getElementById("4").classList.add('btn-success');
+        document.getElementById("4").classList.remove('btn-default');
+    </script>
+}

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MVCProject.Common.ViewModels.ZoneVM>
+<link rel="stylesheet" type="text/css" href="~/Theme/js/datatables.min.css">
+
+<script type="text/javascript" charset="utf8" src="~/Theme/js/datatables.min.js"></script>
+
+<h3>ZuuCargo Zone List</h3>
+<table class="table" id="table_zones">
+    <thead>
+        <tr class="row">
+
+            <th>
+              
+
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsExpress)
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in (List<MVCProject.Common.ViewModels.ZoneVM>)ViewData["ZoneList"])
+        {
+            <tr class="row">
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+               
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                   @Html.Label((item.IsExpress == true) ? "Express" : "Normal")
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#table_zones').DataTable(
+            {
+    
+            });
+        
+
+    })</script>

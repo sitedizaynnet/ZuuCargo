@@ -1,0 +1,31 @@
+﻿@model MVCProject.Common.ViewModels.CustomerLocationVM
+@{
+    ViewBag.Title = "Drive Location";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h3>Customer Name : @ViewBag.CustomerName</h3>
+
+<script>
+    function getPosition(position) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+
+        var url = 'http://maps.google.com/maps?saddr=' + latitude + ',' + longitude + '&daddr=' + navAddress;
+        window.location.href = url;
+    }
+    function httpGet(invoiceNo) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open("GET", "http://www.ZuuCargo.com/Admin/Accounting/SendInvoiceSMSBarcode/" + invoiceNo, false); // false for synchronous request
+        xmlHttp.send(null);
+        return xmlHttp.responseText;
+        var listContainer = $('#list');
+        listContainer.prepend('<li> ' + data.string + 'SMS SENT </li>');
+    }
+    $("body").on("click", ".routemap", function () {
+
+        navAddress = $(this).attr("address");
+        navigator.geolocation.getCurrentPosition(getPosition);//get the current position for google maps linking purposes.
+    });
+</script>
+<a href="#" class="btn btn-block btn-lg btn-danger routemap" address="@Model.Latitude,@Model.Longitude"><span class="glyphicon glyphicon-road"></span> START NAVIGATION </a>

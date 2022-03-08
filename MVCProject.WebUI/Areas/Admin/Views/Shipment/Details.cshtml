@@ -1,0 +1,127 @@
+﻿@model MVCProject.Common.ViewModels.ShipmentMultiVM
+
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>View</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.TrackingNo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.TrackingNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.Acente)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.Acente)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverCountryId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverCountryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverPostalCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ReceiverPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.Weight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.Weight)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.Lenght)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.Lenght)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.Height)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.Height)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.Desi)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.Desi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.PostType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.PostType)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ShipmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ShipmentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.TotalDolar)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.TotalDolar)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.Content)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.Content)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.ValueOfPackage)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.ValueOfPackage)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipmentVM.HarmonyCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShipmentVM.HarmonyCode)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ShipmentVM.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
