@@ -52,6 +52,7 @@
     <Compile Include="Services\AccountingProductsServices.cs" />
     <Compile Include="Services\Accounting.cs" />
     <Compile Include="Services\ArrivedExchangeServices.cs" />
+    <Compile Include="Services\RemainingCostServices.cs" />
     <Compile Include="Services\ReklamServices.cs" />
     <Compile Include="Services\ShipmentTurpexBarcodesServices.cs" />
     <Compile Include="Services\ShipmentBarcodesServices.cs" />

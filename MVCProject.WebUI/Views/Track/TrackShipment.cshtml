@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis"></script>
 
 <div class="container">
     <div class="row height d-flex justify-content-center align-items-center">
@@ -28,16 +29,16 @@
                 <div class="card-body">
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
-                            <li class="step active" id="step1">
+                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("The item was forwarded") ? "active" : "")" id="step1">
                                 <div><i class="fas fa-user"></i></div> Package Accepted
                             </li>
-                            <li class="step active" id="step2">
+                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("The item was forwarded") ? "active" : "")" id="step2">
                                 <div><i class="fas fa-bread-slice"></i></div> In transit
                             </li>
-                            <li class="step active" id="step3">
+                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Send item out for physical delivery") ? "active" : "")" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
-                            <li class="step active" id="step4">
+                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Deliver item") ? "active" : "")" id="step4">
                                 <div><i class="fas fa-birthday-cake"></i></div> Delivered
                             </li>
                         </ul>
@@ -67,112 +68,262 @@
             </div>
         </div>
     }
+    else if ((MVCProject.Common.ViewModels.ShipmentVM)ViewBag.TrackingInfoNull != null)
+    {
+        MVCProject.Common.ViewModels.ShipmentVM TrackingInfoShipment = (MVCProject.Common.ViewModels.ShipmentVM)ViewBag.TrackingInfoNull;
+
+        <div class="container padding-bottom-3x mb-1" id="trackingResult" style="display: block;">
+            <div class="card mb-3">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span>  TR -->  @TrackingInfoShipment.ReceiverCountryId <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"> Service: ZuuCargo</span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Last Status: Package Accepted</span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate">Date : @TrackingInfoShipment.ShipmentDate </span></div>
+                </div>
+                <div class="card-body">
+                    <div class="card card-timeline px-2 border-none">
+                        <ul class="bs4-order-tracking">
+                            <li class="step active" id="step1">
+                                <div><i class="fas fa-user"></i></div> Package Accepted
+                            </li>
+                            <li class="step " id="step2">
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                            </li>
+                            <li class="step" id="step3">
+                                <div><i class="fas fa-truck"></i></div> Out for delivery
+                            </li>
+                            <li class="step " id="step4">
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <body onload="myfunction();">
+
+            <!--The div element for the map -->
+            <div id="map"></div>
+
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&callback=initMap&libraries=&v=weekly"></script>
+        </body>
+        if (ModelforTracking != null)
+        {
+            <script>
+     var startlat;
+            var startlong;
+            var endlat;
+            var endlong;
+
+            var geocoder = new google.maps.Geocoder();
+            var addressStart = "@ModelforTracking.First().ulke_ad";
+            var addressEnd = "@ModelforTracking.Last().ulke_ad";
+
+
+            geocoder.geocode({ 'address': addressStart }, function (results, status) {
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                     startlat = results[0].geometry.location.lat();
+                     startlong = results[0].geometry.location.lng();
+
+                }
+            });
+            geocoder.geocode({ 'address': addressEnd }, function (results2, status2) {
+
+                if (status2 == google.maps.GeocoderStatus.OK) {
+                     endlat = results2[0].geometry.location.lat();
+                     endlong = results2[0].geometry.location.lng();
+
+                }
+            });
+            </script>
+            <script type="text/javascript">
+                function myfunction() {
+
+
+                    var map;
+
+
+
+                    var option = {
+                        zoom: 10,
+                        center: new google.maps.LatLng(endlat, endlong)
+                    };
+                    map = new google.maps.Map(document.getElementById('map'), option);
+                    var display = new google.maps.DirectionsRenderer();
+                    var services = new google.maps.DirectionsService();
+                    display.setMap(map);
+                    var request = {
+                        origin: new google.maps.LatLng(startlat, startlong),
+                        destination: new google.maps.LatLng(endlat, endlong),
+                        travelMode: 'DRIVING'
+                    };
+                    services.route(request, function (result, status) {
+                        if (status == 'OK') {
+                            display.setDirections(result);
+                        }
+                    });
+                }
+
+            </script>
+        }
+
+    }
     else
     {
         <script>
-                $(document).ready(function () {
-                    $("#eventsDiv").hide();
-                    $("#trackingResult").hide();
+            $(document).ready(function () {
+                $("#eventsDiv").hide();
+                $("#trackingResult").hide();
 
 
-                    $("#btnTrack").click(function () {
-                        var trackingNumber = $("#txtTrackingCode").val();
-                        const settings = {
-                            "async": true,
-                            "crossDomain": true,
-                            "url": "https://api-eu.dhl.com/track/shipments?trackingNumber=" + trackingNumber,
-                            "method": "GET",
-                            "headers": {
-                                "DHL-API-Key": "Mtatsy0Rk1MIcQG3gGFkfZKpADKOHgD0"
-                            }
-                        };
+                $("#btnTrack").click(function () {
+                    var trackingNumber = $("#txtTrackingCode").val();
+                    const settings = {
+                        "async": true,
+                        "crossDomain": true,
+                        "url": "https://api-eu.dhl.com/track/shipments?trackingNumber=" + trackingNumber,
+                        "method": "GET",
+                        "headers": {
+                            "DHL-API-Key": "Mtatsy0Rk1MIcQG3gGFkfZKpADKOHgD0"
+                        }
+                    };
 
-                        $.ajax(settings).done(function (response) {
-                            let regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+                    $.ajax(settings).done(function (response) {
+                        let regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
-                            var jsonData = response;
-                            for (var i = 0; i < jsonData.shipments.length; i++) {
-                                var counter = jsonData.shipments[i];
+                        var jsonData = response;
+                        for (var i = 0; i < jsonData.shipments.length; i++) {
+                            var counter = jsonData.shipments[i];
 
-                                var originCountryCode = counter.origin.address.countryCode;
-                                if (originCountryCode != null) {
-                                    var originCountryCodediv = document.getElementById('originCountryCodediv');
-                                    originCountryCodediv.innerHTML = regionNames.of(originCountryCode);
-
-                                }
-                                var destinationCountryCode = counter.destination.address.countryCode;
-                                if (destinationCountryCode != null) {
-                                    var destinationCountryCodediv = document.getElementById('destinationCountryCodediv');
-                                    destinationCountryCodediv.innerHTML = regionNames.of(destinationCountryCode);
-                                }
-
-
-
-                                var shippingService = counter.service;
-                                var shippingServicediv = document.getElementById('shippingServicediv');
-                                shippingServicediv.innerHTML = " Service: " + shippingService;
-
-
-                                var destinationPostalCode = counter.destination.address.postalCode;
-                                var destinationAddressLocality = counter.destination.address.addressLocality;
-
-                                if (counter.details.dimensions != null) {
-                                    var detailsWidth = counter.details.dimensions.width.value;
-                                    var detailsHeight = counter.details.dimensions.height.value;
-                                    var detailsLength = counter.details.dimensions.length.value;
-                                    var detailsWeight = counter.details.weight.value;
-                                }
-
-                                var originPostalCode = counter.origin.address.postalCode;
-                                var originAddressLocality = counter.origin.address.addressLocality;
-
-                                var status = counter.status.status;
-                                var statusdiv = document.getElementById('statusdiv');
-                                statusdiv.innerHTML = "Last Status: " + status;
-
-                                if (status == "pre-transit") {
-                                    var step1div = document.getElementById("step1");
-                                    step1div.className += " active";
-                                }
-                                if (status == "transit") {
-                                    var step2div = document.getElementById("step2");
-                                    step2div.className += " active";
-                                }
-                                if (status == "delivered") {
-                                    var step1div = document.getElementById("step1");
-                                    step1div.className += " active";
-                                    var step2div = document.getElementById("step2");
-                                    step2div.className += " active";
-                                    var step3div = document.getElementById("step3");
-                                    step3div.className += " active";
-                                    var step4div = document.getElementById("step4");
-                                    step4div.className += " active";
-                                }
-
-                                var timeStamp = counter.status.timestamp;
-                                var lastUpdateDatediv = document.getElementById('spnLastUpdateDate');
-
-                                lastUpdateDatediv.innerHTML = "Date : " + new Date(timeStamp).toDateString() + " " + new Date(timeStamp).toLocaleTimeString();
-
-                                $("#eventsDiv").show();
-                                $("#trackingResult").show();
-
-
-                                for (var ev = 0; ev < counter.events.length; ev++) {
-                                    var counterEvent = counter.events[ev];
-
-                                    document.getElementById('listevents').innerHTML += '<li class="events"><a target="_blank" href=""><i class="fa fa-map-marker-alt"></i> ' + counterEvent.location.address.addressLocality + ' </a><a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  ' + new Date(counterEvent.timestamp).toDateString() + " " + new Date(counterEvent.timestamp).toLocaleTimeString() + '</a><p>' + counterEvent.description + '</p></li>';
-                                }
+                            var originCountryCode = counter.origin.address.countryCode;
+                            if (originCountryCode != null) {
+                                var originCountryCodediv = document.getElementById('originCountryCodediv');
+                                originCountryCodediv.innerHTML = regionNames.of(originCountryCode);
 
                             }
-                        });
+                            var destinationCountryCode = counter.destination.address.countryCode;
+                            if (destinationCountryCode != null) {
+                                var destinationCountryCodediv = document.getElementById('destinationCountryCodediv');
+                                destinationCountryCodediv.innerHTML = regionNames.of(destinationCountryCode);
+                            }
+
+
+
+                            var shippingService = counter.service;
+                            var shippingServicediv = document.getElementById('shippingServicediv');
+                            shippingServicediv.innerHTML = " Service: " + shippingService;
+
+
+                            var destinationPostalCode = counter.destination.address.postalCode;
+                            var destinationAddressLocality = counter.destination.address.addressLocality;
+
+                            if (counter.details.dimensions != null) {
+                                var detailsWidth = counter.details.dimensions.width.value;
+                                var detailsHeight = counter.details.dimensions.height.value;
+                                var detailsLength = counter.details.dimensions.length.value;
+                                var detailsWeight = counter.details.weight.value;
+                            }
+
+                            var originPostalCode = counter.origin.address.postalCode;
+                            var originAddressLocality = counter.origin.address.addressLocality;
+
+                            var status = counter.status.status;
+                            var statusdiv = document.getElementById('statusdiv');
+                            statusdiv.innerHTML = "Last Status: " + status;
+
+                            if (status == "pre-transit") {
+                                var step1div = document.getElementById("step1");
+                                step1div.className += " active";
+                            }
+                            if (status == "transit") {
+                                var step2div = document.getElementById("step2");
+                                step2div.className += " active";
+                            }
+                            if (status == "delivered") {
+                                var step1div = document.getElementById("step1");
+                                step1div.className += " active";
+                                var step2div = document.getElementById("step2");
+                                step2div.className += " active";
+                                var step3div = document.getElementById("step3");
+                                step3div.className += " active";
+                                var step4div = document.getElementById("step4");
+                                step4div.className += " active";
+                            }
+
+                            var timeStamp = counter.status.timestamp;
+                            var lastUpdateDatediv = document.getElementById('spnLastUpdateDate');
+
+                            lastUpdateDatediv.innerHTML = "Date : " + new Date(timeStamp).toDateString() + " " + new Date(timeStamp).toLocaleTimeString();
+
+                            $("#eventsDiv").show();
+                            $("#trackingResult").show();
+
+
+                            for (var ev = 0; ev < counter.events.length; ev++) {
+                                var counterEvent = counter.events[ev];
+
+                                document.getElementById('listevents').innerHTML += '<li class="events"><a target="_blank" href=""><i class="fa fa-map-marker-alt"></i> ' + counterEvent.location.address.addressLocality + ' </a><a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  ' + new Date(counterEvent.timestamp).toDateString() + " " + new Date(counterEvent.timestamp).toLocaleTimeString() + '</a><p>' + counterEvent.description + '</p></li>';
+                            }
+
+                        }
                     });
-
                 });
 
+            });
 
 
-            </script>
+
+        </script>
+        <div class="container padding-bottom-3x mb-1" id="trackingResult">
+            <div class="card mb-3">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span> --> <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"></span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Status:</span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate"></span></div>
+                </div>
+                <div class="card-body">
+                    <div class="card card-timeline px-2 border-none">
+                        <ul class="bs4-order-tracking">
+                            <li class="step" id="step1">
+                                <div><i class="fas fa-user"></i></div> Package Accepted
+                            </li>
+                            <li class="step" id="step2">
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                            </li>
+                            <li class="step" id="step3">
+                                <div><i class="fas fa-truck"></i></div> Out for delivery
+                            </li>
+                            <li class="step" id="step4">
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            @*<div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+                    <div class="custom-control custom-checkbox mr-3">
+                        <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
+                        <label class="custom-control-label" for="notify_me">Notify me when order is delivered</label>
+                    </div>
+                    <div class="text-left text-sm-right"><a class="btn btn-outline-primary btn-rounded btn-sm" href="orderDetails" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+                </div>*@
+        </div>
+
+        <div class="container mt-5 mb-5" id="eventsDiv">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h4>Events</h4>
+                    <ul class="timeline" id="listevents">
+                    </ul>
+                </div>
+            </div>
+        </div>
 
     }
 }
@@ -294,15 +445,15 @@
 
             .bs4-order-tracking li.active {
                 font-weight: bold;
-                color: #dc3545
+                color: #2359ee
             }
 
                 .bs4-order-tracking li.active > div {
-                    background: #dc3545
+                    background: #2359ee
                 }
 
                 .bs4-order-tracking li.active:after {
-                    background: #dc3545
+                    background: #2359ee
                 }
 
     .card-timeline {
@@ -313,49 +464,17 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
-<div class="container padding-bottom-3x mb-1" id="trackingResult">
-    <div class="card mb-3">
-        <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span> --> <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
-        <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
-            <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"></span></div>
-            <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Status:</span></div>
-            <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate"></span></div>
-        </div>
-        <div class="card-body">
-            <div class="card card-timeline px-2 border-none">
-                <ul class="bs4-order-tracking">
-                    <li class="step" id="step1">
-                        <div><i class="fas fa-user"></i></div> Package Accepted
-                    </li>
-                    <li class="step" id="step2">
-                        <div><i class="fas fa-bread-slice"></i></div> In transit
-                    </li>
-                    <li class="step" id="step3">
-                        <div><i class="fas fa-truck"></i></div> Out for delivery
-                    </li>
-                    <li class="step" id="step4">
-                        <div><i class="fas fa-birthday-cake"></i></div> Delivered
-                    </li>
-                </ul>
 
-            </div>
-        </div>
-    </div>
-    @*<div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
-            <div class="custom-control custom-checkbox mr-3">
-                <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
-                <label class="custom-control-label" for="notify_me">Notify me when order is delivered</label>
-            </div>
-            <div class="text-left text-sm-right"><a class="btn btn-outline-primary btn-rounded btn-sm" href="orderDetails" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
-        </div>*@
-</div>
 
-<div class="container mt-5 mb-5" id="eventsDiv">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h4>Events</h4>
-            <ul class="timeline" id="listevents">
-            </ul>
-        </div>
-    </div>
-</div>
+
+<style>
+
+    /* Set the size of the div element that contains the map */
+    #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+    }
+</style>
+

@@ -11,8 +11,7 @@ namespace MVCProject.Entities
         public int Id { get; set; }
         public string Country { get; set; }
         public Nullable<short> ZoneNo { get; set; }
-        public string Time { get; set; }
-        public bool IsExpress { get; set; }
+
 
     }
 }

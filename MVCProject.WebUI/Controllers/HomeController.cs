@@ -145,7 +145,7 @@ namespace MVCProject.WebUI.Controllers
                 //List<PriceVM> priceList2 = priceList1.Where(x => Convert.ToBoolean(isExpress) == x.IsExpress).ToList();
                 List<PriceVM> priceList2 = priceList1.Where(x => postType.Trim() == x.Type.Trim()).ToList();
 
-                priceList3 = priceList2.Where(x => Convert.ToDouble(weight) <= x.ToWeight && Convert.ToDouble(weight) >= x.FromWeight).ToList();
+                priceList3 = priceList2.Where(x => Convert.ToDouble(weight) <= x.ToDesi && Convert.ToDouble(weight) >= x.FromDesi).ToList();
 
 
 

@@ -137,6 +137,8 @@ namespace MVCProject.Entities
         public virtual DbSet<ShipmentTurpexBarcodes> ShipmentTurpexBarcodes { get; set; }
 
         public virtual DbSet<Reklam> Reklam { get; set; }
+        public virtual DbSet<RemainingCost> RemainingCost { get; set; }
+
 
         public class IdentityManager
         {

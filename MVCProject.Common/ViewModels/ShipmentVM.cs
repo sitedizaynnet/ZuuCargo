@@ -68,5 +68,7 @@ namespace MVCProject.Common.ViewModels
         public double ValueOfPackage { get; set; }
         public string ReceiverCityId { get; set; }
         public int HarmonyCode { get; set; }
+        public double MoneyForBuy { get; set; }
+
     }
 }

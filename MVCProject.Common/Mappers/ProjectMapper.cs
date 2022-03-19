@@ -143,6 +143,10 @@ namespace MVCProject.Common.Mappers
 
             Mapper.CreateMap<Reklam, ReklamVM>().IgnoreAllNonExisting();
             Mapper.CreateMap<ReklamVM, Reklam>().IgnoreAllNonExisting();
+
+
+            Mapper.CreateMap<RemainingCost, RemainingCostVM>().IgnoreAllNonExisting();
+            Mapper.CreateMap<RemainingCostVM, RemainingCost>().IgnoreAllNonExisting();
         }
 
 

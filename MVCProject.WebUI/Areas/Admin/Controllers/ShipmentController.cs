@@ -281,18 +281,23 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 shipmentVM.ShipmentDate = DateTime.Now;
                 shipmentServices.Insert(shipmentVM);
 
-                AccountingVM accountingVM = new AccountingVM();
-                AccountingServices accountingServices = new AccountingServices();
-                accountingVM.TotalDollar = shipmentVM.TotalDolar;
-                accountingVM.City = shipmentVM.SenderCountry;
-                accountingVM.CustomerName = shipmentVM.SenderName;
-                accountingVM.Date = DateTime.Now;
-                accountingVM.IsCargo = true;
-                accountingVM.Quantity = shipmentVM.PackageCount;
-                accountingVM.Telephone = shipmentVM.SenderTelephone;
-                accountingVM.Notes = shipmentVM.Notes;
-                accountingServices.Insert(accountingVM);
 
+
+                if (shipmentVM.MoneyForBuy > 0)
+                {
+                    AccountingServices accountingServices = new AccountingServices();
+                    AccountingVM accountingVM2 = new AccountingVM();
+
+                    accountingVM2.TotalDollar = shipmentVM.MoneyForBuy;
+                    accountingVM2.City = shipmentVM.ReceiverCountryId;
+                    accountingVM2.CustomerName = shipmentVM.ReceiverName;
+                    accountingVM2.Date = DateTime.Now;
+                    accountingVM2.IsCargo = true;
+                    accountingVM2.Quantity = shipmentVM.PackageCount;
+                    accountingVM2.Telephone = shipmentVM.ReceiverTelephoneNo;
+                    accountingVM2.Notes = "Money For Buy";
+                    accountingServices.Insert(accountingVM2);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -502,17 +507,23 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
                
 
-                AccountingVM accountingVM = new AccountingVM();
-                AccountingServices accountingServices = new AccountingServices();
-                accountingVM.TotalDollar = shipmentVM.TotalDolar;
-                accountingVM.City = shipmentVM.SenderCountry;
-                accountingVM.CustomerName = shipmentVM.SenderName;
-                accountingVM.Date = DateTime.Now;
-                accountingVM.IsCargo = true;
-                accountingVM.Quantity = shipmentVM.PackageCount;
-                accountingVM.Telephone = shipmentVM.SenderTelephone;
-                accountingVM.Notes = shipmentVM.Notes;
-                accountingServices.Insert(accountingVM);
+
+                if (shipmentVM.MoneyForBuy > 0)
+                {
+                    AccountingVM accountingVM2 = new AccountingVM();
+                    AccountingServices accountingServices = new AccountingServices();
+                    accountingVM2.TotalDollar = shipmentVM.MoneyForBuy;
+                    accountingVM2.City = shipmentVM.ReceiverCityId;
+                    accountingVM2.CustomerName = shipmentVM.ReceiverName;
+                    accountingVM2.Date = DateTime.Now;
+                    accountingVM2.IsCargo = true;
+                    accountingVM2.Quantity = shipmentVM.PackageCount;
+                    accountingVM2.Telephone = shipmentVM.ReceiverTelephoneNo;
+                    accountingVM2.Notes = "Money For Buy";
+                    accountingServices.Insert(accountingVM2);
+                }
+
+
                 return View();
             }
             catch (Exception ex)
@@ -548,19 +559,22 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                     RedirectToAction("CreatePTT", "Shipment");
                 }
 
-                AccountingVM accountingVM = new AccountingVM();
-                AccountingServices accountingServices = new AccountingServices();
-                accountingVM.TotalDollar = shipmentVM.TotalDolar;
-                accountingVM.City = shipmentVM.SenderCountry;
-                accountingVM.CustomerName = shipmentVM.SenderName;
-                accountingVM.Date = DateTime.Now;
-                accountingVM.IsCargo = true;
-                accountingVM.Quantity = shipmentVM.PackageCount;
-                accountingVM.Telephone = shipmentVM.SenderTelephone;
-                accountingVM.Notes = shipmentVM.Notes;
-                accountingServices.Insert(accountingVM);
 
 
+                if (shipmentVM.MoneyForBuy > 0)
+                {
+                    AccountingVM accountingVM2 = new AccountingVM();
+                    AccountingServices accountingServices = new AccountingServices();
+                    accountingVM2.TotalDollar = shipmentVM.MoneyForBuy;
+                    accountingVM2.City = shipmentVM.ReceiverCityId;
+                    accountingVM2.CustomerName = shipmentVM.ReceiverName;
+                    accountingVM2.Date = DateTime.Now;
+                    accountingVM2.IsCargo = true;
+                    accountingVM2.Quantity = shipmentVM.PackageCount;
+                    accountingVM2.Telephone = shipmentVM.ReceiverTelephoneNo;
+                    accountingVM2.Notes = "Money For Buy";
+                    accountingServices.Insert(accountingVM2);
+                }
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -664,11 +678,11 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             //SEND SMS
             string html = string.Empty;
-            string mesajMetni = "Thank you for choosing with ZuuCargo , your tracking link is https://zuucargo.com/Track/TrackShipment/ " + shipmentVM.TrackingNo;
+            string mesajMetni = shipmentVM.ReceiverName + " Thank you for choosing ZuuCargo, your tracking link is https://zuucargo.com/Track/TrackShipment/" + shipmentVM.TrackingNo;
 
             string telNo = shipmentVM.ReceiverTelephoneNo;
 
-            string url = @"https://gw.cmtelecom.com/gateway.ashx?producttoken=6A10F3EB-0AE0-4114-BD13-902EB0C57A58&body=" + mesajMetni + "&to=" + telNo + "&from=ZuuCargo&reference=your_reference";
+            string url = @"https://gw.cmtelecom.com/gateway.ashx?producttoken=6A10F3EB-0AE0-4114-BD13-902EB0C57A58&body=" + mesajMetni + "&to=" + telNo + "&from=VarKargo&reference=your_reference";
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -695,11 +709,11 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             //SEND SMS
             string html = string.Empty;
-            string mesajMetni = "Thank you for choosing with ZuuCargo , your tracking link is https://zuucargo.com/Track/TrackShipment/ " + shipmentVM.TrackingNo;
+            string mesajMetni = shipmentVM.ReceiverName + " Thank you for choosing ZuuCargo , your tracking link is https://zuucargo.com/Track/TrackShipment/" + shipmentVM.TrackingNo;
 
             string telNo = shipmentVM.Acente;
 
-            string url = @"https://gw.cmtelecom.com/gateway.ashx?producttoken=6A10F3EB-0AE0-4114-BD13-902EB0C57A58&body=" + mesajMetni + "&to=" + telNo + "&from=ZuuCargo&reference=your_reference";
+            string url = @"https://gw.cmtelecom.com/gateway.ashx?producttoken=6A10F3EB-0AE0-4114-BD13-902EB0C57A58&body=" + mesajMetni + "&to=" + telNo + "&from=VarKargo&reference=your_reference";
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

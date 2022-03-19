@@ -102,6 +102,23 @@
     <Compile Include="Accounting.cs" />
     <Compile Include="AccountingProducts.cs" />
     <Compile Include="ArrivedExchange.cs" />
+    <Compile Include="Migrations\202203161452306_remain.cs" />
+    <Compile Include="Migrations\202203161452306_remain.Designer.cs">
+      <DependentUpon>202203161452306_remain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203161849121_deai.cs" />
+    <Compile Include="Migrations\202203161849121_deai.Designer.cs">
+      <DependentUpon>202203161849121_deai.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203161851407_deaia.cs" />
+    <Compile Include="Migrations\202203161851407_deaia.Designer.cs">
+      <DependentUpon>202203161851407_deaia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203191048254_deaia0.cs" />
+    <Compile Include="Migrations\202203191048254_deaia0.Designer.cs">
+      <DependentUpon>202203191048254_deaia0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RemainingCost.cs" />
     <Compile Include="Migrations\202203061202555_reklam.cs" />
     <Compile Include="Migrations\202203061202555_reklam.Designer.cs">
       <DependentUpon>202203061202555_reklam.cs</DependentUpon>
@@ -109,6 +126,10 @@
     <Compile Include="Migrations\202203061509406_reklam0.cs" />
     <Compile Include="Migrations\202203061509406_reklam0.Designer.cs">
       <DependentUpon>202203061509406_reklam0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202203091412463_moneyforbuy.cs" />
+    <Compile Include="Migrations\202203091412463_moneyforbuy.Designer.cs">
+      <DependentUpon>202203091412463_moneyforbuy.cs</DependentUpon>
     </Compile>
     <Compile Include="Reklam.cs" />
     <Compile Include="Migrations\202202251847445_shipment.cs" />
@@ -304,6 +325,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203061509406_reklam0.resx">
       <DependentUpon>202203061509406_reklam0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203091412463_moneyforbuy.resx">
+      <DependentUpon>202203091412463_moneyforbuy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203161452306_remain.resx">
+      <DependentUpon>202203161452306_remain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203161849121_deai.resx">
+      <DependentUpon>202203161849121_deai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203161851407_deaia.resx">
+      <DependentUpon>202203161851407_deaia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203191048254_deaia0.resx">
+      <DependentUpon>202203191048254_deaia0.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

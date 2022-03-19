@@ -229,6 +229,10 @@
     <Content Include="Areas\Admin\Views\Reklam\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Reklam\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shipment\TrackSMSAcente.cshtml" />
+    <Content Include="Areas\Admin\Views\RemainingCost\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\RemainingCost\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\RemainingCost\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\RemainingCost\Index.cshtml" />
     <None Include="Connected Services\PTTService\configuration91.svcinfo" />
     <None Include="Connected Services\PTTService\configuration.svcinfo" />
     <Content Include="Connected Services\PTTService\MVCProject.WebUI.PTTService.getHscodeListResponse.datasource">
@@ -2930,6 +2934,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminAccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
     <Compile Include="Areas\Admin\Controllers\ArrivedExchangeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RemainingCostController.cs" />
     <Compile Include="Areas\Admin\Controllers\ReklamController.cs" />
     <Compile Include="Areas\Admin\Controllers\KomerkController.cs" />
     <Compile Include="Areas\Admin\Controllers\ExpensiveController.cs" />

@@ -107,6 +107,7 @@
     <Compile Include="ViewModels\AccountingProductsVM.cs" />
     <Compile Include="ViewModels\AccountingVM.cs" />
     <Compile Include="ViewModels\ArrivedExchangeVM.cs" />
+    <Compile Include="ViewModels\RemainingCostVM.cs" />
     <Compile Include="ViewModels\ReklamVM.cs" />
     <Compile Include="ViewModels\ShipmentTurpexBarcodesVM.cs" />
     <Compile Include="ViewModels\ShipmentBarcodesVM.cs" />

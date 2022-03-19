@@ -27,18 +27,18 @@
 
 
     <div class="form-group">
-        @Html.LabelFor(model => model.FromWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.FromDesi, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.FromWeight, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FromWeight, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.FromDesi, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FromDesi, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ToWeight, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ToDesi, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.ToWeight, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ToWeight, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.ToDesi, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ToDesi, "", new { @class = "text-danger" })
         </div>
     </div>
 

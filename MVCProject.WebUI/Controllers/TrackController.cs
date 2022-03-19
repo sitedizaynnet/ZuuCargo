@@ -22,6 +22,13 @@ namespace MVCProject.WebUI.Controllers
             {
                
                 ViewBag.TrackingInfo = TrackPTT(id.ToString());
+                if (ViewBag.TrackingInfo == null)
+                {
+                    ShipmentServices shipmentServices = new ShipmentServices();
+                    ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x=>x.TrackingNo.Trim() == id).First();
+
+                    ViewBag.TrackingInfoNull = shipmentVM;
+                }
                 ViewBag.Id = url;
             }
             return View();

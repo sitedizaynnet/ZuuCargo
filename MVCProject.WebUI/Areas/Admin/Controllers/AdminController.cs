@@ -176,7 +176,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             ViewBag.userCount = userServices.GetAll().Count;
             ViewBag.ShipmentCount = shipmentServices.GetAll().Sum(x=>x.PackageCount);
-            var totalAccount = accountingServices.GetAll().Where(x => x.IsPaid == true).Select(i => Convert.ToDouble(i.TotalDollar)).Sum();
+            var totalAccount = accountingServices.GetAll().Select(i => Convert.ToDouble(i.TotalDollar)).Sum();
             ViewBag.TotalMyBalance = myBalanceServices.GetAll().Select(i => Convert.ToDouble(i.Amount)).Sum();
 
             ViewBag.Accounting = totalAccount - ViewBag.TotalMyBalance;
