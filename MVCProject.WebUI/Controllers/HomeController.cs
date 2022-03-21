@@ -1,5 +1,6 @@
 ﻿using MVCProject.BLL.Services;
 using MVCProject.Common.ViewModels;
+using MVCProject.WebUI.PTTTrack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,10 +23,48 @@ namespace MVCProject.WebUI.Controllers
 
 
         }
+
+        public TrackingInfo TrackPTT(string id)
+        {
+            TrackingRequest trackingRequest = new TrackingRequest();
+            trackingRequest.inp = new Input();
+            trackingRequest.inp.barcode = id;
+            trackingRequest.inp.userName = "804440354";
+            trackingRequest.inp.password = "S62Exy6V4NNi1iQqNZLVGA";
+            PttTrackPortTypeClient pttTrackPortTypeClient = new PttTrackPortTypeClient();
+            PTTTrack.Output output = pttTrackPortTypeClient.Tracking(trackingRequest.inp);
+
+            return output.trackingInf.Last();
+        }
+
         public ActionResult DoJobs()
         {
+            ShipmentServices shipmentServices = new ShipmentServices();
 
+            List<ShipmentVM> shipments = shipmentServices.GetAll().Where(x=>x.IsDelivered == false ).ToList();
 
+            foreach (ShipmentVM item in shipments)
+            {
+                try
+                {
+                    TrackingInfo info = TrackPTT(item.TrackingNo);
+                    if (info != null)
+                    {
+                        if (info.gonderi_durum_aciklama.Contains("Deliver item"))
+                        {
+                            item.IsDelivered = true;
+                            shipmentServices.Update(item);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                  
+
+                }
+               
+               
+            }
             return null;
 
         }

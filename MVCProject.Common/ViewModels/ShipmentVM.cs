@@ -70,5 +70,7 @@ namespace MVCProject.Common.ViewModels
         public int HarmonyCode { get; set; }
         public double MoneyForBuy { get; set; }
 
+        public bool IsDelivered { get; set; }
+
     }
 }

@@ -175,102 +175,111 @@
     else
     {
         <script>
+            function isLetter(str) {
+                return str.length === 1 && str.match(/[a-z]/i);
+            }
+
             $(document).ready(function () {
+                //DHL TRACK
                 $("#eventsDiv").hide();
                 $("#trackingResult").hide();
 
 
                 $("#btnTrack").click(function () {
+
                     var trackingNumber = $("#txtTrackingCode").val();
-                    const settings = {
-                        "async": true,
-                        "crossDomain": true,
-                        "url": "https://api-eu.dhl.com/track/shipments?trackingNumber=" + trackingNumber,
-                        "method": "GET",
-                        "headers": {
-                            "DHL-API-Key": "Mtatsy0Rk1MIcQG3gGFkfZKpADKOHgD0"
-                        }
-                    };
+                    if (!isLetter(trackingNumber)) {
+                        const settings = {
+                            "async": true,
+                            "crossDomain": true,
+                            "url": "https://api-eu.dhl.com/track/shipments?trackingNumber=" + trackingNumber,
+                            "method": "GET",
+                            "headers": {
+                                "DHL-API-Key": "Mtatsy0Rk1MIcQG3gGFkfZKpADKOHgD0"
+                            }
+                        };
 
-                    $.ajax(settings).done(function (response) {
-                        let regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+                        $.ajax(settings).done(function (response) {
+                            let regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
-                        var jsonData = response;
-                        for (var i = 0; i < jsonData.shipments.length; i++) {
-                            var counter = jsonData.shipments[i];
+                            var jsonData = response;
+                            for (var i = 0; i < jsonData.shipments.length; i++) {
+                                var counter = jsonData.shipments[i];
 
-                            var originCountryCode = counter.origin.address.countryCode;
-                            if (originCountryCode != null) {
-                                var originCountryCodediv = document.getElementById('originCountryCodediv');
-                                originCountryCodediv.innerHTML = regionNames.of(originCountryCode);
+                                var originCountryCode = counter.origin.address.countryCode;
+                                if (originCountryCode != null) {
+                                    var originCountryCodediv = document.getElementById('originCountryCodediv');
+                                    originCountryCodediv.innerHTML = regionNames.of(originCountryCode);
+
+                                }
+                                var destinationCountryCode = counter.destination.address.countryCode;
+                                if (destinationCountryCode != null) {
+                                    var destinationCountryCodediv = document.getElementById('destinationCountryCodediv');
+                                    destinationCountryCodediv.innerHTML = regionNames.of(destinationCountryCode);
+                                }
+
+
+
+                                var shippingService = counter.service;
+                                var shippingServicediv = document.getElementById('shippingServicediv');
+                                shippingServicediv.innerHTML = " Service: " + shippingService;
+
+
+                                var destinationPostalCode = counter.destination.address.postalCode;
+                                var destinationAddressLocality = counter.destination.address.addressLocality;
+
+                                if (counter.details.dimensions != null) {
+                                    var detailsWidth = counter.details.dimensions.width.value;
+                                    var detailsHeight = counter.details.dimensions.height.value;
+                                    var detailsLength = counter.details.dimensions.length.value;
+                                    var detailsWeight = counter.details.weight.value;
+                                }
+
+                                var originPostalCode = counter.origin.address.postalCode;
+                                var originAddressLocality = counter.origin.address.addressLocality;
+
+                                var status = counter.status.status;
+                                var statusdiv = document.getElementById('statusdiv');
+                                statusdiv.innerHTML = "Last Status: " + status;
+
+                                if (status == "pre-transit") {
+                                    var step1div = document.getElementById("step1");
+                                    step1div.className += " active";
+                                }
+                                if (status == "transit") {
+                                    var step2div = document.getElementById("step2");
+                                    step2div.className += " active";
+                                }
+                                if (status == "delivered") {
+                                    var step1div = document.getElementById("step1");
+                                    step1div.className += " active";
+                                    var step2div = document.getElementById("step2");
+                                    step2div.className += " active";
+                                    var step3div = document.getElementById("step3");
+                                    step3div.className += " active";
+                                    var step4div = document.getElementById("step4");
+                                    step4div.className += " active";
+                                }
+
+                                var timeStamp = counter.status.timestamp;
+                                var lastUpdateDatediv = document.getElementById('spnLastUpdateDate');
+
+                                lastUpdateDatediv.innerHTML = "Date : " + new Date(timeStamp).toDateString() + " " + new Date(timeStamp).toLocaleTimeString();
+
+                                $("#eventsDiv").show();
+                                $("#trackingResult").show();
+
+
+                                for (var ev = 0; ev < counter.events.length; ev++) {
+                                    var counterEvent = counter.events[ev];
+
+                                    document.getElementById('listevents').innerHTML += '<li class="events"><a target="_blank" href=""><i class="fa fa-map-marker-alt"></i> ' + counterEvent.location.address.addressLocality + ' </a><a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  ' + new Date(counterEvent.timestamp).toDateString() + " " + new Date(counterEvent.timestamp).toLocaleTimeString() + '</a><p>' + counterEvent.description + '</p></li>';
+                                }
 
                             }
-                            var destinationCountryCode = counter.destination.address.countryCode;
-                            if (destinationCountryCode != null) {
-                                var destinationCountryCodediv = document.getElementById('destinationCountryCodediv');
-                                destinationCountryCodediv.innerHTML = regionNames.of(destinationCountryCode);
-                            }
-
-
-
-                            var shippingService = counter.service;
-                            var shippingServicediv = document.getElementById('shippingServicediv');
-                            shippingServicediv.innerHTML = " Service: " + shippingService;
-
-
-                            var destinationPostalCode = counter.destination.address.postalCode;
-                            var destinationAddressLocality = counter.destination.address.addressLocality;
-
-                            if (counter.details.dimensions != null) {
-                                var detailsWidth = counter.details.dimensions.width.value;
-                                var detailsHeight = counter.details.dimensions.height.value;
-                                var detailsLength = counter.details.dimensions.length.value;
-                                var detailsWeight = counter.details.weight.value;
-                            }
-
-                            var originPostalCode = counter.origin.address.postalCode;
-                            var originAddressLocality = counter.origin.address.addressLocality;
-
-                            var status = counter.status.status;
-                            var statusdiv = document.getElementById('statusdiv');
-                            statusdiv.innerHTML = "Last Status: " + status;
-
-                            if (status == "pre-transit") {
-                                var step1div = document.getElementById("step1");
-                                step1div.className += " active";
-                            }
-                            if (status == "transit") {
-                                var step2div = document.getElementById("step2");
-                                step2div.className += " active";
-                            }
-                            if (status == "delivered") {
-                                var step1div = document.getElementById("step1");
-                                step1div.className += " active";
-                                var step2div = document.getElementById("step2");
-                                step2div.className += " active";
-                                var step3div = document.getElementById("step3");
-                                step3div.className += " active";
-                                var step4div = document.getElementById("step4");
-                                step4div.className += " active";
-                            }
-
-                            var timeStamp = counter.status.timestamp;
-                            var lastUpdateDatediv = document.getElementById('spnLastUpdateDate');
-
-                            lastUpdateDatediv.innerHTML = "Date : " + new Date(timeStamp).toDateString() + " " + new Date(timeStamp).toLocaleTimeString();
-
-                            $("#eventsDiv").show();
-                            $("#trackingResult").show();
-
-
-                            for (var ev = 0; ev < counter.events.length; ev++) {
-                                var counterEvent = counter.events[ev];
-
-                                document.getElementById('listevents').innerHTML += '<li class="events"><a target="_blank" href=""><i class="fa fa-map-marker-alt"></i> ' + counterEvent.location.address.addressLocality + ' </a><a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  ' + new Date(counterEvent.timestamp).toDateString() + " " + new Date(counterEvent.timestamp).toLocaleTimeString() + '</a><p>' + counterEvent.description + '</p></li>';
-                            }
-
-                        }
-                    });
+                        });
+                    }
+                   
                 });
 
             });

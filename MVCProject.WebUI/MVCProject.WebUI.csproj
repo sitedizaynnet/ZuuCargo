@@ -233,6 +233,7 @@
     <Content Include="Areas\Admin\Views\RemainingCost\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\RemainingCost\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\RemainingCost\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shipment\ShowInMap.cshtml" />
     <None Include="Connected Services\PTTService\configuration91.svcinfo" />
     <None Include="Connected Services\PTTService\configuration.svcinfo" />
     <Content Include="Connected Services\PTTService\MVCProject.WebUI.PTTService.getHscodeListResponse.datasource">

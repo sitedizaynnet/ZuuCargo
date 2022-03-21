@@ -21,6 +21,17 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         ShipmentServices shipmentServices = new ShipmentServices();
         StatusUpdatesServices statusUpdatesServices = new StatusUpdatesServices();
 
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        // GET: Shipment/Create
+        public ActionResult ShowInMap()
+        {
+
+
+            return View();
+        }
+
+
+
         public ActionResult GetCargoLabel(int id)
         {
 
@@ -80,6 +91,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             {
                 shipmentBarcodesVM.Barcode = "RE999" + newBarcodeDigit + checkDigit + "TR";
             }
+
             shipmentBarcodesServices.Insert(shipmentBarcodesVM);
             return shipmentBarcodesVM.Barcode;
         }
@@ -279,6 +291,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 // TODO: Add insert logic here
                 ShipmentServices shipmentServices = new ShipmentServices();
                 shipmentVM.ShipmentDate = DateTime.Now;
+                shipmentVM.IsDelivered = false;
+
                 shipmentServices.Insert(shipmentVM);
 
 
@@ -317,6 +331,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             shipmentVM.ShipmentDate = DateTime.Now;
             return View(shipmentVM);
         }
+
+
 
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public JsonResult UlkedenSehirGetir(string ulkeId)
@@ -495,7 +511,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 ShipmentServices shipmentServices = new ShipmentServices();
                 shipmentVM.ShipmentDate = DateTime.Now;
                 shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
-
+                shipmentVM.IsDelivered = false;
+                shipmentVM.IsPtt = true;
                 shipmentServices.Insert(shipmentVM);
                 var lastId = shipmentServices.GetAll().Last().Id;
                 var barcode = GetTurpexShipmentBarcode(lastId);
@@ -544,7 +561,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 ShipmentServices shipmentServices = new ShipmentServices();
                 shipmentVM.ShipmentDate = DateTime.Now;
                 shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
-
+                shipmentVM.IsPtt = true;
+                shipmentVM.IsDelivered = false;
                 shipmentServices.Insert(shipmentVM);
                 var lastId = shipmentServices.GetAll().Last().Id;
                 var barcode = GetShipmentBarcode(lastId);

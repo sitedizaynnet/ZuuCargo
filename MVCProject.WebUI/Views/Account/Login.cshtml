@@ -2,40 +2,6 @@
 @model MVCProject.Models.LoginViewModel
 @{ViewBag.Title = "Giriş Yap";}
 
-@if (!User.Identity.IsAuthenticated)
-{
-    <div class="content-block-login">
-        <h4>LOGIN</h4>
-        <div class="loginform">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <text><span class="warning" style="color:red">@Html.ValidationSummary(true)</span> </text>
-                <div class="form_row">
-                    <div class="form_row_icon"><img src="~/Theme/images/icons/blue/login.png" alt="" title="" /></div>
-                    <input type="text" name="Email" value="" class="form_input required" placeholder="email" />
-                </div>
-                <div class="form_row">
-                    <div class="form_row_icon"><img src="~/Theme/images/icons/blue/lock.png" alt="" title="" /></div>
-                    <input type="password" name="Password" value="" class="form_input required" placeholder="password" />
-                </div>
-                <input type="submit" name="submit" class="form_submit" id="submit" value="LOGIN" />
-            }
-
-        </div>
-
-        <div class="signup_social">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-            <a href="http://www.facebook.com/" class="signup_facebook external">FACEBOOK</a>
-            <a href="http://www.twitter.com/" class="signup_twitter external">TWITTER</a>
-        </div>
-        <div class="signup_bottom">
-            <p>Don't have an account?</p>
-            <a href="#" data-popup=".popup-signup" class="open-popup">SIGN UP</a>
-        </div>
-        <div class="close_loginpopup_button"><a href="#" class="close-popup"><img src="~/Theme/images/icons/white/menu_close.png" alt="" title="" /></a></div>
-    </div>
-}
 
 
 <section class="vh-100">

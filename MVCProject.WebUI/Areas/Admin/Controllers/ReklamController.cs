@@ -118,7 +118,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 //To save file, use SaveAs method
                 file.SaveAs(Server.MapPath("~/Content/Uploads/") + fileName); //File will be saved in application root
                 ReklamServices reklamServices = new ReklamServices();
-                ReklamVM reklamVM = reklamServices.GetById(1);
+                ReklamVM reklamVM = reklamServices.GetAll().Last();
                 reklamVM.Image = "https://zuucargo.com/Content/Uploads/" + fileName;
                 reklamServices.Update(reklamVM);
             }

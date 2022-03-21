@@ -118,6 +118,10 @@
     <Compile Include="Migrations\202203191048254_deaia0.Designer.cs">
       <DependentUpon>202203191048254_deaia0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202203211237228_deaia02.cs" />
+    <Compile Include="Migrations\202203211237228_deaia02.Designer.cs">
+      <DependentUpon>202203211237228_deaia02.cs</DependentUpon>
+    </Compile>
     <Compile Include="RemainingCost.cs" />
     <Compile Include="Migrations\202203061202555_reklam.cs" />
     <Compile Include="Migrations\202203061202555_reklam.Designer.cs">
@@ -340,6 +344,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203191048254_deaia0.resx">
       <DependentUpon>202203191048254_deaia0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202203211237228_deaia02.resx">
+      <DependentUpon>202203211237228_deaia02.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
