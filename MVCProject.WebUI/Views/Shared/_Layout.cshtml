@@ -37,6 +37,227 @@
     <link rel="stylesheet" href="~/Theme/css/responsive.css">
 
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.2.0/firebase-app-compat.min.js" integrity="sha512-bFSmaZuAKfftxGk+Fhi5lgLVeZkmj85tBdqScoRfVr6eNbU+bSHXrAsoh8IaE1qv1tWdQ/rszrxxo6nI40dhmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.2.0/firebase-messaging-compat.min.js" integrity="sha512-qXHqCEVfXjNxRZpIMY2aRb4aXKFJCN2iQ6v3nS9Rmy5sJ9YjErYd7YguvDlG5+9M/zd8qb5Olh0rgI09kIUuQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://zuucargo.com/init.js"></script>
+    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+            <!-- div to display the generated registration token -->
+            <div id="token_div" style="display: none;">
+                <h4>Registration Token</h4>
+                <p id="token" style="word-break: break-all;"></p>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                        onclick="deleteToken()">
+                    Delete Token
+                </button>
+            </div>
+            <!-- div to display the UI to allow the request for permission to
+                 notify the user. This is shown if the app has not yet been
+                 granted permission to notify. -->
+            <div id="permission_div" style="display: none;">
+                <h4>Needs Permission</h4>
+                <p id="token"></p>
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                        onclick="requestPermission()">
+                    Request Permission
+                </button>
+            </div>
+            <!-- div to display messages received by this app. -->
+            <div id="messages"></div>
+        </div>
+    </div>
+    <script>
+      
+        // Retrieve Firebase Messaging object.
+        const messaging = firebase.messaging();
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('https://zuucargo.com/firebase-messaging-sw.js').then(function () {
+                console.log("Service Worker Registered");
+                deleteToken();
+            });
+        }
+        // IDs of divs that display registration token UI or request permission UI.
+        const tokenDivId = 'token_div';
+        const permissionDivId = 'permission_div';
+
+        // Handle incoming messages. Called when:
+        // - a message is received while the app has focus
+        // - the user clicks on an app notification created by a service worker
+        //   `messaging.onBackgroundMessage` handler.
+        messaging.onMessage((payload) => {
+            console.log('Message received. ', payload);
+            // Update the UI to include the received message.
+           // appendMessage(payload);
+            const notificationTitle = payload.notification.title;
+            const notificationOptions = {
+                body: payload.notification.body,
+                icon: 'https://zuucargo.com/Theme/Admin/images/logoicon.png',
+            };
+
+            if (!("Notification" in window)) {
+                console.log("This browser does not support system notifications");
+            }
+            // Let's check whether notification permissions have already been granted
+            else if (Notification.permission === "granted") {
+                // If it's okay let's create a notification
+                var notification = new Notification(notificationTitle, notificationOptions);
+                notification.onclick = function (event) {
+                    event.preventDefault(); // prevent the browser from focusing the Notification's tab
+                    window.open("https://zuucargo.com", '_blank');
+                    notification.close();
+                }
+            }
+        });
+
+        function resetUI() {
+
+            showToken('loading...');
+            // Get registration token. Initially this makes a network call, once retrieved
+            // subsequent calls to getToken will return from cache.
+            messaging.getToken({
+                vapidKey: 'BNUkFqZGaDO9FT7t0H8jnpakVna6O5ZRFGcshUQwHBMmm8gOCkcHqqrHXk7U-Nouc923a54PdRPLVXAMnvnjo-A' }).then((currentToken) => {
+                if (currentToken) {
+                    sendTokenToServer(currentToken);
+                    updateUIForPushEnabled(currentToken);
+                } else {
+                    // Show permission request.
+                    console.log('No registration token available. Request permission to generate one.');
+                    // Show permission UI.
+                    updateUIForPushPermissionRequired();
+                    setTokenSentToServer(false);
+                }
+            }).catch((err) => {
+                console.log('An error occurred while retrieving token. ', err);
+                showToken('Error retrieving registration token. ', err);
+                setTokenSentToServer(false);
+            });
+        }
+
+
+        function showToken(currentToken) {
+            // Show token in console and UI.
+            const tokenElement = document.querySelector('#token');
+            tokenElement.textContent = currentToken;
+        }
+
+        // Send the registration token your application server, so that it can:
+        // - send messages back to this app
+        // - subscribe/unsubscribe the token from topics
+        function sendTokenToServer(currentToken) {
+            if (!isTokenSentToServer()) {
+                console.log('Sending token to server...');
+                // TODO(developer): Send the current token to your server.
+                      $.ajax({
+            type: "POST",
+                          url: "@Url.Action("SaveToken", "Home")",
+                          data: JSON.stringify({ currentToken: currentToken }),
+            dataType: "json",
+            contentType: "application/json",
+
+            success: function (data) {
+                {
+                    console.log("Token saved to server");
+
+                }
+
+
+
+            },
+        //error: function (hata, ajaxOptions, thrownError) {
+        //        alert(hata.status);
+        //        alert(thrownError);
+        //        alert(hata.responseText);
+        //    }
+    });
+                setTokenSentToServer(true);
+            } else {
+                console.log('Token already sent to server so won\'t send it again ' +
+                    'unless it changes');
+            }
+        }
+
+        function isTokenSentToServer() {
+            return window.localStorage.getItem('sentToServer') === '1';
+        }
+
+        function setTokenSentToServer(sent) {
+            window.localStorage.setItem('sentToServer', sent ? '1' : '0');
+        }
+
+        function showHideDiv(divId, show) {
+            const div = document.querySelector('#' + divId);
+            if (show) {
+              // div.style = 'display: visible';
+            } else {
+                div.style = 'display: none';
+            }
+        }
+
+        function requestPermission() {
+            console.log('Requesting permission...');
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    console.log('Notification permission granted.');
+                    // TODO(developer): Retrieve a registration token for use with FCM.
+                    // In many cases once an app has been granted notification permission,
+                    // it should update its UI reflecting this.
+                    resetUI();
+                } else {
+                    console.log('Unable to get permission to notify.');
+                }
+            });
+        }
+
+        function deleteToken() {
+            // Delete registration token.
+            messaging.getToken().then((currentToken) => {
+                messaging.deleteToken(currentToken).then(() => {
+                    console.log('Token deleted.');
+                    setTokenSentToServer(false);
+                    // Once token is deleted update UI.
+                    resetUI();
+                }).catch((err) => {
+                    console.log('Unable to delete token. ', err);
+                });
+            }).catch((err) => {
+                console.log('Error retrieving registration token. ', err);
+                showToken('Error retrieving registration token. ', err);
+            });
+        }
+
+        // Add a message to the messages element.
+        function appendMessage(payload) {
+            const messagesElement = document.querySelector('#messages');
+            const dataHeaderElement = document.createElement('h5');
+            const dataElement = document.createElement('pre');
+            dataElement.style = 'overflow-x:hidden;';
+            dataHeaderElement.textContent = 'Received message:';
+            dataElement.textContent = JSON.stringify(payload, null, 2);
+            messagesElement.appendChild(dataHeaderElement);
+            messagesElement.appendChild(dataElement);
+        }
+
+        // Clear the messages element of all children.
+        function clearMessages() {
+            const messagesElement = document.querySelector('#messages');
+            while (messagesElement.hasChildNodes()) {
+                messagesElement.removeChild(messagesElement.lastChild);
+            }
+        }
+
+        function updateUIForPushEnabled(currentToken) {
+            showHideDiv(tokenDivId, true);
+            showHideDiv(permissionDivId, false);
+            showToken(currentToken);
+        }
+
+        function updateUIForPushPermissionRequired() {
+            showHideDiv(tokenDivId, false);
+            showHideDiv(permissionDivId, true);
+        }
+
+        resetUI();
+    </script>
 
 </head>
 <body>
@@ -65,7 +286,7 @@
                     </div>
                     <div class="text-box">
                         <p class="highlighted">Call Us:</p>
-                        <p class="phone-number">+ 964 750 934 3000</p>
+                        <p class="phone-number">00 964 750 943 1000</p>
                     </div>
                 </div>
                 <div class="info-box search-box-wrapper sitedizayn">
@@ -161,71 +382,71 @@
                         <ul class="nav">
                             <li class="submenu">
                                 <a href="/">ZuuCargo</a>
-                                
+
                             </li>
                             @if (!User.Identity.IsAuthenticated)
                             {
                                 <li class="submenu">
                                     <a href="/Account/Login">Login</a>
-                                   
+
                                 </li>
                                 <li class="submenu">
                                     <a href="/Account/Register">Register</a>
-                                   
+
                                 </li>
                             }
                             else
                             {
                                 <li class="submenu">
                                     <a href="/Account/Home">Account</a>
-                                   
+
                                 </li>
                                 <li class="submenu">
                                     <a href="/Account/Logoff">Logout</a>
-                                  
+
                                 </li>
                             }
                             <!--<li class="has-submenu">
-    <a href="about.html">about us</a>
-    <ul class="submenu">-->
+                            <a href="about.html">about us</a>
+                            <ul class="submenu">-->
                             <!--<li><a href="team.html">Our Team</a></li>-->
                             <!--<li><a href="company-history.html">Company History</a></li>-->
                             <!--<li><a href="clients.html">Our Clients</a></li>-->
                             <!--<li><a href="#">Testimonials</a></li>
-            <li><a href="#">Career</a></li>
-        </ul>
-    </li>
-    <li class="has-submenu">
-        <a href="#">Services</a>
-        <ul class="submenu">
-            <li><a href="#">Service Details</a></li>
-            <li><a href="#">Our Pricing</a></li>
-        </ul>
-    </li>
-    <li class="has-submenu">
-        <a href="#">Gallery</a>
-        <ul class="submenu">-->
+                                    <li><a href="#">Career</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="#">Services</a>
+                                <ul class="submenu">
+                                    <li><a href="#">Service Details</a></li>
+                                    <li><a href="#">Our Pricing</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="#">Gallery</a>
+                                <ul class="submenu">-->
                             <!--<li><a href="fleet-gallery-1.html">Fleet Gallery One</a></li>
-    <li><a href="fleet-gallery-2.html">Fleet Gallery Two</a></li>-->
+                            <li><a href="fleet-gallery-2.html">Fleet Gallery Two</a></li>-->
                             <!--</ul>
-    </li>-->
+                            </li>-->
                             <!--<li class="has-submenu">
-        <a href="#">Pages</a>
-        <ul class="submenu">
-            <li><a href="404.html">Error 404 page</a></li>
-            <li><a href="faq.html">FAQ</a></li>
-        <li><a href="track-shipment.html">Track Your Shipment</a></li>
-            <li><a href="request-qoute.html">Request a Qoute</a></li>
-        </ul>
-    </li>-->
+                                <a href="#">Pages</a>
+                                <ul class="submenu">
+                                    <li><a href="404.html">Error 404 page</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                <li><a href="track-shipment.html">Track Your Shipment</a></li>
+                                    <li><a href="request-qoute.html">Request a Qoute</a></li>
+                                </ul>
+                            </li>-->
                             <!--<li class="has-submenu">
-        <a href="blog-left.html">blog</a>
-        <ul class="submenu">
-            <li><a href="blog-left.html">Blog Left Bar</a></li>
-            <li><a href="blog-right.html">Blog Right Bar</a></li>
-            <li><a href="blog-details.html">Blog Details</a></li>
-        </ul>
-    </li>-->
+                                <a href="blog-left.html">blog</a>
+                                <ul class="submenu">
+                                    <li><a href="blog-left.html">Blog Left Bar</a></li>
+                                    <li><a href="blog-right.html">Blog Right Bar</a></li>
+                                    <li><a href="blog-details.html">Blog Details</a></li>
+                                </ul>
+                            </li>-->
                             <!--<li><a href="#">contact us</a></li>-->
                         </ul>
                     </div>
@@ -246,52 +467,52 @@
         {
             <section class="rev_slider_wrapper thm-banner-wrapper">
                 <div id="slider2" class="rev_slider" data-version="5.0">
-                        <ul>
+                    <ul>
 
-                            @{
-                                foreach (MVCProject.Common.ViewModels.ReklamVM reklam in (List<MVCProject.Common.ViewModels.ReklamVM>)ViewBag.Reklam)
-                                {
-                                    <li data-transition="parallaxvertical" data-ease="SlowMo.ease">
-                                        <img src="/Content/Uploads/@reklam.Image" alt="">
-                                        <div class="tp-caption sfb tp-resizeme caption-h1"
-                                             data-x="left" data-hoffset="0"
-                                             data-y="top" data-voffset="148"
-                                             data-whitespace="nowrap"
-                                             data-transform_idle="o:1;"
-                                             data-transform_in="o:0"
-                                             data-transform_out="o:0"
-                                             data-start="500">
-                                           @reklam.Title
-                                        </div>
-                                        <div class="tp-caption sfb tp-resizeme caption-p"
-                                             data-x="left" data-hoffset="0"
-                                             data-y="top" data-voffset="275"
-                                             data-whitespace="nowrap"
-                                             data-transform_idle="o:1;"
-                                             data-transform_in="o:0"
-                                             data-transform_out="o:0"
-                                             data-start="1000">
+                        @{
+                            foreach (MVCProject.Common.ViewModels.ReklamVM reklam in (List<MVCProject.Common.ViewModels.ReklamVM>)ViewBag.Reklam)
+                            {
+                                <li data-transition="parallaxvertical" data-ease="SlowMo.ease">
+                                    <img src="/Content/Uploads/@reklam.Image" alt="">
+                                    <div class="tp-caption sfb tp-resizeme caption-h1"
+                                         data-x="left" data-hoffset="0"
+                                         data-y="top" data-voffset="148"
+                                         data-whitespace="nowrap"
+                                         data-transform_idle="o:1;"
+                                         data-transform_in="o:0"
+                                         data-transform_out="o:0"
+                                         data-start="500">
+                                        @reklam.Title
+                                    </div>
+                                    <div class="tp-caption sfb tp-resizeme caption-p"
+                                         data-x="left" data-hoffset="0"
+                                         data-y="top" data-voffset="275"
+                                         data-whitespace="nowrap"
+                                         data-transform_idle="o:1;"
+                                         data-transform_in="o:0"
+                                         data-transform_out="o:0"
+                                         data-start="1000">
 
-                                           @reklam.Text
-                                        </div>
-                                        <div class="tp-caption sfl tp-resizeme"
-                                             data-x="left" data-hoffset="0"
-                                             data-y="top" data-voffset="400"
-                                             data-whitespace="nowrap"
-                                             data-transform_idle="o:1;"
-                                             data-transform_in="o:0"
-                                             data-transform_out="o:0"
-                                             data-start="1500">
-                                            @*<a href="#" class="thm-btn inverse">Get Free Quote <i class="fa fa-arrow-right"></i></a>*@
-                                        </div>
-                                    </li>
-                                }
+                                        @reklam.Text
+                                    </div>
+                                    <div class="tp-caption sfl tp-resizeme"
+                                         data-x="left" data-hoffset="0"
+                                         data-y="top" data-voffset="400"
+                                         data-whitespace="nowrap"
+                                         data-transform_idle="o:1;"
+                                         data-transform_in="o:0"
+                                         data-transform_out="o:0"
+                                         data-start="1500">
+                                        @*<a href="#" class="thm-btn inverse">Get Free Quote <i class="fa fa-arrow-right"></i></a>*@
+                                    </div>
+                                </li>
                             }
+                        }
 
 
 
-                         
-                        </ul>
+
+                    </ul>
                 </div>
             </section>
 
@@ -336,85 +557,85 @@
 
 
     @*<section class="welcome-text2">
-        <div class="thm-container">
-            <div class="title-box text-right">
-                <h3>We offer <br>Different Services</h3>
-            </div>
-            <div class="text-box">
-                <p>
-                    Our company offers	<br> door to door and 	<br>cash on delivery services
+            <div class="thm-container">
+                <div class="title-box text-right">
+                    <h3>We offer <br>Different Services</h3>
+                </div>
+                <div class="text-box">
+                    <p>
+                        Our company offers	<br> door to door and 	<br>cash on delivery services
 
 
-                </p>
+                    </p>
+                </div>
             </div>
-        </div>
-    </section>*@
+        </section>*@
 
     @*<section class="welcome-services">
-        <div class="thm-container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="welcome-single-services">
-                        <div class="img-box">
-                            <img src="~/Theme/images/welcome-services/1.jpg" alt="">
-                        </div>
-                        <div class="text-box">
-                            <div class="content">
-                                <h3>Air Fright</h3>
-                                <p>
-                                    Shipping from England,China,Dubai,Turkey and Germany to Iraq and other countries.
-                                </p>
+            <div class="thm-container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="welcome-single-services">
+                            <div class="img-box">
+                                <img src="~/Theme/images/welcome-services/1.jpg" alt="">
+                            </div>
+                            <div class="text-box">
+                                <div class="content">
+                                    <h3>Air Fright</h3>
+                                    <p>
+                                        Shipping from England,China,Dubai,Turkey and Germany to Iraq and other countries.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="welcome-single-services">
-                        <div class="img-box">
-                            <img src="~/Theme/images/welcome-services/2.jpg" alt="">
-                        </div>
-                        <div class="text-box">
-                            <div class="content">
-                                <h3>ocean Fright</h3>
-                                <p>Shipping via sea we guarantee least cost and safe delivery to Iraq.</p>
+                    <div class="col-md-6">
+                        <div class="welcome-single-services">
+                            <div class="img-box">
+                                <img src="~/Theme/images/welcome-services/2.jpg" alt="">
+                            </div>
+                            <div class="text-box">
+                                <div class="content">
+                                    <h3>ocean Fright</h3>
+                                    <p>Shipping via sea we guarantee least cost and safe delivery to Iraq.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="welcome-single-services">
-                        <div class="img-box">
-                            <img src="~/Theme/images/welcome-services/3.jpg" alt="">
-                        </div>
-                        <div class="text-box">
-                            <div class="content">
-                                <h3>warehouses</h3>
-                                <p>We provide warehouse service for your secure shopping.</p>
+                    <div class="col-md-6">
+                        <div class="welcome-single-services">
+                            <div class="img-box">
+                                <img src="~/Theme/images/welcome-services/3.jpg" alt="">
+                            </div>
+                            <div class="text-box">
+                                <div class="content">
+                                    <h3>warehouses</h3>
+                                    <p>We provide warehouse service for your secure shopping.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="welcome-single-services">
-                        <div class="img-box">
-                            <img src="~/Theme/images/welcome-services/4.jpg" alt="">
-                        </div>
-                        <div class="text-box">
-                            <div class="content">
-                                <h3>road Fright</h3>
-                                <p>
-                                    Shipping your goods on ground all over Iraq.
-                                </p>
+                    <div class="col-md-6">
+                        <div class="welcome-single-services">
+                            <div class="img-box">
+                                <img src="~/Theme/images/welcome-services/4.jpg" alt="">
+                            </div>
+                            <div class="text-box">
+                                <div class="content">
+                                    <h3>road Fright</h3>
+                                    <p>
+                                        Shipping your goods on ground all over Iraq.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12 service-text">
-                    <p>ZuuCargo Logistics is an international Freight Forwarder based at Iraq Sub-continent with Head office situated at Iraq, catering all kinds of shipping requirements to the International Trade..</p>
+                    <div class="col-md-12 service-text">
+                        <p>ZuuCargo Logistics is an international Freight Forwarder based at Iraq Sub-continent with Head office situated at Iraq, catering all kinds of shipping requirements to the International Trade..</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>*@
+        </section>*@
 
 
     <section class="featured-services">
@@ -759,3 +980,9 @@
 
 <!-- Mirrored from designarc.biz/demos/logic-cargo/index-2.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 27 Jan 2022 14:04:36 GMT -->
 </html>
+
+
+else {
+
+
+                        });

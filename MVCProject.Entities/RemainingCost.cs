@@ -14,6 +14,7 @@ namespace MVCProject.Entities
         public double? TurkishCargo { get; set; }
         public double? Komerk { get; set; }
         public double? Taxi { get; set; }
+        public double PTTCosts { get; set; }
         public double? RemainingCosts { get; set; }
 
     

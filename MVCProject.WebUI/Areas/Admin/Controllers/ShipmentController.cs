@@ -26,8 +26,25 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         public ActionResult ShowInMap()
         {
 
+            List<ShipmentVM> shipments = shipmentServices.GetAll().Where(x => x.IsDelivered == false).ToList();
+    
 
-            return View();
+            List<KeyValuePair<string, string>> trackList = new List<KeyValuePair<string, string>>();
+
+            foreach (ShipmentVM item in shipments)
+            {
+                var trackingItem = TrackPTTGetList(item.TrackingNo);
+                if (trackingItem != null)
+                {
+
+                    trackList.Insert(0, new KeyValuePair<string, string>(trackingItem.Last().barkodNo, trackingItem.Last().ulke_ad));
+
+                }
+            }
+   
+            ViewBag.TrackList = trackList;
+
+            return View(shipments);
         }
 
 
@@ -35,7 +52,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         public ActionResult GetCargoLabel(int id)
         {
 
-
+     
           
              ShipmentVM shipmentVM = shipmentServices.GetById(id);
 
@@ -43,8 +60,98 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
         }
 
+        public TrackingInfo[] TrackPTTGetList(string id)
+        {
+            TrackingRequest trackingRequest = new TrackingRequest();
+            trackingRequest.inp = new PTTTrack.Input();
+            trackingRequest.inp.barcode = id;
+            trackingRequest.inp.userName = "804440354";
+            trackingRequest.inp.password = "S62Exy6V4NNi1iQqNZLVGA";
+            PttTrackPortTypeClient pttTrackPortTypeClient = new PttTrackPortTypeClient();
+            PTTTrack.Output output = pttTrackPortTypeClient.Tracking(trackingRequest.inp);
 
+            return output.trackingInf;
+        }
+        public JsonResult SendNotificationJson(int id)
+        {
+
+
+
+            UserServices userServices = new UserServices();
+            ShipmentServices shipmentServices = new ShipmentServices();
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            TrackingInfo[] info = TrackPTTGetList(shipmentVM.TrackingNo);
+
+            try
+            {
+                var senderUserToken = userServices.GetAll().Where(x => x.UserName == shipmentVM.SenderEmail).FirstOrDefault().Token;
+
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("Accepted") || info.Last().gonderi_durum_aciklama.ToString().Contains("Kabul"))
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Accepted.", senderUserToken, null);
+
+                }
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("forwarded") || info.Last().gonderi_durum_aciklama.ToString().Contains("yönlendirildi"))
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Transit.", senderUserToken, null);
+
+                }
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("delivery office") || info.Last().gonderi_durum_aciklama.ToString().Contains("teslimat"))
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Delivery.", senderUserToken, null);
+
+                }
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("Deliver ") || info.Last().gonderi_durum_aciklama.ToString().Contains("Teslim edildi ")  )
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Delivered.", senderUserToken, null);
+
+                }
+
+            }
+            catch (Exception)
+            {
+
+                
+            }
+            try
+            {
+                var receiverUserToken = userServices.GetAll().Where(x => x.UserName == shipmentVM.ReceiverEmail).FirstOrDefault().Token;
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("Accepted") || info.Last().gonderi_durum_aciklama.ToString().Contains("Kabul"))
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Accepted.", receiverUserToken, null);
+
+                }
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("forwarded") || info.Last().gonderi_durum_aciklama.ToString().Contains("yönlendirildi"))
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Transit.", receiverUserToken, null);
+
+                }
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("delivery office") || info.Last().gonderi_durum_aciklama.ToString().Contains("teslimat"))
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Delivery.", receiverUserToken, null);
+
+                }
+                if (info.Last().gonderi_durum_aciklama.ToString().Contains("Deliver ") || info.Last().gonderi_durum_aciklama.ToString().Contains("Teslim edildi "))
+
+                {
+                    shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Delivered.", receiverUserToken, null);
+
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+          
+            return Json(true, JsonRequestBehavior.AllowGet);
+
+        }
+
+      
         public int GetCheckDigit(int newBarcodeDigit)
+        
         {
             int digit1 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(0, 1));
             var digit2 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(1, 1));
@@ -54,7 +161,34 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             double checkDigit1 = 72 + 54 + 36 + (digit1 * 2) + (digit2 * 3) + (digit3 * 5) + (digit4 * 9) + (digit5 * 7);
 
-            checkDigit1 = checkDigit1 / 11;
+            checkDigit1 = checkDigit1 % 11;
+            int checkDigit2 = Convert.ToInt32(Math.Floor(checkDigit1));
+            checkDigit2 = 11- Math.Abs(checkDigit2);
+
+            
+            if (checkDigit2 == 10)
+            {
+                checkDigit2 = 0;
+            }
+            if (checkDigit2 == 11)
+            {
+                checkDigit2 = 5;
+            }
+
+            return checkDigit2;
+
+        }
+        public int GetCheckDigitTurpex(int newBarcodeDigit)
+        {
+            int digit1 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(0, 1));
+            var digit2 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(1, 1));
+            var digit3 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(2, 1));
+            var digit4 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(3, 1));
+            var digit5 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(4, 1));
+
+            double checkDigit1 = 72 + 54 + 36 + (digit1 * 2) + (digit2 * 3) + (digit3 * 5) + (digit4 * 9) + (digit5 * 7);
+
+            checkDigit1 = checkDigit1 % 11;
             int checkDigit2 = Convert.ToInt32(Math.Floor(checkDigit1));
             checkDigit2 = checkDigit2 - 11;
 
@@ -69,7 +203,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             return checkDigit2;
 
-        } 
+        }
         public string GetShipmentBarcode(int id)
         {
             ShipmentBarcodesServices shipmentBarcodesServices = new ShipmentBarcodesServices();
@@ -114,7 +248,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return shipmentTurpexBarcodesVM.Barcode;
         }
 
-        public PTTService.Output SendPttData(int id, string barcodeNumber)
+        public bool SendPttData(int id, string barcodeNumber)
         {
             ShipmentVM shipmentVM = shipmentServices.GetById(id);
 
@@ -135,14 +269,17 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             barcodeInformation.senderAdres = shipmentVM.SenderAddress;//
             barcodeInformation.senderPostCode = shipmentVM.SenderPostalCode.ToString();//
             barcodeInformation.senderMail = shipmentVM.SenderEmail;//
-            barcodeInformation.senderTaxNo = shipmentVM.SenderIdVATNumber.ToString();
-            barcodeInformation.senderTCNo = shipmentVM.SenderTCNo;//
+          
+
+            barcodeInformation.senderTCNo = "72685073952";//
+            barcodeInformation.senderTaxNo = "4590672503";
 
             barcodeInformation.receiverName = shipmentVM.ReceiverName;//
             barcodeInformation.receiverAdres = shipmentVM.ReceiverAddress;//
             barcodeInformation.receiverMail = shipmentVM.ReceiverEmail;//
             barcodeInformation.receiverCountryId = shipmentVM.ReceiverCountryId;//
             barcodeInformation.receiverPostCode = shipmentVM.ReceiverPostalCode;//
+            barcodeInformation.receiverCityID = shipmentVM.ReceiverCity;
 
             barcodeInformation.barcode = barcodeNumber;
             barcodeInformation.price = 0;
@@ -168,15 +305,26 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             barcodeInformation.financialAdvisorNo = "0";
 
             var contexes = new InvoceContent[1];
-            contexes[0].productName = shipmentVM.Content;
-            contexes[0].unitPrice = shipmentVM.ValueOfPackage;
-            contexes[0].unitPriceSpecified = true;
-            contexes[0].weight = shipmentVM.Weight;
-            contexes[0].count = 1;
-            contexes[0].currency = "USD";
-            contexes[0].origin = "TR";
-            contexes[0].productHarmonyCode = "620442";
+            var content = new InvoceContent();
 
+            if (shipmentVM.Content !=null)
+            {
+                content.productName = shipmentVM.Content;
+            }
+            if (shipmentVM.ValueOfPackage != 0)
+            {
+                content.unitPrice = shipmentVM.ValueOfPackage;
+            }
+
+            
+            content.unitPriceSpecified = true;
+            content.weight = shipmentVM.Weight;
+            content.count = 1;
+            content.currency = "USD";
+            content.origin = "TR";
+            content.productHarmonyCode = "620442";
+
+            contexes[0] = content;
             barcodeInformation.context = contexes;
 
             var barcodes = new BarcodeInformation[1];
@@ -186,9 +334,14 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             LoadPortTypeClient client = new LoadPortTypeClient();
             var response = client.loadData(input);
 
+            if (response.faultDescription !="SUCCESS")
+            {
+                return false;
+
+            }
 
 
-            return response;
+            return true;
         }
 
 
@@ -333,6 +486,36 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         }
 
 
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        public ActionResult SendDataAgain(int id)
+        {
+
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            var result = false;
+            string barcode = shipmentVM.TrackingNo;
+            if (barcode.StartsWith("TE"))
+            {
+                 result = SendTurpexData(id, barcode);
+            }
+            else
+            {
+               result =  SendPttData(id, barcode);
+            }
+            if (result)
+            {
+                shipmentVM.IsApiSuccess = 1;
+                shipmentServices.Update(shipmentVM);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+           
+        }
+
+
 
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public JsonResult UlkedenSehirGetir(string ulkeId)
@@ -414,13 +597,13 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 + "\n"
                  + @"    ""gonderici_posta_kodu"": """ + shipmentVM.SenderPostalCode + "\"" + ","
                 + "\n"
-                 + @"    ""gonderici_tc_no"": """ + shipmentVM.SenderTCNo + "\"" + ","
+                 + @"    ""gonderici_tc_no"": """ + "72685073952" + "\"" + ","
                 + "\n"
                  + @"    ""gonderici_telefonu"": """ + shipmentVM.SenderTelephone + "\"" + ","
                 + "\n"
                  + @"    ""gonderici_ulke_id"": ""TR""" + ","
                 + "\n"
-                 + @"    ""gonderici_vergi_no"":  """ + shipmentVM.SenderIdVATNumber + "\"" + ","
+                 + @"    ""gonderici_vergi_no"":  """ + "4590672503" + "\"" + ","
                 + "\n"
                  + @"    ""kapsam"": ""COM""" + ","
                 + "\n"
@@ -475,6 +658,12 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             shipmentVM.ShipmentDate = DateTime.Now;
 
+
+            if (response.StatusCode != HttpStatusCode.Created || response.StatusCode != HttpStatusCode.OK)
+            {
+                return false;
+
+            }
             return true;
         }
 
@@ -569,11 +758,11 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 shipmentVM.Id = lastId;
                 shipmentVM.TrackingNo = barcode;
                 shipmentServices.Update(shipmentVM);
-               PTTService.Output response = SendPttData(lastId, barcode);
+               bool response = SendPttData(lastId, barcode);
 
-                if (response.barcodeInformation[0].success == false)
+                if (response == false)
                 {
-                    ViewBag.FaultDesc = response.barcodeInformation[0].faultDescription;
+                    ViewBag.FaultDesc = "Error";
                     RedirectToAction("CreatePTT", "Shipment");
                 }
 

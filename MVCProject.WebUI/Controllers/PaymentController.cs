@@ -2,19 +2,16 @@
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json.Linq; 
+using Newtonsoft.Json.Linq;
 using System.Collections.Specialized;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.Script.Serialization;
 using Microsoft.AspNet.Identity;
 using static MVCProject.Entities.ZuuCargoEntities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using MVCProject.Entities;
-using MVCProject.BLL.Services;
-using MVCProject.Common.ViewModels;
-
+using Nancy.Json;
 
 namespace MVCProject.WebUI.Controllers
 {

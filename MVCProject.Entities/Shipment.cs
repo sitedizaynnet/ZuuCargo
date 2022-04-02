@@ -71,6 +71,8 @@ namespace MVCProject.Entities
         public double MoneyForBuy { get; set; }
         public bool IsDelivered { get; set; }
 
+        public int StatusCounter { get; set; }
+        public int IsApiSuccess { get; set; }
     }
 }
      

@@ -1,12 +1,7 @@
-﻿using MVCProject.DAL.Repository;
-using MVCProject.DAL.UnitOfWork;
-using MVCProject.Entities;
-using MVCProject.Models;
+﻿using MVCProject.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using static MVCProject.Entities.ZuuCargoEntities;
-using System;
 
 namespace MVCProject.BLL.Services
 {

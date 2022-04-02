@@ -346,6 +346,7 @@ namespace MVCProject.WebUI.Controllers
         {
             List<ZoneVM> zoneList = zoneServices.GetAll().ToList();
             ViewData["ZoneList"] = zoneList;
+           
             return View();
         }
         public ActionResult RegisterCompleted()
@@ -575,10 +576,7 @@ namespace MVCProject.WebUI.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
 
-           
 
-           
-              
                     var user = model.GetUser();
                     ////EMail Confirmed TRUE 
                     //user.EmailConfirmed = true;
@@ -591,19 +589,21 @@ namespace MVCProject.WebUI.Controllers
                            new { userId = user.Id, code = code },
                            protocol: Request.Url.Scheme);
 
+                await SignInAsync(user,true);
 
 
-
-                        //await UserManager.SendEmailAsync(user.Id,
-                        //   "ZuuCargo.net Hesap Onay Maili",
-                        //   "Hesabınızı onaylamak için bu bağlantıya tıklayınız : <a href=\""
-                        //                                   + callbackUrl + "\">Hesabımı Onayla</a>");
-                        return RedirectToAction("Index", "Home");
+                //await UserManager.SendEmailAsync(user.Id,
+                //   "ZuuCargo.net Hesap Onay Maili",
+                //   "Hesabınızı onaylamak için bu bağlantıya tıklayınız : <a href=\""
+                //                                   + callbackUrl + "\">Hesabımı Onayla</a>");
+                return RedirectToAction("Index", "Home");
                     }
                     else
                     {
-                        ModelState.AddModelError("", result.Errors.First().ToString()); 
-                    }
+                ModelState.AddModelError("", "Password must be at least 6 character.");
+
+                return RedirectToAction("Register", "Account", ModelState);
+            }
 
                 
             

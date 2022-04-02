@@ -1,164 +1,170 @@
-﻿@{ if (ViewData.ModelState.Values.Count > 0)
-    {
-        foreach (ModelState modelState in ViewData.ModelState.Values)
-        {
-            foreach (ModelError error in modelState.Errors)
-            {
-
-                Html.Label(error.ErrorMessage.ToString(), new { @class = "list-group-item-danger" });
-
-            }
-        }
-
-
-    };
-
-    <div class="main-login main-center">
-        @using (Html.BeginForm("Register", "Account", new { id = "registerform" }, FormMethod.Post))
-        {
-
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true)
-
-            <div class="form-group">
-              @*  <label for="name" class="cols-sm-2 control-label">Name</label>*@
-                <div class="cols-sm-10">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Your Name" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-               @* <label for="email" class="cols-sm-2 control-label">Email</label>*@
-                <div class="cols-sm-10">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="email" id="email" placeholder="Your Email" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                @*<label for="mobile" class="cols-sm-2 control-label required">Password</label>*@
-                <div class="cols-sm-10">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-asterisk" aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" name="password" id="Password" placeholder="Password" />
-                    </div>
-                </div>
-            </div>
-            <div class="form_row">
-                <div class="form_row_icon"><div class="g-recaptcha" data-sitekey="6LdYsNAZAAAAAEq56TkUr4o0gbX-5yXSy6VadBm-"></div></div>
-
-            </div>
-
-
-            @*<div class="form-group">
-                <label for="nationality" class="cols-sm-2 control-label">Nationality</label>
-                <div class="cols-sm-10">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-globe fa-lg" aria-hidden="true"></i></span>
-                        <select class="form-control" name="nationality" id="nationality" placeholder="Please select your Nationality">
-                            <option>-select-</option>
-                            <option>India</option>
-                            <option>Singapore</option>
-                            <option>Malaysia</option>
-                            <option>USA</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="country" class="cols-sm-2 control-label">Country of Residence</label>
-                <div class="cols-sm-10">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></span>
-                        <select class="form-control" name="country" id="country" placeholder="Please select your Country">
-                            <option>-select-</option>
-                            <option>India</option>
-                            <option>Singapore</option>
-                            <option>Malaysia</option>
-                            <option>USA</option>
-                        </select>
-                    </div>
-                </div>
-            </div>*@
-
-            <div class="form-group ">
-                <button type="submit" class="btn btn-primary btn-lg btn-block login-button">Register</button>
-            </div>
-        }
-    </div>
-     
-                                                         
-
+﻿@{
+    Layout = "";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Register & Signup | VarBazar</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="VarBazar Register ." name="description" />
+    <meta content="VarBazar" name="author" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- App favicon -->
+    <link rel="shortcut icon" href="~/Theme/Admin/images/favicon.ico">
 
-<style>
-    body, html {
-        height: 100%;
-        background-repeat: no-repeat;
-        background-color: #d3d3d3;
-        font-family: 'Oxygen', sans-serif;
-        font-size: 12px;
-    }
+    <!-- App css -->
+    <link href="~/Theme/Admin/bootstrap.min.css" rel="stylesheet" type="text/css" id="bs-default-stylesheet" />
+    <link href="~/Theme/Admin/app.min.css" rel="stylesheet" type="text/css" id="app-default-stylesheet" />
 
-    .main {
-        margin-top: 70px;
-    }
+    <link href="~/Theme/Admin/bootstrap-dark.min.css" rel="stylesheet" type="text/css" id="bs-dark-stylesheet" disabled />
+    <link href="~/Theme/Admin/app-dark.min.css" rel="stylesheet" type="text/css" id="app-dark-stylesheet" disabled />
 
-    h1.title {
-        font-size: 50px;
-        font-family: 'Passion One', cursive;
-        font-weight: 400;
-    }
+    <!-- icons -->
+    <link href="~/Theme/Admin/icons.min.css" rel="stylesheet" type="text/css" />
 
-    hr {
-        width: 10%;
-        color: #fff;
-    }
+</head>
 
-    .form-group {
-        margin-bottom: 15px;
-    }
+<body class="auth-fluid-pages pb-0">
 
-    label {
-        margin-bottom: 14px;
-    }
+    <div class="auth-fluid">
+        <!--Auth fluid left content -->
+        <div class="auth-fluid-form-box">
+            <div class="align-items-center d-flex h-100">
+                <div class="card-body">
 
-    input,
-    input::-webkit-input-placeholder {
-        font-size: 9px;
-        padding-top: 3px;
-    }
+                    <!-- Logo -->
+                    <div class="auth-brand text-center text-lg-left">
+                        <div class="auth-logo">
+                            <a href="index.html" class="logo logo-dark text-center">
+                                <span class="logo-lg">
+                                    <img src="~/Theme/Admin/logo.png" alt="" height="42">
+                                </span>
+                            </a>
 
-    .main-login {
-        background-color: #fff;
-        /* shadows and rounded borders */
-        -moz-border-radius: 2px;
-        -webkit-border-radius: 2px;
-        border-radius: 2px;
-        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-    }
+                            <a href="index.html" class="logo logo-light text-center">
+                                <span class="logo-lg">
+                                    <img src="~/Theme/Admin/logo.png" alt="" height="22">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
 
-    .main-center {
-        margin-top: 30px;
-        margin: 0 auto;
-        max-width: 330px;
-        padding: 40px 40px;
-    }
+                    <!-- title-->
+                    <h4 class="mt-0">Sign Up</h4>
+                    <p class="text-muted mb-4">Don't have an account? Create your account, it takes less than a minute</p>
+                    @{ if (ViewData.ModelState.Values.Count > 0)
+                        {
+                            foreach (ModelState modelState in ViewData.ModelState.Values)
+                            {
+                                foreach (ModelError error in modelState.Errors)
+                                {
 
-    .login-button {
-        margin-top: 3px;
-    }
+                                    Html.Label(error.ErrorMessage.ToString(), new { @class = "list-group-item-danger" });
 
-    .login-register {
-        font-size: 8px;
-        text-align: center;
-    }
-</style>
+                                }
+                            }
+
+
+                        }
+                        <!-- form -->
+
+                        <div class="card-box">
+
+                   
+                                    @using (Html.BeginForm("Register", "Account", new { id = "registerform" }, FormMethod.Post))
+                                    {
+
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(false)
+                                        <div class="form-group">
+                                            <label for="fullname">Full Name</label>
+                                            <input class="form-control" type="text" id="FirstName" name="FirstName" placeholder="Enter your name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fullname">Last Name</label>
+                                            <input class="form-control" type="text" id="LastName" name="LastName" placeholder="Enter your name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="emailaddress">Email address</label>
+                                            <input class="form-control" type="email" id="email" name="Email" required placeholder="Enter your email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="password">Password</label>
+                                            <div class="input-group input-group-merge">
+                                                <input type="password" id="password" name="Password" class="form-control" placeholder="Enter your password">
+                                                <div class="input-group-append" data-password="false">
+                                                    <div class="input-group-text">
+                                                        <span class="password-eye"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="checkbox-signup">
+                                                <label class="custom-control-label" for="checkbox-signup">I accept <a href="javascript: void(0);" class="text-dark">Terms and Conditions</a></label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group mb-0 text-center">
+                                            <button class="btn btn-primary waves-effect waves-light btn-block" type="submit"> Sign Up </button>
+                                        </div>
+                                        <!-- social-->
+                                        <div class="text-center mt-4">
+                                            <p class="text-muted font-16">Sign in with</p>
+                                            <ul class="social-list list-inline mt-3 mb-0">
+                                                <li class="list-inline-item">
+                                                    <a href="javascript: void(0);" class="social-list-item border-primary text-primary"><i class="mdi mdi-facebook"></i></a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="mdi mdi-google"></i></a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="mdi mdi-twitter"></i></a>
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="mdi mdi-github"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    }
+               
+                        </div>
+
+                    }
+
+
+
+                    <!-- end form-->
+                    <!-- Footer-->
+                    <footer class="footer footer-alt">
+                        <p class="text-muted">Already have account? <a href="/Account/Login" class="text-muted ml-1"><b>Log In</b></a></p>
+                    </footer>
+
+                </div> <!-- end .card-body -->
+            </div> <!-- end .align-items-center.d-flex.h-100-->
+        </div>
+        <!-- end auth-fluid-form-box-->
+        <!-- Auth fluid right content -->
+        <div class="auth-fluid-right text-center">
+            <div class="auth-user-testimonial">
+                <h2 class="mb-3 text-white">I love the color!</h2>
+                <p class="lead">
+                    <i class="mdi mdi-format-quote-open"></i>  <i class="mdi mdi-format-quote-close"></i>
+                </p>
+                <h5 class="text-white">
+                    
+                </h5>
+            </div> <!-- end auth-user-testimonial-->
+        </div>
+        <!-- end Auth fluid right content -->
+    </div>
+    <!-- end auth-fluid-->
+    <!-- Vendor js -->
+    <script src="~/Theme/Admin/js/vendor.min.js"></script>
+
+    <!-- App js -->
+    <script src="~/Theme/Admin/js/app.min.js"></script>
+
+</body>
+</html>

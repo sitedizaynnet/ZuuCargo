@@ -173,6 +173,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             ArrivedExchangeServices arrivedExchangeServices = new ArrivedExchangeServices();
             TurkishCargoServices turkishCargoServices = new TurkishCargoServices();
             KomerkServices komerkServices = new KomerkServices();
+            RemainingCostServices remainingCostServices = new RemainingCostServices();
 
             ViewBag.userCount = userServices.GetAll().Count;
             ViewBag.ShipmentCount = shipmentServices.GetAll().Sum(x=>x.PackageCount);
@@ -196,7 +197,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             ViewBag.TotalArrivedExchange = arrivedExchangeServices.GetAll().Select(i => Convert.ToDouble(i.Total)).Sum();
             ViewBag.TurkishCargo = turkishCargoServices.GetAll().Select(i => Convert.ToDouble(i.Price)).Sum();
             ViewBag.TotalKomerk = komerkServices.GetAll().Select(i => Convert.ToDouble(i.Price)).Sum();
-
+            ViewBag.TotalRemainingCost = remainingCostServices.GetAll().Select(x => x.RemainingCosts).Sum();
 
             return View();
         }

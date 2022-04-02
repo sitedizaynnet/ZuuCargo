@@ -48,14 +48,16 @@
                     @Html.DisplayNameFor(model => model.ReceiverCountryId)
                 </th>
 
-                 <th>
+                <th>
                     @Html.DisplayNameFor(model => model.IsDelivered)
                 </th>
 
                 <th>
                     @Html.DisplayNameFor(model => model.ShipmentDate)
                 </th>
-
+                <th>
+                    @Html.DisplayNameFor(model => model.IsApiSuccess)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -86,16 +88,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ShipmentDate)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsApiSuccess)
+                </td>
 
 
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
                     <a target="_blank" href='/Admin/Shipment/TrackSMS/@item.Id'>SMS to Receiver</a> |
                     <a target="_blank" href='/Admin/Shipment/TrackSMSAcente/@item.Id'>SMS to Acente</a> |
+                    <a target="_blank" href='/Admin/Shipment/SendNotificationJson/@item.Id'>Notify</a> |
 
                     <a class="btnPrint" href='/Admin/Shipment/GetCargoLabel/@item.Id'>PrintLabel</a>
+                    <a  href='/Admin/Shipment/SendDataAgain/@item.Id'>SEND DATA</a>
 
 
 

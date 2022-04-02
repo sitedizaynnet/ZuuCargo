@@ -21,11 +21,11 @@ namespace MVCProject.WebUI.Controllers
             if (url != null)
             {
                
-                ViewBag.TrackingInfo = TrackPTT(id.ToString());
+                ViewBag.TrackingInfo = TrackPTT(id.ToString().ToUpper());
                 if (ViewBag.TrackingInfo == null)
                 {
                     ShipmentServices shipmentServices = new ShipmentServices();
-                    ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x=>x.TrackingNo.Trim() == id).First();
+                    ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x=>x.TrackingNo.Trim() == id.ToUpper()).First();
 
                     ViewBag.TrackingInfoNull = shipmentVM;
                 }
@@ -33,6 +33,24 @@ namespace MVCProject.WebUI.Controllers
             }
             return View();
         }
+
+        public JsonResult GetPttAjax(string trackingNumber)
+        {
+
+            ViewBag.TrackingInfo = TrackPTT(trackingNumber.ToString());
+            if (ViewBag.TrackingInfo == null)
+            {
+                ShipmentServices shipmentServices = new ShipmentServices();
+                ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x => x.TrackingNo.Trim() == trackingNumber).First();
+
+                ViewBag.TrackingInfoNull = shipmentVM;
+            }
+            ViewBag.Id = trackingNumber;
+
+
+            return Json(true);
+        }
+
 
         public TrackingInfo[] TrackPTT(string id)
         {

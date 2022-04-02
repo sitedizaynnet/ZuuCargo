@@ -57,9 +57,9 @@ namespace MVCProject.Entities
          
 
             public int Semt { get; set; }
-            [Required]
+     
             
-            public int Mahalle { get; set; }
+            public string Token { get; set; }
 
      
             public DateTime? BirthDate { get; set; }

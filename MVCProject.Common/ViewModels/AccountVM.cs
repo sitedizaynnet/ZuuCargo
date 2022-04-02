@@ -119,8 +119,8 @@ namespace MVCProject.Models
         [Display(Name = "Semt")]
         public int Semt { get; set; }
 
-        [Display(Name = "Mahalle")]
-        public int Mahalle { get; set; }
+        [Display(Name = "Token")]
+        public string Token { get; set; }
 
         [Display(Name = "Yer")]
         public string State { get; set; }
@@ -142,7 +142,7 @@ namespace MVCProject.Models
                 BirthDate = this.BirthDate,
                 Ilce = this.Ilce,
                 Semt = this.Semt,
-                Mahalle = this.Mahalle
+                Token  = this.Token
             };
             return user;
         }
@@ -165,7 +165,7 @@ namespace MVCProject.Models
             this.City = user.City;
             this.Ilce = user.Ilce;
             this.Semt = user.Semt;
-            this.Mahalle = user.Mahalle;
+            this.Token = user.Token;
             this.userId = user.Id;
             this.TCNo = user.TCNo;
             this.BirthDate = user.BirthDate;
@@ -214,9 +214,9 @@ namespace MVCProject.Models
 
         public int Semt { get; set; }
         [Required]
-        [Display(Name = "Mahalle")]
+        [Display(Name = "Token")]
 
-        public int Mahalle { get; set; }
+        public string Token { get; set; }
     }
 
 
@@ -359,8 +359,8 @@ namespace MVCProject.Models
         [Display(Name = "Semt")]
         public int Semt { get; set; }
 
-        [Display(Name = "Mahalle")]
-        public int Mahalle { get; set; }
+        [Display(Name = "Token")]
+        public string Token { get; set; }
 
     }
 

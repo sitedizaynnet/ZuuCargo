@@ -67,6 +67,71 @@
                 </div>
             </div>
         </div>
+        <body onload="myfunction();">
+
+            <!--The div element for the map -->
+            <div id="map"></div>
+
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&callback=initMap&libraries=&v=weekly"></script>
+        </body>
+        <script>
+     var startlat;
+            var startlong;
+            var endlat;
+            var endlong;
+
+            var geocoder = new google.maps.Geocoder();
+            var addressStart = "@ModelforTracking.First().ulke_ad";
+            var addressEnd = "@ModelforTracking.Last().ulke_ad";
+
+
+            geocoder.geocode({ 'address': addressStart }, function (results, status) {
+
+                if (status == google.maps.GeocoderStatus.OK) {
+                     startlat = results[0].geometry.location.lat();
+                     startlong = results[0].geometry.location.lng();
+
+                }
+            });
+            geocoder.geocode({ 'address': addressEnd }, function (results2, status2) {
+
+                if (status2 == google.maps.GeocoderStatus.OK) {
+                     endlat = results2[0].geometry.location.lat();
+                     endlong = results2[0].geometry.location.lng();
+
+                }
+            });
+        </script>
+        <script type="text/javascript">
+            function myfunction() {
+
+
+                var map;
+
+
+
+                var option = {
+                    zoom: 5,
+                    center: new google.maps.LatLng(endlat, endlong)
+                };
+                map = new google.maps.Map(document.getElementById('map'), option);
+                var display = new google.maps.DirectionsRenderer();
+                var services = new google.maps.DirectionsService();
+                display.setMap(map);
+                var request = {
+                    origin: new google.maps.LatLng(startlat, startlong),
+                    destination: new google.maps.LatLng(endlat, endlong),
+                    travelMode: 'DRIVING'
+                };
+                services.route(request, function (result, status) {
+                    if (status == 'OK') {
+                        display.setDirections(result);
+                    }
+                });
+            }
+
+        </script>
     }
     else if ((MVCProject.Common.ViewModels.ShipmentVM)ViewBag.TrackingInfoNull != null)
     {
@@ -149,7 +214,7 @@
 
 
                     var option = {
-                        zoom: 10,
+                        zoom: 5,
                         center: new google.maps.LatLng(endlat, endlong)
                     };
                     map = new google.maps.Map(document.getElementById('map'), option);
@@ -188,7 +253,7 @@
                 $("#btnTrack").click(function () {
 
                     var trackingNumber = $("#txtTrackingCode").val();
-                    if (!isLetter(trackingNumber)) {
+                    if (isLetter(trackingNumber)) {
                         const settings = {
                             "async": true,
                             "crossDomain": true,
@@ -278,8 +343,14 @@
 
                             }
                         });
+                    } else {
+
+                        location.href = "https://zuucargo.com/Track/TrackShipment/" + trackingNumber;
+
+
+
                     }
-                   
+
                 });
 
             });

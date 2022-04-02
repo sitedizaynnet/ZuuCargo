@@ -81,7 +81,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         }
         public UserManager<ApplicationUser> UserManager { get; private set; }
 
-        [RequireHttps]
+        //[RequireHttps]
 
         public ActionResult Login(string returnUrl)
         {

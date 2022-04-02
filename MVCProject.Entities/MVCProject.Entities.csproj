@@ -102,128 +102,20 @@
     <Compile Include="Accounting.cs" />
     <Compile Include="AccountingProducts.cs" />
     <Compile Include="ArrivedExchange.cs" />
-    <Compile Include="Migrations\202203161452306_remain.cs" />
-    <Compile Include="Migrations\202203161452306_remain.Designer.cs">
-      <DependentUpon>202203161452306_remain.cs</DependentUpon>
+    <Compile Include="Migrations\202203301735043_remain.cs" />
+    <Compile Include="Migrations\202203301735043_remain.Designer.cs">
+      <DependentUpon>202203301735043_remain.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202203161849121_deai.cs" />
-    <Compile Include="Migrations\202203161849121_deai.Designer.cs">
-      <DependentUpon>202203161849121_deai.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203161851407_deaia.cs" />
-    <Compile Include="Migrations\202203161851407_deaia.Designer.cs">
-      <DependentUpon>202203161851407_deaia.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203191048254_deaia0.cs" />
-    <Compile Include="Migrations\202203191048254_deaia0.Designer.cs">
-      <DependentUpon>202203191048254_deaia0.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203211237228_deaia02.cs" />
-    <Compile Include="Migrations\202203211237228_deaia02.Designer.cs">
-      <DependentUpon>202203211237228_deaia02.cs</DependentUpon>
+    <Compile Include="Migrations\202203301736372_remainp.cs" />
+    <Compile Include="Migrations\202203301736372_remainp.Designer.cs">
+      <DependentUpon>202203301736372_remainp.cs</DependentUpon>
     </Compile>
     <Compile Include="RemainingCost.cs" />
-    <Compile Include="Migrations\202203061202555_reklam.cs" />
-    <Compile Include="Migrations\202203061202555_reklam.Designer.cs">
-      <DependentUpon>202203061202555_reklam.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203061509406_reklam0.cs" />
-    <Compile Include="Migrations\202203061509406_reklam0.Designer.cs">
-      <DependentUpon>202203061509406_reklam0.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203091412463_moneyforbuy.cs" />
-    <Compile Include="Migrations\202203091412463_moneyforbuy.Designer.cs">
-      <DependentUpon>202203091412463_moneyforbuy.cs</DependentUpon>
-    </Compile>
     <Compile Include="Reklam.cs" />
-    <Compile Include="Migrations\202202251847445_shipment.cs" />
-    <Compile Include="Migrations\202202251847445_shipment.Designer.cs">
-      <DependentUpon>202202251847445_shipment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202271406009_shipment23.cs" />
-    <Compile Include="Migrations\202202271406009_shipment23.Designer.cs">
-      <DependentUpon>202202271406009_shipment23.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203010818491_shipment230.cs" />
-    <Compile Include="Migrations\202203010818491_shipment230.Designer.cs">
-      <DependentUpon>202203010818491_shipment230.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203010946199_shipment2300.cs" />
-    <Compile Include="Migrations\202203010946199_shipment2300.Designer.cs">
-      <DependentUpon>202203010946199_shipment2300.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203011150122_shipment23000.cs" />
-    <Compile Include="Migrations\202203011150122_shipment23000.Designer.cs">
-      <DependentUpon>202203011150122_shipment23000.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203021236480_shipment230003.cs" />
-    <Compile Include="Migrations\202203021236480_shipment230003.Designer.cs">
-      <DependentUpon>202203021236480_shipment230003.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203021519472_shipment2300033.cs" />
-    <Compile Include="Migrations\202203021519472_shipment2300033.Designer.cs">
-      <DependentUpon>202203021519472_shipment2300033.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203021617202_shipment23000332.cs" />
-    <Compile Include="Migrations\202203021617202_shipment23000332.Designer.cs">
-      <DependentUpon>202203021617202_shipment23000332.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203021657517_shipment230003323.cs" />
-    <Compile Include="Migrations\202203021657517_shipment230003323.Designer.cs">
-      <DependentUpon>202203021657517_shipment230003323.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203031156002_shipment2300033233.cs" />
-    <Compile Include="Migrations\202203031156002_shipment2300033233.Designer.cs">
-      <DependentUpon>202203031156002_shipment2300033233.cs</DependentUpon>
-    </Compile>
     <Compile Include="ShipmentTurpexBarcodes.cs" />
     <Compile Include="ShipmentBarcodes.cs" />
     <Compile Include="Komerk.cs" />
-    <Compile Include="Migrations\202202200807265_turkishcargo.cs" />
-    <Compile Include="Migrations\202202200807265_turkishcargo.Designer.cs">
-      <DependentUpon>202202200807265_turkishcargo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202200900382_turk.cs" />
-    <Compile Include="Migrations\202202200900382_turk.Designer.cs">
-      <DependentUpon>202202200900382_turk.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202211542173_turkp.cs" />
-    <Compile Include="Migrations\202202211542173_turkp.Designer.cs">
-      <DependentUpon>202202211542173_turkp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202241326587_zones.cs" />
-    <Compile Include="Migrations\202202241326587_zones.Designer.cs">
-      <DependentUpon>202202241326587_zones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202241406196_zonesp.cs" />
-    <Compile Include="Migrations\202202241406196_zonesp.Designer.cs">
-      <DependentUpon>202202241406196_zonesp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202241659305_ptt.cs" />
-    <Compile Include="Migrations\202202241659305_ptt.Designer.cs">
-      <DependentUpon>202202241659305_ptt.cs</DependentUpon>
-    </Compile>
     <Compile Include="TurkishCargo.cs" />
-    <Compile Include="Migrations\202201221339122_initial2.cs" />
-    <Compile Include="Migrations\202201221339122_initial2.Designer.cs">
-      <DependentUpon>202201221339122_initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202181626391_SenderAddress.cs" />
-    <Compile Include="Migrations\202202181626391_SenderAddress.Designer.cs">
-      <DependentUpon>202202181626391_SenderAddress.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202181639513_receiver.cs" />
-    <Compile Include="Migrations\202202181639513_receiver.Designer.cs">
-      <DependentUpon>202202181639513_receiver.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202191335033_receivere.cs" />
-    <Compile Include="Migrations\202202191335033_receivere.Designer.cs">
-      <DependentUpon>202202191335033_receivere.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202202191340569_receiverep.cs" />
-    <Compile Include="Migrations\202202191340569_receiverep.Designer.cs">
-      <DependentUpon>202202191340569_receiverep.cs</DependentUpon>
-    </Compile>
     <Compile Include="TaxiCosts.cs" />
     <Compile Include="Expensive.cs" />
     <Compile Include="MyBalance.cs" />
@@ -261,92 +153,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202201221339122_initial2.resx">
-      <DependentUpon>202201221339122_initial2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202203301735043_remain.resx">
+      <DependentUpon>202203301735043_remain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202181626391_SenderAddress.resx">
-      <DependentUpon>202202181626391_SenderAddress.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202181639513_receiver.resx">
-      <DependentUpon>202202181639513_receiver.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202191335033_receivere.resx">
-      <DependentUpon>202202191335033_receivere.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202191340569_receiverep.resx">
-      <DependentUpon>202202191340569_receiverep.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202200807265_turkishcargo.resx">
-      <DependentUpon>202202200807265_turkishcargo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202200900382_turk.resx">
-      <DependentUpon>202202200900382_turk.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202211542173_turkp.resx">
-      <DependentUpon>202202211542173_turkp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202241326587_zones.resx">
-      <DependentUpon>202202241326587_zones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202241406196_zonesp.resx">
-      <DependentUpon>202202241406196_zonesp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202241659305_ptt.resx">
-      <DependentUpon>202202241659305_ptt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202251847445_shipment.resx">
-      <DependentUpon>202202251847445_shipment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202202271406009_shipment23.resx">
-      <DependentUpon>202202271406009_shipment23.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203010818491_shipment230.resx">
-      <DependentUpon>202203010818491_shipment230.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203010946199_shipment2300.resx">
-      <DependentUpon>202203010946199_shipment2300.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203011150122_shipment23000.resx">
-      <DependentUpon>202203011150122_shipment23000.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203021236480_shipment230003.resx">
-      <DependentUpon>202203021236480_shipment230003.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203021519472_shipment2300033.resx">
-      <DependentUpon>202203021519472_shipment2300033.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203021617202_shipment23000332.resx">
-      <DependentUpon>202203021617202_shipment23000332.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203021657517_shipment230003323.resx">
-      <DependentUpon>202203021657517_shipment230003323.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203031156002_shipment2300033233.resx">
-      <DependentUpon>202203031156002_shipment2300033233.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203061202555_reklam.resx">
-      <DependentUpon>202203061202555_reklam.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203061509406_reklam0.resx">
-      <DependentUpon>202203061509406_reklam0.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203091412463_moneyforbuy.resx">
-      <DependentUpon>202203091412463_moneyforbuy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203161452306_remain.resx">
-      <DependentUpon>202203161452306_remain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203161849121_deai.resx">
-      <DependentUpon>202203161849121_deai.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203161851407_deaia.resx">
-      <DependentUpon>202203161851407_deaia.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203191048254_deaia0.resx">
-      <DependentUpon>202203191048254_deaia0.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203211237228_deaia02.resx">
-      <DependentUpon>202203211237228_deaia02.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202203301736372_remainp.resx">
+      <DependentUpon>202203301736372_remainp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -99,7 +99,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             {
                 // TODO: Add insert logic here
                 RemainingCostServices remainingCostServicess = new RemainingCostServices();
-                remainingCostVM.RemainingCosts = remainingCostVM.TotalAccounting - remainingCostVM.Taxi - remainingCostVM.Komerk - remainingCostVM.TurkishCargo;
+                remainingCostVM.RemainingCosts = remainingCostVM.TotalAccounting - remainingCostVM.Taxi - remainingCostVM.Komerk - remainingCostVM.TurkishCargo - remainingCostVM.PTTCosts;
 
                 RemainingCostServicess.Insert(remainingCostVM);
                 return RedirectToAction("Index");
@@ -127,7 +127,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         [CustomAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Edit(int id, RemainingCostVM remainingCostVM )
         {
-            remainingCostVM.RemainingCosts = remainingCostVM.TotalAccounting - remainingCostVM.Taxi - remainingCostVM.Komerk - remainingCostVM.TurkishCargo;
+            remainingCostVM.RemainingCosts = remainingCostVM.TotalAccounting - remainingCostVM.Taxi - remainingCostVM.Komerk - remainingCostVM.TurkishCargo - remainingCostVM.PTTCosts;
 
             RemainingCostServicess.Update(remainingCostVM);
             return RedirectToAction("Index");

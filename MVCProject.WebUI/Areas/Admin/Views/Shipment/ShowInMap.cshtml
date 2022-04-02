@@ -2,10 +2,8 @@
 @{
     ViewBag.Title = "ShowInMap";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+   
 }
-
-<h2>ShowInMap</h2>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis"></script>
 
 
@@ -20,3 +18,91 @@
         /* The width is the width of the web page */
     }
 </style>
+
+
+<body onload="">
+
+    <!--The div element for the map -->
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&libraries=&v=weekly"></script>
+</body>
+
+<script>
+
+    var arrayOfArrays = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.TrackList));
+    var resultAddress = [];
+    var geocoder = new google.maps.Geocoder();
+    marker = new google.maps.Marker({
+        map,
+    });
+    function geocode(request, infos) {
+        geocoder
+            .geocode(request)
+            .then((result) => {
+                const { results } = result;
+
+              
+                marker.setPosition(results[0].geometry.location);
+                addMarker(results[0].geometry.location, infos);
+              
+                return results;
+            })
+            .catch((e) => {
+                alert("Geocode was not successful for the following reason: " + e);
+            });
+    }
+   
+
+    for (var i in arrayOfArrays)
+        resultAddress.push([i, arrayOfArrays[i]]);
+
+    for (i = 0; i < resultAddress.length; i++) {
+
+        geocode({ address: resultAddress[i][1].Value }, resultAddress[i][1].Key)
+
+    };
+
+   
+    function addMarker(location, infos) {
+        var option = {
+            zoom: 5,
+            center: new google.maps.LatLng(location)
+        };
+      var  map = new google.maps.Map(document.getElementById('map'), option);
+            marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+        const contentString =
+            '<div id="content">' +
+            '<div id="siteNotice">' +
+            "</div>" +
+            '<h3 id="firstHeading" class="firstHeading">'+ infos + '</h3>' +
+            '<div id="bodyContent">' +
+
+            '<p>Track Shipment :  <a target="_blank" href="https://zuucargo.com/Track/TrackShipment/' + infos + '">' +
+             'TRACK</a>'
+            "</div>" +
+            "</div>";
+
+        const infowindow = new google.maps.InfoWindow({
+            content: contentString,
+        });
+
+        marker.addListener("click", () => {
+            infowindow.open({
+                anchor: marker,
+                map,
+                shouldFocus: false,
+            });
+        });
+        }
+
+    
+
+
+
+</script>

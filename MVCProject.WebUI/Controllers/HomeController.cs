@@ -1,5 +1,7 @@
-﻿using MVCProject.BLL.Services;
+﻿using Microsoft.AspNet.Identity;
+using MVCProject.BLL.Services;
 using MVCProject.Common.ViewModels;
+using MVCProject.Entities;
 using MVCProject.WebUI.PTTTrack;
 using System;
 using System.Collections.Generic;
@@ -37,20 +39,113 @@ namespace MVCProject.WebUI.Controllers
             return output.trackingInf.Last();
         }
 
+        public TrackingInfo[] TrackPTTGetList(string id)
+        {
+            TrackingRequest trackingRequest = new TrackingRequest();
+            trackingRequest.inp = new Input();
+            trackingRequest.inp.barcode = id;
+            trackingRequest.inp.userName = "804440354";
+            trackingRequest.inp.password = "S62Exy6V4NNi1iQqNZLVGA";
+            PttTrackPortTypeClient pttTrackPortTypeClient = new PttTrackPortTypeClient();
+            PTTTrack.Output output = pttTrackPortTypeClient.Tracking(trackingRequest.inp);
+
+            return output.trackingInf;
+        }
+
         public ActionResult DoJobs()
         {
             ShipmentServices shipmentServices = new ShipmentServices();
 
             List<ShipmentVM> shipments = shipmentServices.GetAll().Where(x=>x.IsDelivered == false ).ToList();
-
+            UserServices userServices = new UserServices();
             foreach (ShipmentVM item in shipments)
             {
                 try
                 {
-                    TrackingInfo info = TrackPTT(item.TrackingNo);
+                    TrackingInfo[] info = TrackPTTGetList(item.TrackingNo);
+                    ShipmentVM shipmentVM = shipmentServices.GetById(item.Id);
+
                     if (info != null)
                     {
-                        if (info.gonderi_durum_aciklama.Contains("Deliver item"))
+
+                        try
+                        {
+                            if (info.Count() > item.StatusCounter )
+                            {
+                                try
+                                {
+                                    var senderUserToken = userServices.GetAll().Where(x => x.UserName == shipmentVM.SenderEmail).FirstOrDefault().Token;
+
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("Accepted") || info.Last().gonderi_durum_aciklama.ToString().Contains("Kabul"))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Accepted.", senderUserToken, null);
+
+                                    }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("forwarded") || info.Last().gonderi_durum_aciklama.ToString().Contains("yönlendirildi"))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Transit.", senderUserToken, null);
+
+                                    }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("delivery office") || info.Last().gonderi_durum_aciklama.ToString().Contains("teslimat"))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Delivery.", senderUserToken, null);
+
+                                    }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("Deliver ") || info.Last().gonderi_durum_aciklama.ToString().Contains("Teslim edildi "))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Delivered.", senderUserToken, null);
+
+                                    }
+
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+                                try
+                                {
+                                    var receiverUserToken = userServices.GetAll().Where(x => x.UserName == shipmentVM.ReceiverEmail).FirstOrDefault().Token;
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("Accepted") || info.Last().gonderi_durum_aciklama.ToString().Contains("Kabul"))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Accepted.", receiverUserToken, null);
+
+                                    }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("forwarded") || info.Last().gonderi_durum_aciklama.ToString().Contains("yönlendirildi"))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Transit.", receiverUserToken, null);
+
+                                    }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("delivery office") || info.Last().gonderi_durum_aciklama.ToString().Contains("teslimat"))
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is In Delivery.", receiverUserToken, null);
+
+                                    }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("Deliver ") || info.Last().gonderi_durum_aciklama.ToString().Contains("Teslim edildi "))
+
+                                    {
+                                        shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Delivered.", receiverUserToken, null);
+
+                                    }
+                                }
+                                catch (Exception)
+                                {
+
+
+                                }
+
+
+                                item.StatusCounter++;
+                                shipmentServices.Update(item);
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                           
+                        }
+
+                        if (info.Last().gonderi_durum_aciklama.Contains("Deliver item"))
                         {
                             item.IsDelivered = true;
                             shipmentServices.Update(item);
@@ -68,6 +163,20 @@ namespace MVCProject.WebUI.Controllers
             return null;
 
         }
+        public JsonResult SaveToken(string currentToken)
+        {
+           
+            var userId = User.Identity.GetUserId();
+            var Db = new ZuuCargoEntities();
+            var usertoUpdate = Db.Users.First(u => u.Id == userId);
+            usertoUpdate.Token = currentToken;
+            Db.Entry(usertoUpdate).State = System.Data.Entity.EntityState.Modified;
+            Db.SaveChangesAsync();
+            return Json(true);
+        }
+
+
+     
         public ActionResult Track()
         {
           
@@ -141,7 +250,7 @@ namespace MVCProject.WebUI.Controllers
         }
 
         // GET: Home
-        //[RequireHttps]
+        [RequireHttps]
         public ActionResult Index()
         {
 
