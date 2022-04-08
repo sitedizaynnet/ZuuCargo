@@ -79,9 +79,19 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         {
             PriceVM priceVM = new PriceVM();
             priceVM = priceServices.GetById(id);
-           
-      
-            return View(priceVM);
+
+
+            try
+            {
+                // TODO: Add delete logic here
+                priceServices.Delete(priceVM);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+
+            }
         }
 
         // POST: Admin/Price/Delete/5

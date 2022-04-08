@@ -46,8 +46,34 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             return View(shipments);
         }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+
+        public ActionResult AddOtherLink(int id)
+        {
 
 
+
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+
+            return View(shipmentVM);
+
+        }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+
+        [HttpPost]
+        public ActionResult AddOtherLink(ShipmentVM shipment)
+        {
+            ShipmentServices shipmentServices = new ShipmentServices();
+
+            ShipmentVM shipmentVM = shipmentServices.GetById(shipment.Id);
+            shipmentVM.Notes = shipment.Notes;
+            shipmentVM.OtherLink = shipment.OtherLink;
+            shipmentServices.Update(shipmentVM);
+
+            return RedirectToAction("Index");
+
+        }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
 
         public ActionResult GetCargoLabel(int id)
         {
@@ -72,6 +98,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             return output.trackingInf;
         }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+
         public JsonResult SendNotificationJson(int id)
         {
 
@@ -178,6 +206,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return checkDigit2;
 
         }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+
         public int GetCheckDigitTurpex(int newBarcodeDigit)
         {
             int digit1 = Convert.ToInt32(newBarcodeDigit.ToString().Substring(0, 1));
@@ -204,6 +234,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return checkDigit2;
 
         }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+
         public string GetShipmentBarcode(int id)
         {
             ShipmentBarcodesServices shipmentBarcodesServices = new ShipmentBarcodesServices();
@@ -229,6 +261,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             shipmentBarcodesServices.Insert(shipmentBarcodesVM);
             return shipmentBarcodesVM.Barcode;
         }
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+
         public string GetTurpexShipmentBarcode(int id)
         {
             ShipmentTurpexBarcodesServices shipmentTurpexBarcodesServices = new ShipmentTurpexBarcodesServices();
@@ -247,6 +281,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             shipmentTurpexBarcodesServices.Insert(shipmentTurpexBarcodesVM);
             return shipmentTurpexBarcodesVM.Barcode;
         }
+
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
 
         public bool SendPttData(int id, string barcodeNumber)
         {
@@ -402,7 +438,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
 
 
-            IEnumerable<ShipmentVM> shipmentList = shipmentServices.GetAll();
+            IEnumerable<ShipmentVM> shipmentList = shipmentServices.GetAll().OrderByDescending(x=>x.Id);
 
             return View(shipmentList);
         }
@@ -536,7 +572,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public JsonResult HarmonyCodeGetir()
         {
-            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperationsTest/turpex/harmonycodes");
+            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperations/turpex/harmonycodes");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
@@ -552,7 +588,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         public bool SendTurpexData(int id, string barcodeNumber)
         {
             ShipmentVM shipmentVM = shipmentServices.GetById(id);
-            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperations/savedata");
+            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperations/turpex/savedata");
             client.Timeout = -1;
             var request = new RestRequest(Method.POST);
             request.AddHeader("Content-Type", "application/json");
@@ -617,7 +653,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 + "\n"
                  + @"    ""doviz_cinsi"": ""EUR""" + ","
                 + "\n"
-                 + @"    ""esya_kodu"": ""620442""" + ","
+                 + @"    ""esya_kodu"":  " + shipmentVM.HarmonyCode + ","
                 + "\n"
                  + @"    ""harmony_code_id"": " + shipmentVM.HarmonyCode + ","
                 + "\n"
@@ -659,7 +695,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             shipmentVM.ShipmentDate = DateTime.Now;
 
 
-            if (response.StatusCode != HttpStatusCode.Created || response.StatusCode != HttpStatusCode.OK)
+            if (response.StatusCode.ToString() != "Created")
             {
                 return false;
 
@@ -668,7 +704,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         }
 
             // GET: Shipment/Create
-            [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult CreateTurpex()
         {
             var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperationsTest/turpex/ulkeler");
@@ -711,7 +747,12 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
                 bool response = SendTurpexData(lastId, barcode);
 
-               
+                if (response == true)
+                {
+                    shipmentVM.IsApiSuccess = 1;
+                    shipmentServices.Update(shipmentVM);
+                    return RedirectToAction("Index");
+                }
 
 
                 if (shipmentVM.MoneyForBuy > 0)
@@ -730,7 +771,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 }
 
 
-                return View();
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -885,7 +926,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
             //SEND SMS
             string html = string.Empty;
-            string mesajMetni = shipmentVM.ReceiverName + " Thank you for choosing ZuuCargo, your tracking link is https://zuucargo.com/Track/TrackShipment/" + shipmentVM.TrackingNo;
+            string mesajMetni = shipmentVM.ReceiverName + " Thank you for choosing ZuuCargo, your tracking link is https://www.zuucargo.com/Track/TrackShipment/" + shipmentVM.TrackingNo;
 
             string telNo = shipmentVM.ReceiverTelephoneNo;
 

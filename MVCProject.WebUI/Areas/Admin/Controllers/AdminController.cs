@@ -176,7 +176,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             RemainingCostServices remainingCostServices = new RemainingCostServices();
 
             ViewBag.userCount = userServices.GetAll().Count;
-            ViewBag.ShipmentCount = shipmentServices.GetAll().Sum(x=>x.PackageCount);
+            ViewBag.ShipmentCount = shipmentServices.GetAll().Count();
             var totalAccount = accountingServices.GetAll().Select(i => Convert.ToDouble(i.TotalDollar)).Sum();
             ViewBag.TotalMyBalance = myBalanceServices.GetAll().Select(i => Convert.ToDouble(i.Amount)).Sum();
 

@@ -34,7 +34,8 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,10 +81,6 @@
     </Reference>
     <Reference Include="Google.Apis.PlatformServices, Version=1.49.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Apis.1.49.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Kendo.Mvc, Version=2015.1.429.545, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Kendo.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
@@ -161,8 +158,8 @@
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+    <Reference Include="System.IO, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.1.0\lib\net462\System.IO.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
@@ -187,8 +184,8 @@
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.2.1\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
@@ -202,8 +199,8 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.1.2\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
@@ -284,6 +281,7 @@
     <Content Include="bin\SendGrid.dll" />
     <Content Include="bin\SendGrid.SmtpApi.dll" />
     <Content Include="bin\SendGridMail.dll" />
+    <Content Include="bin\System.IO.dll" />
     <Content Include="bin\System.Net.Http.Formatting.dll" />
     <Content Include="bin\System.Net.Http.Formatting.xml" />
     <Content Include="bin\System.Web.Helpers.dll" />
@@ -314,6 +312,7 @@
     <Content Include="Areas\Admin\Views\RemainingCost\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\RemainingCost\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Shipment\ShowInMap.cshtml" />
+    <Content Include="Areas\Admin\Views\Shipment\AddOtherLink.cshtml" />
     <None Include="Connected Services\PTTService\configuration91.svcinfo" />
     <None Include="Connected Services\PTTService\configuration.svcinfo" />
     <Content Include="Connected Services\PTTService\MVCProject.WebUI.PTTService.getHscodeListResponse.datasource">
@@ -3233,9 +3232,6 @@
     <Content Include="Views\Account\Home.cshtml" />
     <Content Include="Views\Shared\kullanımdısı.cshtml" />
     <Content Include="Views\Account\RegisterCompleted.cshtml" />
-    <Content Include="Views\Order\CreateOrder.cshtml" />
-    <Content Include="Views\Order\Category.cshtml" />
-    <Content Include="Views\Order\OrderCompleted.cshtml" />
     <Content Include="Scripts\src\lib\mm_resize\convolve.c" />
     <Content Include="Scripts\src\lib\mm_resize\convolve.wasm" />
     <Content Include="Scripts\src\lib\mm_resize\convolve.wast" />
@@ -3244,7 +3240,6 @@
     <Content Include="Scripts\src\lib\unsharp_mask\unsharp_mask.wast" />
     <Content Include="Views\Account\Orders.cshtml" />
     <Content Include="Views\Account\_CreateComment.cshtml" />
-    <Content Include="Views\Order\SelectBid.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
@@ -3262,12 +3257,10 @@
     <Content Include="Views\Account\OrderDetails.cshtml" />
     <Content Include="Views\Home\_SendMessage.cshtml" />
     <Content Include="Views\Home\Blog.cshtml" />
-    <Content Include="Views\Order\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Home\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Home\SiteMap.cshtml" />
     <Content Include="Views\Message\Message.cshtml" />
-    <Content Include="Views\Order\SatilikDaireEkle.cshtml" />
     <Content Include="Views\Account\QuickRegister.cshtml" />
     <Content Include="Views\Shipment\ShipmentDetails.cshtml" />
     <Content Include="Views\Shipment\CreateShipment.cshtml" />

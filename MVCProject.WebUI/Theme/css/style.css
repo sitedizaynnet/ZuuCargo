@@ -775,12 +775,12 @@ li {
   -webkit-transition: all .3s ease;
           transition: all .3s ease;
 }
-.main-menu-wrapper .free-qoute-button:hover {
-  background: #1FB5C7;
-}
-.main-menu-wrapper .free-qoute-button:hover:before {
-  background: #1FB5C7;
-}
+    .main-menu-wrapper .free-qoute-button:hover {
+        background: #13314C;
+    }
+        .main-menu-wrapper .free-qoute-button:hover:before {
+            background: #13314C;
+        }
 .main-menu-wrapper .free-qoute-button:hover a {
   color: #fff;
   -webkit-transition: all .3s ease;

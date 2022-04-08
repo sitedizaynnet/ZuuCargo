@@ -2,6 +2,16 @@
     ViewBag.Title = "Track Shipment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@functions{
+    public string ConvertToDate(string oldDate)
+    {
+
+        var date = DateTime.ParseExact(oldDate, "yyyyMMdd",
+                null).ToString("dd-MM-yyyy");
+        return date ;
+
+    }
+}
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis"></script>
 
@@ -20,12 +30,21 @@
 
         <div class="container padding-bottom-3x mb-1" id="trackingResult" style="display: block;">
             <div class="card mb-3">
-                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span>  @ModelforTracking.First().ulke_ad -->  @ModelforTracking.Last().ulke_ad <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span>  @(ModelforTracking.First().ulke_ad == "Turkey" ?  "Iraq" : ModelforTracking.First().ulke_ad  ) -->  @ModelforTracking.Last().ulke_ad <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
                 <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"> Service: ZuuCargo</span></div>
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Last Status: @ModelforTracking.Last().gonderi_durum_aciklama</span></div>
-                    <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate">Date : @ModelforTracking.Last().islem_saati @ModelforTracking.Last().islem_tarihi </span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate">Date : @ConvertToDate(ModelforTracking.Last().islem_tarihi) </span></div>
                 </div>
+                @if (ViewBag.OtherLink != "")
+                {
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"><a href="@ViewBag.OtherLink"> <span class="text-medium">@ViewBag.OtherLink </span></a></div>
+            </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"> <span class="text-medium">@ViewBag.Notes </span></div>
+                    </div>
+                }
                 <div class="card-body">
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
@@ -57,9 +76,15 @@
                         {
                             <li class="events">
                                 <a target="_blank" href="">
+                                   
+                            @if(item.ulke_ad == "Turkey")
+                            {
+                                item.ulke_ad = "Iraq";
+                            }
+                            
                                     <i class="fa fa-map-marker-alt"></i> @item.ulke_ad
                                 </a>
-                                <a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i> @item.islem_saati @item.islem_tarihi</a>
+                                <a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  @ConvertToDate(item.islem_tarihi)</a>
                                 <p>@item.gonderi_durum_aciklama</p>
                             </li>
                         }
@@ -84,7 +109,9 @@
             var geocoder = new google.maps.Geocoder();
             var addressStart = "@ModelforTracking.First().ulke_ad";
             var addressEnd = "@ModelforTracking.Last().ulke_ad";
-
+            if (addressStart == "Turkey") {
+                addressStart = "Erbil";
+            }
 
             geocoder.geocode({ 'address': addressStart }, function (results, status) {
 
@@ -144,7 +171,18 @@
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"> Service: ZuuCargo</span></div>
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Last Status: Package Accepted</span></div>
                     <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate">Date : @TrackingInfoShipment.ShipmentDate </span></div>
+                    <br />
+
                 </div>
+                @if (ViewBag.OtherLink != "")
+                {
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"><a href="@ViewBag.OtherLink"> <span class="text-medium">@ViewBag.OtherLink </span></a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"> <span class="text-medium">@ViewBag.Notes </span></div>
+                    </div>
+                }
                 <div class="card-body">
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
@@ -187,7 +225,9 @@
             var addressStart = "@ModelforTracking.First().ulke_ad";
             var addressEnd = "@ModelforTracking.Last().ulke_ad";
 
-
+                if (addressStart == "Turkey") {
+                    addressStart = "Erbil";
+                }
             geocoder.geocode({ 'address': addressStart }, function (results, status) {
 
                 if (status == google.maps.GeocoderStatus.OK) {

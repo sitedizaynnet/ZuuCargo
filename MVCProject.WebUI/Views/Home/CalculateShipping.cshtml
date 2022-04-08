@@ -381,7 +381,7 @@
                 <select name="country" id="country" class="form-control" data-show-subtext="true" data-live-search="true">
                     @foreach (MVCProject.Common.ViewModels.ZoneVM zone in (List<MVCProject.Common.ViewModels.ZoneVM>)ViewData["ZoneList"])
                     {
-                        <option class="zone" data-zone="@zone.ZoneNo" data-subtext="@Html.Raw((zone.IsExpress == true) ? "Express" : "Normal")">@zone.Country</option>
+                        <option class="zone" data-zone="@zone.ZoneNo">@zone.Country</option>
                     }
 
 
@@ -435,14 +435,14 @@
                 <label>Post Type:</label>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="postType" id="postType1" >
-                    <label class="form-check-label" for="postType1">
+                    <input class="form-check-input" type="radio" name="rdDox" id="postType1" >
+                    <label class="form-check-label" for="rdDox">
                        Dox 
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="postType" id="postType2" checked >
-                    <label class="form-check-label" for="postType2">
+                    <input class="form-check-input" type="radio" name="rdClothes" id="postType2"  >
+                    <label class="form-check-label" for="rdClothes">
                        Clothes
                     </label>
                 </div>

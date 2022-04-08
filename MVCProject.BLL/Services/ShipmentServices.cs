@@ -9,6 +9,7 @@ using MVCProject.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace MVCProject.BLL.Services
 {
@@ -38,7 +39,6 @@ namespace MVCProject.BLL.Services
             return ProjectMapper.ConvertToVM<ShipmentVM>(_shipmentRepository.GetById(id));
 
         }
-
 
         public void Insert(ShipmentVM entity)
         {

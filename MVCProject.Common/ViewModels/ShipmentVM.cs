@@ -74,6 +74,7 @@ namespace MVCProject.Common.ViewModels
         public int StatusCounter { get; set; }
 
         public int IsApiSuccess { get; set; }
+        public string OtherLink { get; set; }
 
     }
 }

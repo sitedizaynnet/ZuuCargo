@@ -31,7 +31,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             UserManager = userManager;
         }
 
-        [RequireHttps]
+        //[RequireHttps]
         // GET: Admin/ZuuCargo
         [CustomAuthorizeAttribute(Roles = "Admin, ZuuCargo")]
         public ActionResult LoadData()

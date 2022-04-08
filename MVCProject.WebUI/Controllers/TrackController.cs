@@ -20,12 +20,36 @@ namespace MVCProject.WebUI.Controllers
             var url = Url.RequestContext.RouteData.Values["id"];
             if (url != null)
             {
-               
-                ViewBag.TrackingInfo = TrackPTT(id.ToString().ToUpper());
+
+                try
+                {
+                    ViewBag.TrackingInfo = TrackPTT(id.ToString().ToUpper());
+                    try
+                    {
+                        id = id.ToUpper();
+                        ShipmentServices shipmentServices = new ShipmentServices();
+                        ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x => x.TrackingNo == id).FirstOrDefault();
+                        ViewBag.OtherLink = shipmentVM.OtherLink;
+                        ViewBag.Notes = shipmentVM.Notes;
+                    }
+                    catch (Exception)
+                    {
+
+
+                    }
+                }
+                catch (Exception)
+                {
+
+                    
+                }
                 if (ViewBag.TrackingInfo == null)
                 {
+                    id = id.ToUpper();
                     ShipmentServices shipmentServices = new ShipmentServices();
-                    ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x=>x.TrackingNo.Trim() == id.ToUpper()).First();
+                    ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x=>x.TrackingNo == id).FirstOrDefault();
+                    ViewBag.OtherLink = shipmentVM.OtherLink;
+                    ViewBag.Notes = shipmentVM.Notes;
 
                     ViewBag.TrackingInfoNull = shipmentVM;
                 }

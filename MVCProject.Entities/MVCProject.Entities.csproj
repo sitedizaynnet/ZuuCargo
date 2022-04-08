@@ -110,6 +110,10 @@
     <Compile Include="Migrations\202203301736372_remainp.Designer.cs">
       <DependentUpon>202203301736372_remainp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204041747465_link.cs" />
+    <Compile Include="Migrations\202204041747465_link.Designer.cs">
+      <DependentUpon>202204041747465_link.cs</DependentUpon>
+    </Compile>
     <Compile Include="RemainingCost.cs" />
     <Compile Include="Reklam.cs" />
     <Compile Include="ShipmentTurpexBarcodes.cs" />
@@ -158,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202203301736372_remainp.resx">
       <DependentUpon>202203301736372_remainp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204041747465_link.resx">
+      <DependentUpon>202204041747465_link.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

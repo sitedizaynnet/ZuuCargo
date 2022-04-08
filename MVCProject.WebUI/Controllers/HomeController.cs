@@ -233,7 +233,7 @@ namespace MVCProject.WebUI.Controllers
             return View();
 
         }
-        ////[RequireHttps]
+        //[RequireHttps]
         public JsonResult RemoteDataSource_KategoriGetir(string text)
         {
 
@@ -250,7 +250,7 @@ namespace MVCProject.WebUI.Controllers
         }
 
         // GET: Home
-        [RequireHttps]
+        //[RequireHttps]
         public ActionResult Index()
         {
 

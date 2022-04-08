@@ -89,7 +89,19 @@
                     @Html.DisplayFor(modelItem => item.ShipmentDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsApiSuccess)
+                    @if (item.IsApiSuccess == 1)
+                    {
+
+                        <img height="20" src="~/Theme/images/ok.svg" />
+
+                    }
+                    else
+                    {
+
+
+                       <a href="/Admin/Shipment/SendDataAgain/@item.Id"> <img height="20" src="~/Theme/images/cross.svg" /></a>
+
+                    }
                 </td>
 
 
@@ -100,12 +112,12 @@
                     <a target="_blank" href='/Admin/Shipment/TrackSMS/@item.Id'>SMS to Receiver</a> |
                     <a target="_blank" href='/Admin/Shipment/TrackSMSAcente/@item.Id'>SMS to Acente</a> |
                     <a target="_blank" href='/Admin/Shipment/SendNotificationJson/@item.Id'>Notify</a> |
+                    <a href='/Admin/Shipment/AddOtherLink/@item.Id'>AddLink</a> |
+                    <a href='/Admin/Shipment/SendDataAgain/@item.Id'>SendData</a> |
+
+
 
                     <a class="btnPrint" href='/Admin/Shipment/GetCargoLabel/@item.Id'>PrintLabel</a>
-                    <a  href='/Admin/Shipment/SendDataAgain/@item.Id'>SEND DATA</a>
-
-
-
 
                 </td>
             </tr>

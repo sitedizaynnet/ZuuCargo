@@ -30,6 +30,9 @@
 </body>
 
 <script>
+    setTimeout(function () {
+        window.location.reload(1);
+    }, 500000);
 
     var arrayOfArrays = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.TrackList));
     var resultAddress = [];

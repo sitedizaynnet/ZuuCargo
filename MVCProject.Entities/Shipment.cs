@@ -73,6 +73,7 @@ namespace MVCProject.Entities
 
         public int StatusCounter { get; set; }
         public int IsApiSuccess { get; set; }
+        public string OtherLink { get; set; }
     }
 }
      
