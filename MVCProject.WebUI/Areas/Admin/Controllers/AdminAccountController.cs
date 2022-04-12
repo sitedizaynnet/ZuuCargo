@@ -411,6 +411,10 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             {
                 model.isReport = true;
             }
+            if (UserManager.IsInRole(id, "Agent"))
+            {
+                model.isAgent = true;
+            }
             return View(model);
         }
 
@@ -460,6 +464,14 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 else
                 {
                     UserManager.RemoveFromRole(userId, "Reporter");
+                }
+                if (model.isAgent)
+                {
+                    UserManager.AddToRole(userId, "Agent");
+                }
+                else
+                {
+                    UserManager.RemoveFromRole(userId, "Agent");
                 }
                 Db.SaveChanges();
 

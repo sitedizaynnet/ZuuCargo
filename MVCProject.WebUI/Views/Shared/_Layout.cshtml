@@ -384,6 +384,10 @@
                                 <a href="/">ZuuCargo</a>
 
                             </li>
+                            <li class="submenu">
+                                <a href="/Home/CalculateShipping">Shipping Rates</a>
+
+                            </li>
                             @if (!User.Identity.IsAuthenticated)
                             {
                                 <li class="submenu">
@@ -974,6 +978,8 @@
     <!-- theme custom js  -->
     <script src="~/Theme/js/main.js"></script>
 
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/datatables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Theme/js/buttons.colVis.min.js"></script>
 
 
 </body>
@@ -982,7 +988,3 @@
 </html>
 
 
-else {
-
-
-                        });

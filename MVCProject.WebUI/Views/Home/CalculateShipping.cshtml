@@ -374,7 +374,7 @@
 <h2>Calculate Shipping</h2>
 <br />
 <div class="row">
-    <div class="col-xs-12 col-lg-7">
+    <div class="col-xs-12 col-lg-6">
         <form id="shipping-form" name="shipping-form" action="#" method="post" novalidate="novalidate" class="address-form">
             <div class="calculator-form-row">
 
@@ -388,7 +388,7 @@
                 </select>
             </div>
             <div id="country-validation-message" class="validation-message" style="display:none">This field is required</div>
-          
+
             <div class="calculator-form-row" id="pickup-location-section" style="display: none;">
                 <label for="pickup-location-id">
                     Pickup location:
@@ -414,20 +414,13 @@
                 <div class="holder">
 
                     <div class="calculator-form-row weight" style="margin-top: 25px">
-                        <input name="weight" type="text" class="form-control shipping_we numeric required" placeholder="Package Weight" value="">
+                        <input name="weight"  id="txtWeight" type="text" class="form-control shipping_we numeric required" placeholder="Package Weight" value="">
 
                         <button class="calculator-unit ">kg</button>
 
                     </div>
                     <div class="validation-message" style="display: none">This field is required</div>
-                    <div class="calculator-form-row size">
-                        <input class="form-control" type="text" name="length" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Length">
-                        <input class="form-control" type="text" name="width" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Width">
-                        <input class="form-control" type="text" name="height" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Height">
-
-                        <button class="calculator-unit ">cm</button>
-
-                    </div>
+                  
                 </div>
 
             </div>
@@ -435,18 +428,18 @@
                 <label>Post Type:</label>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="rdDox" id="postType1" >
+                    <input class="form-check-input" type="radio" name="rdType" id="rdDox">
                     <label class="form-check-label" for="rdDox">
-                       Dox 
+                        Dox
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="rdClothes" id="postType2"  >
+                    <input class="form-check-input" type="radio" name="rdType" id="rdClothes">
                     <label class="form-check-label" for="rdClothes">
-                       Clothes
+                        Clothes
                     </label>
                 </div>
-          
+
             </div>
             <div class="row btn_rw">
                 <div class="col-lg-12" align="center">
@@ -458,6 +451,18 @@
                 </div>
             </div>
         </form>
+    </div>
+    <div class="col-md-6">
+        <table id="tblPrice" class="table table-bordered">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>Service Type</th>
+                    <th>Package Type </th>
+                    <th>Price ($) </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
     <div class="col-xs-12 col-lg-5">
         <p><strong>The international shipping calculator provides you with our current pricing on shipping from the Iraq to international destinations.</strong></p>
@@ -472,51 +477,10 @@
             <a href="https://www.zuucargo.com/account/register" class="show-register">Register for an account now</a> to start saving on shipping.
         </p>
     </div>
-    <div class="col-md-6">
-        <table id="tblPrice" class="table table-bordered">
-            <thead class="bg-primary text-white">
-                <tr>
 
-
-
-
-
-                    <th>Type</th>
-
-                    <th>Time </th>
-                    <th>Price ($) </th>
-
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
 </div>
 <script>
-    (function () {
-
-        // get references to select list and display text box
-        var sel = document.getElementById('country');
-        var el = document.getElementById('zoneId');
-
-
-        function getSelectedOption(sel) {
-
-            return this.find(':selected').dataset.zone;
-        }
-
-
-
-        document.getElementById('btnsubmit').onclick = function () {
-            // access text property of selected option
-            var abc = $(sel).children('option:selected');
-            var xyz = abc.data("zone");
-            el.value = xyz;
-        }
-
-
-
-    }());
+   
     $body = $("#content-body");
 
     $(document).on({
@@ -526,9 +490,13 @@
 </script>
 <script>
     $(document).ready(function () {
+        function validateForm() {
+            if ($('[name="rdType"]').is(':checked') == false || $("#txtWeight").val().length <= 0)  {
+                // do something
+                alert("Please enter weight and select type!")
+            } else {
 
-        $("#btnsubmit").click(function () {
-            var priceTable = $('#tblPrice tbody');
+  var priceTable = $('#tblPrice tbody');
             priceTable.empty();
             var isValid = $("#Weight").val() !== "";
             if (isValid) {
@@ -548,22 +516,29 @@
                  {
                     var priceTable = $('#tblPrice tbody');
                     priceTable.empty();
-                    $(data).each(function (index, prc) {
-                        (prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
-                        priceTable.append('<tr><td>' +  prc.IsExpress + '</td><td>'
-                            + prc.NameOfService + '</td><td>' + prc.ServicePrice + '</td></tr>');
-                    });
+                    if (data.length != 0) {
+                        $(data).each(function (index, prc) {
+                            (prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
+                            priceTable.append('<tr><td>' + prc.IsExpress + '</td><td>'
+                                + prc.Type + '</td><td>' + prc.ServicePrice + '</td></tr>');
+                        });
+                    } else {
+                       
+          
+                            priceTable.append('<tr><td>No Price for this options.</td></tr>');
+                      
+                    }
+           
 
                 }
 
 
 
             },
-        //error: function (hata, ajaxOptions, thrownError) {
-        //        alert(hata.status);
-        //        alert(thrownError);
-        //        alert(hata.responseText);
-        //    }
+        error: function (hata, ajaxOptions, thrownError) {
+                alert("No Prices For This Options!");
+               
+            }
     });
 
             } else {
@@ -571,8 +546,14 @@
                 $(".help-block.with-errors").removeClass("hidden");
 
             }
+            }
 
 
+
+
+        }
+        $("#btnsubmit").click(function () {
+            validateForm();
         });
     });
 

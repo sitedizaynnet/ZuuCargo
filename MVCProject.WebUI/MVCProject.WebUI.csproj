@@ -3064,6 +3064,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -3446,6 +3447,10 @@
     <Content Include="Theme\Admin\plugins\toastr\nuget\toastr.2.0.3.nupkg" />
     <Content Include="Theme\Admin\plugins\toastr\nuget\toastr.2.0.3.nuspec" />
     <Content Include="Theme\Admin\icons.min.css.map" />
+    <Content Include="Views\Agent\Index.cshtml" />
+    <Content Include="Views\Agent\CreatePTT.cshtml" />
+    <Content Include="Views\Agent\CreateTurpex.cshtml" />
+    <Content Include="Views\Agent\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

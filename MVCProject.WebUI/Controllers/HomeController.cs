@@ -272,15 +272,31 @@ namespace MVCProject.WebUI.Controllers
         {
 
             bool success;
+            var weight = 0.0;
+          
+            var postType = "";
 
             string country = data[0].value;
 
-            string weight = data[1].value;
-            string lenght = data[2].value;
-            string width = data[3].value;
-            string height = data[4].value;
-
-            string postType = data[5].value;
+            if (data[1].ToString() != "")
+            {
+                 weight = Convert.ToDouble(data[1].value);
+               
+            }
+           
+            if (data[2].ToString() != "")
+            {
+                if (data[2].name == "rdClothes")
+                {
+                    postType = "Clothes";
+                }
+                else
+                {
+                    postType = "Dox";
+                }
+                
+            }
+            
 
             short? zoneId = zoneServices.GetAll().Where(x => x.Country.Trim() == country.Trim()).FirstOrDefault().ZoneNo;
 
@@ -293,14 +309,16 @@ namespace MVCProject.WebUI.Controllers
                 //List<PriceVM> priceList2 = priceList1.Where(x => Convert.ToBoolean(isExpress) == x.IsExpress).ToList();
                 List<PriceVM> priceList2 = priceList1.Where(x => postType.Trim() == x.Type.Trim()).ToList();
 
+               
+
                 priceList3 = priceList2.Where(x => Convert.ToDouble(weight) <= x.ToDesi && Convert.ToDouble(weight) >= x.FromDesi).ToList();
 
 
 
                 //List<PriceVM> priceList5 = priceList4.Where(x => countryZone == x.Zone).ToList();
 
-                double weight2 = Convert.ToDouble(weight);
-                weight2 = weight2 + 1;
+               
+              
                 success = true;
 
             }

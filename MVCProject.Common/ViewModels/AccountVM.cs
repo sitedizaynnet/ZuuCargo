@@ -231,6 +231,7 @@ namespace MVCProject.Models
         public bool isAccounter { get; set; }
         public bool isReport { get; set; }
         public bool isCost { get; set; }
+        public bool isAgent { get; set; }
 
 
 

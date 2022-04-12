@@ -114,6 +114,14 @@
     <Compile Include="Migrations\202204041747465_link.Designer.cs">
       <DependentUpon>202204041747465_link.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204111611510_userid.cs" />
+    <Compile Include="Migrations\202204111611510_userid.Designer.cs">
+      <DependentUpon>202204111611510_userid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204111653450_userid0.cs" />
+    <Compile Include="Migrations\202204111653450_userid0.Designer.cs">
+      <DependentUpon>202204111653450_userid0.cs</DependentUpon>
+    </Compile>
     <Compile Include="RemainingCost.cs" />
     <Compile Include="Reklam.cs" />
     <Compile Include="ShipmentTurpexBarcodes.cs" />
@@ -165,6 +173,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204041747465_link.resx">
       <DependentUpon>202204041747465_link.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204111611510_userid.resx">
+      <DependentUpon>202204111611510_userid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204111653450_userid0.resx">
+      <DependentUpon>202204111653450_userid0.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
