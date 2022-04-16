@@ -1,13 +1,13 @@
 ﻿@model MVCProject.Common.ViewModels.ShipmentMultiVM
 
 @{
-    ViewBag.Title = "View";
+    ViewBag.Title = "Post Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
-<h2>View</h2>
-
+<h2>Post Details</h2>
+<br />
 <div>
 
     <hr />
@@ -17,12 +17,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.ShipmentVM.TrackingNo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.AgentSenderName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.AgentSenderName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverName)

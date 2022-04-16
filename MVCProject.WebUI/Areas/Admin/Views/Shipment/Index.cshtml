@@ -35,7 +35,7 @@
                     @Html.DisplayNameFor(model => model.TrackingNo)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Konsimento)
+                    @Html.DisplayNameFor(model => model.UserId)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ReceiverName)
@@ -69,58 +69,72 @@
                     @Html.DisplayFor(modelItem => item.TrackingNo)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Konsimento)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReceiverName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReceiverTelephoneNo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReceiverCountryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsDelivered)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShipmentDate)
-                </td>
-                <td>
-                    @if (item.IsApiSuccess == 1)
+                    @foreach (MVCProject.Entities.ZuuCargoEntities.ApplicationUser seller in (List<MVCProject.Entities.ZuuCargoEntities.ApplicationUser>)ViewBag.UserList)
                     {
+                        if (seller.Id == item.UserId)
+                        {
+                            @seller.FirstName  @seller.LastName
 
-                        <img height="20" src="~/Theme/images/ok.svg" />
+                        }
 
-                    }
-                    else
-                    {
-
-
-                       <a href="/Admin/Shipment/SendDataAgain/@item.Id"> <img height="20" src="~/Theme/images/cross.svg" /></a>
 
                     }
                 </td>
 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceiverName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceiverTelephoneNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceiverCountryId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDelivered)
+                    </td>
 
-                <td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ShipmentDate)
+                    </td>
+                    <td>
+                        @if (item.IsApiSuccess == 1)
+                        {
 
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                    <a target="_blank" href='/Admin/Shipment/TrackSMS/@item.Id'>SMS to Receiver</a> |
-                    <a target="_blank" href='/Admin/Shipment/TrackSMSAcente/@item.Id'>SMS to Acente</a> |
-                    <a target="_blank" href='/Admin/Shipment/SendNotificationJson/@item.Id'>Notify</a> |
-                    <a href='/Admin/Shipment/AddOtherLink/@item.Id'>AddLink</a> |
-                    <a href='/Admin/Shipment/SendDataAgain/@item.Id'>SendData</a> |
+                            <img height="20" src="~/Theme/images/ok.svg" />
+
+                        }
+                        else
+                        {
 
 
+                            <a href="/Admin/Shipment/SendDataAgain/@item.Id"> <img height="20" src="~/Theme/images/cross.svg" /></a>
 
-                    <a class="btnPrint" href='/Admin/Shipment/GetCargoLabel/@item.Id'>PrintLabel</a>
+                        }
+                    </td>
 
-                </td>
-            </tr>
+
+                    <td>
+                        <select id="dynamic_select @item.Id" onchange="window.location = this.options[this.selectedIndex].value">
+                            <option value="" selected>Pick a Action</option>
+                            <option value="/Admin/Shipment/Details/@item.Id">Details</option>
+                            <option value="/Admin/Shipment/Delete/@item.Id">Delete</option>
+                            <option value="/Admin/Shipment/TrackSMS/@item.Id">Track SMS</option>
+                            <option value="/Admin/Shipment/TrackSMSAcente/@item.Id">Track SMS Acente</option>
+                            <option value="/Admin/Shipment/SendNotificationJson/@item.Id">Notify</option>
+                            <option value="/Admin/Shipment/AddOtherLink/@item.Id">AddLink</option>
+                            <option value="/Admin/Shipment/ConfirmUserPackageTurpex/@item.Id">Confirm Turpex</option>
+                            <option value="/Admin/Shipment/ConfirmUserPackagePTT/@item.Id">Confirm PTT</option>
+                    
+
+                        </select>
+                       
+                        
+
+                        <a class="btnPrint" href='/Admin/Shipment/GetCargoLabel/@item.Id'>PrintLabel</a>
+
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -129,6 +143,8 @@
 @*<script src="~/Theme/js/jquery-1.4.4.min.js" type="text/javascript"></script>*@
 
 <script>
+
+
     $(document).ready(function () {
         $(".btnPrint").printPage();
     });
@@ -147,7 +163,7 @@
                             return "Shipments";
                         },
                         exportOptions: {
-                            columns: [0, 1, 2,5,6,7,9,16,17]
+                            columns: [0, 1, 2,3,5,6,7,9,16,17]
                         },
                         orientation: 'landscape',
                         pageSize: 'A4',
@@ -156,11 +172,11 @@
                     }
 
                 ],
-              
 
+                fixedColumns: false,
                 autoFill: true,
                 colReorder: true,
-                fixedColumns: true,
+                fixedColumns: false,
                 responsive: false,
                 keys: true,
                 rowReorder: true,

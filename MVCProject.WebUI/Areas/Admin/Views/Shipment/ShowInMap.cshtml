@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "ShowInMap";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
-   
+
 }
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis"></script>
 
@@ -29,7 +29,127 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&libraries=&v=weekly"></script>
 </body>
 
-<script>
+<script type="text/javascript">
+    //<![CDATA[
+
+
+    // delay between geocode requests - at the time of writing, 100 miliseconds seems to work well
+    var delay = 100;
+
+
+    // ====== Create map objects ======
+    var infowindow = new google.maps.InfoWindow();
+    var latlng = new google.maps.LatLng(40.955, 3.711);
+    var mapOptions = {
+        zoom: 2,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var geo = new google.maps.Geocoder();
+    var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    var bounds = new google.maps.LatLngBounds();
+
+    // ====== Geocoding ======
+    function getAddress(search, next) {
+        geo.geocode({ address: search }, function (results, status) {
+            // If that was successful
+            if (status == google.maps.GeocoderStatus.OK) {
+                // Lets assume that the first marker is the one we want
+                var p = results[0].geometry.location;
+                var lat = p.lat();
+                var lng = p.lng();
+               
+                //document.getElementById("messages").innerHTML += msg;
+                // Create a marker
+                createMarker(search, lat, lng);
+            }
+            // ====== Decode the error status ======
+            else {
+                // === if we were sending the requests to fast, try this one again and increase the delay
+                if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                    nextAddress--;
+                    delay++;
+                } else {
+                    var reason = "Code " + status;
+                    var msg = 'address="' + search + '" error=' + reason + '(delay=' + delay + 'ms)<br>';
+                   // document.getElementById("messages").innerHTML += msg;
+                }
+            }
+            next();
+        }
+        );
+    }
+
+    // ======= Function to create a marker
+    function createMarker(add, lat, lng) {
+
+        var myTrackNumber = add.replace(/\D+$/g, "")
+
+        const contentString =
+            '<div id="content">' +
+            '<div id="siteNotice">' +
+            "</div>" +
+            '<h3 id="firstHeading" class="firstHeading">' +
+             arrayOfArrays[myTrackNumber].Key
+      
+
+            + '</h3>' +
+            '<div id="bodyContent">' +
+
+            '<p>Track Shipment :  <a target="_blank" href="https://zuucargo.com/Track/TrackShipment/' + arrayOfArrays[myTrackNumber].Key + '">' +
+            'TRACK</a>'
+        "</div>" +
+            "</div>";
+
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(lat, lng),
+            map: map,
+            zIndex: Math.round(latlng.lat() * -100000) << 5
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.setContent(contentString);
+            infowindow.open(map, marker);
+        });
+
+        bounds.extend(marker.position);
+
+    }
+
+
+    var arrayOfArrays = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@ViewBag.TrackList));
+    var resultAddress = [];
+
+    for (var i in arrayOfArrays) {
+        resultAddress.push([i, arrayOfArrays[i].Value]);
+    }
+
+   
+    // ======= Global variable to remind us what to do next
+    var nextAddress = 0;
+
+    // ======= Function to call the next Geocode operation when the reply comes back
+
+    function theNext() {
+        if (nextAddress < resultAddress.length) {
+            setTimeout('getAddress("' + resultAddress[nextAddress] + '",theNext)', delay);
+            nextAddress++;
+        } else {
+            // We're done. Show map bounds
+            map.fitBounds(bounds);
+        }
+    }
+
+    // ======= Call that function for the first time =======
+    theNext();
+
+   
+
+</script>
+
+
+@*<script>
     setTimeout(function () {
         window.location.reload(1);
     }, 500000);
@@ -40,34 +160,36 @@
     marker = new google.maps.Marker({
         map,
     });
+
+
+    for (var i in arrayOfArrays) {
+        resultAddress.push([i, arrayOfArrays[i]]);
+    }
+    for (i = 0; i < resultAddress.length; i++) {
+
+        wait = true;
+        setTimeout("wait = true", 2000);
+        geocode({ address: resultAddress[i][1].Value }, resultAddress[i][1].Key)
+
+    };
+
     function geocode(request, infos) {
         geocoder
             .geocode(request)
             .then((result) => {
                 const { results } = result;
 
-              
+
                 marker.setPosition(results[0].geometry.location);
                 addMarker(results[0].geometry.location, infos);
-              
+
                 return results;
             })
             .catch((e) => {
                 alert("Geocode was not successful for the following reason: " + e);
             });
     }
-   
 
-    for (var i in arrayOfArrays)
-        resultAddress.push([i, arrayOfArrays[i]]);
-
-    for (i = 0; i < resultAddress.length; i++) {
-
-        geocode({ address: resultAddress[i][1].Value }, resultAddress[i][1].Key)
-
-    };
-
-   
     function addMarker(location, infos) {
         var option = {
             zoom: 5,
@@ -104,8 +226,5 @@
         });
         }
 
-    
 
-
-
-</script>
+</script>*@

@@ -85,13 +85,28 @@
                                     <i class="fa fa-map-marker-alt"></i> @item.ulke_ad
                                 </a>
                                 <a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  @ConvertToDate(item.islem_tarihi)</a>
-                                <p>@item.gonderi_durum_aciklama</p>
+                                <p id="durumAciklama @item.islem_saati">
+                                    <script>
+                                        function replaceAll(str, match, replacement) {
+                                            return str.split(match).join(replacement);
+                                        }
+                                        if (Boolean("@item.gonderi_durum_aciklama.Contains("PTT")")) {
+
+                                            document.getElementById('durumAciklama @item.islem_saati').innerHTML
+                                                = replaceAll("@item.gonderi_durum_aciklama", "PTT", "ZuuCargo");
+                                        } else {
+                                            document.getElementById('durumAciklama').innerHTML
+                                                = "@item.gonderi_durum_aciklama";
+                                        }
+                                    </script>
+                               </p>
                             </li>
                         }
                     </ul>
                 </div>
             </div>
         </div>
+       
         <body onload="myfunction();">
 
             <!--The div element for the map -->
@@ -385,7 +400,7 @@
                         });
                     } else {
 
-                        location.href = "https://zuucargo.com/Track/TrackShipment/" + trackingNumber;
+                        location.href = "https://www.zuucargo.com/Track/TrackShipment/" + trackingNumber;
 
 
 
@@ -565,15 +580,15 @@
 
             .bs4-order-tracking li.active {
                 font-weight: bold;
-                color: #2359ee
+                color: #0d6efd
             }
 
                 .bs4-order-tracking li.active > div {
-                    background: #2359ee
+                    background: #0d6efd
                 }
 
                 .bs4-order-tracking li.active:after {
-                    background: #2359ee
+                    background: #0d6efd
                 }
 
     .card-timeline {

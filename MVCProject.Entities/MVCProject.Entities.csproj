@@ -122,6 +122,22 @@
     <Compile Include="Migrations\202204111653450_userid0.Designer.cs">
       <DependentUpon>202204111653450_userid0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204131459306_userscreen.cs" />
+    <Compile Include="Migrations\202204131459306_userscreen.Designer.cs">
+      <DependentUpon>202204131459306_userscreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204131500283_userscreen1.cs" />
+    <Compile Include="Migrations\202204131500283_userscreen1.Designer.cs">
+      <DependentUpon>202204131500283_userscreen1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204131502551_userscreen123.cs" />
+    <Compile Include="Migrations\202204131502551_userscreen123.Designer.cs">
+      <DependentUpon>202204131502551_userscreen123.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202204141626043_agentSenderName.cs" />
+    <Compile Include="Migrations\202204141626043_agentSenderName.Designer.cs">
+      <DependentUpon>202204141626043_agentSenderName.cs</DependentUpon>
+    </Compile>
     <Compile Include="RemainingCost.cs" />
     <Compile Include="Reklam.cs" />
     <Compile Include="ShipmentTurpexBarcodes.cs" />
@@ -179,6 +195,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204111653450_userid0.resx">
       <DependentUpon>202204111653450_userid0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204131459306_userscreen.resx">
+      <DependentUpon>202204131459306_userscreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204131500283_userscreen1.resx">
+      <DependentUpon>202204131500283_userscreen1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204131502551_userscreen123.resx">
+      <DependentUpon>202204131502551_userscreen123.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204141626043_agentSenderName.resx">
+      <DependentUpon>202204141626043_agentSenderName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3451,6 +3451,10 @@
     <Content Include="Views\Agent\CreatePTT.cshtml" />
     <Content Include="Views\Agent\CreateTurpex.cshtml" />
     <Content Include="Views\Agent\Details.cshtml" />
+    <Content Include="Views\Account\Details.cshtml" />
+    <Content Include="Views\Account\NewPost.cshtml" />
+    <Content Include="Views\Account\MyPackages.cshtml" />
+    <Content Include="Views\Agent\GetCargoLabel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

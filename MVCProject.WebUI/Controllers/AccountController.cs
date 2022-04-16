@@ -23,19 +23,14 @@ using Newtonsoft.Json;
 using System.Net;
 using System.IO;
 using System.Web.Security;
+using RestSharp;
 
 namespace MVCProject.WebUI.Controllers
 {
 
     public class AccountController : BaseController
     {
-        OrderServices orderServices = new OrderServices();
-        SehirlerServices sehirlerServices = new SehirlerServices();
-        IlcelerServices IlcelerServices = new IlcelerServices();
-        SemtServices semtServices = new SemtServices();
-       
-        
-      
+        ShipmentServices shipmentServices = new ShipmentServices();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -43,11 +38,105 @@ namespace MVCProject.WebUI.Controllers
         public ActionResult Home()
         {
 
-            List<ZoneVM> zoneList = zoneServices.GetAll().ToList();
-            ViewData["ZoneList"] = zoneList;
+            return View();
+        }
+        // NEW POST
+        [CustomAuthorizeAttribute]
+        public ActionResult NewPost()
+        {
+            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperationsTest/turpex/ulkeler");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+
+            var body = @"{" + "\n" + @"    ""musteri_id"": 804440354," + "\n" + @"    ""password"": ""S62Exy6V4NNi1iQqNZLVGA""" + "\n" +
+            @"}";
+            request.AddParameter("application/json", body, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            ViewBag.Ulkeler = response.Content;
 
             return View();
         }
+
+
+        [CustomAuthorizeAttribute]
+        [HttpPost]
+        public ActionResult NewPost(ShipmentVM shipmentVM)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+                ShipmentServices shipmentServices = new ShipmentServices();
+                shipmentVM.ShipmentDate = DateTime.Now;
+                shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
+                shipmentVM.IsDelivered = false;
+                shipmentVM.IsPtt = true;
+                shipmentVM.IsConfirmed = false;
+                string userId = User.Identity.GetUserId();
+                shipmentVM.UserId = userId;
+                shipmentServices.Insert(shipmentVM);
+                
+                return RedirectToAction("MyPackages");
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            return RedirectToAction("MyPackages", "Account");
+        }
+
+
+        // GET: UserScreen 
+        [CustomAuthorizeAttribute]
+        public ActionResult MyPackages()
+        {
+
+            string userId = User.Identity.GetUserId();
+            List<ShipmentVM> shipmentVMs = shipmentServices.GetAll().Where(x => x.UserId == userId).ToList();
+
+            return View(shipmentVMs);
+        }
+
+        [CustomAuthorizeAttribute]
+        public ActionResult Details(int id)
+        {
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            return View(shipmentVM);
+        }
+
+        [CustomAuthorizeAttribute]
+        public JsonResult UlkedenSehirGetir(string ulkeId)
+        {
+            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperationsTest/turpex/ulkesehirler/" + ulkeId);
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+
+            var body = @"{" + "\n" + @"    ""musteri_id"": 804440354," + "\n" + @"    ""password"": ""S62Exy6V4NNi1iQqNZLVGA""" + "\n" +
+            @"}";
+            request.AddParameter("application/json", body, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+            ViewBag.Sehirler = response.Content;
+            return Json(response.Content, JsonRequestBehavior.AllowGet);
+        }
+
+        [CustomAuthorizeAttribute]
+        public JsonResult HarmonyCodeGetir()
+        {
+            var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperations/turpex/harmonycodes");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.POST);
+            request.AddHeader("Content-Type", "application/json");
+
+            var body = @"{" + "\n" + @"    ""musteri_id"": 804440354," + "\n" + @"    ""password"": ""S62Exy6V4NNi1iQqNZLVGA""" + "\n" +
+            @"}";
+            request.AddParameter("application/json", body, ParameterType.RequestBody);
+            IRestResponse response = client.Execute(request);
+
+            return Json(response.Content, JsonRequestBehavior.AllowGet);
+        }
+      
+        //------------------------
 
         public class CaptchaResult
         {
@@ -57,54 +146,7 @@ namespace MVCProject.WebUI.Controllers
             public List<string> ErrorCodes { get; set; }
         }
 
-        public ActionResult OrderDetails(int id)
-        {
-            OrderVM orderVM = orderServices.GetById(id);
-          
-           
-            try
-            {
-                UserServices userServices = new UserServices();
-
-                orderVM.UserName = userServices.GetByUserId(orderVM.UsersId).FirstName + " " + userServices.GetByUserId(orderVM.UsersId).LastName;
-
-            }
-            catch (Exception)
-            {
-
-               
-            }
-
-            return View(orderVM);
-        }
-            //GET ORDERS
-            public ActionResult Orders()
-        {
-            //Create Lists
-
-            List<OrderVM> UserOrders = orderServices.GetAllByUserId(User.Identity.GetUserId()).OrderBy(o => o.OrderTime).ToList();
-
-            foreach (OrderVM item in UserOrders)
-            {
-                
-                try
-                {
-                 
-                    item.CityAdi = sehirlerServices.GetById(item.CityId).SehirAdi;
-                    item.IlceAdi = IlcelerServices.GetById(item.IlceId).IlceAdi;
-                    item.SemtAdi = semtServices.GetById(item.SemtId).SemtAdi;
-                 
-                }
-                catch (Exception)
-                {
-
-                   
-                }
-               
-            }
-            //Return VM
-            return View(UserOrders);
-        }
+     
         public ActionResult _CreateComment(/*int rentorderid*/)
         {
             return PartialView();
@@ -381,54 +423,7 @@ namespace MVCProject.WebUI.Controllers
 
             return View(ZuuCargoVMList);
         }
-        public JsonResult RemoteDataSource_SehirleriGetir(string text)
-        {
-
-            SehirlerServices sehirlerServices = new SehirlerServices();
-
-            var sehirler = sehirlerServices.GetAll().Select(x => new SehirlerVM
-            {
-                SehirId = x.SehirId,
-                SehirAdi = x.SehirAdi
-               
-            });
-
-            return Json(sehirler, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult RemoteDataSource_IlceleriGetir(int? city)
-        {
-            IlcelerServices ilcelerServices = new IlcelerServices();
-            var ilce = ilcelerServices.GetAll().AsQueryable().Where(p => p.SehirId == city);
-
-
-            return Json(ilce.Select(p => new { IlceId = p.IlceId, IlceAdi = p.IlceAdi }), JsonRequestBehavior.AllowGet);
-        }
-        public JsonResult RemoteDataSource_IlceleriGetir2(int? ilsecim)
-        {
-            IlcelerServices ilcelerServices = new IlcelerServices();
-            var ilce = ilcelerServices.GetAll().AsQueryable().Where(p => p.SehirId == ilsecim);
-
-
-            return Json(ilce.Select(p => new { IlceId = p.IlceId, IlceAdi = p.IlceAdi }), JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult RemoteDataSource_SemtGetir(int? ilce)
-        {
-            SemtServices semtServices = new SemtServices();
-            var semt = semtServices.GetAll().AsQueryable().Where(o => o.IlceId == ilce); 
-
-            return Json(semt.Select(o => new { SemtId = o.SemtId, SemtAdi = o.SemtAdi}), JsonRequestBehavior.AllowGet);
-        }
-
-        //public JsonResult RemoteDataSource_MahalleGetir(int? semt)
-        //{
-        //    MahalleServices mahalleServices = new MahalleServices();
-        //    var mahalle = mahalleServices.GetAll().AsQueryable().Where(o => o.SemtId == semt);
-
-
-        //    return Json(mahalle.Select(o => new { MahalleId = o.MahalleId, MahalleAdi = o.MahalleAdi }), JsonRequestBehavior.AllowGet);
-        //}
+  
         public ApplicationSignInManager SignInManager
         {
             get

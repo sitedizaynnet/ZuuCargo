@@ -40,8 +40,9 @@ namespace MVCProject.WebUI.Controllers
                 }
                 catch (Exception)
                 {
+                    RedirectToAction("TrackShipment");
 
-                    
+
                 }
                 if (ViewBag.TrackingInfo == null)
                 {

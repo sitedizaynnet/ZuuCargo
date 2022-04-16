@@ -428,13 +428,13 @@
                 <label>Post Type:</label>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="rdType" id="rdDox">
+                    <input class="form-check-input" type="radio" name="rdDox" id="rdDox">
                     <label class="form-check-label" for="rdDox">
                         Dox
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="rdType" id="rdClothes">
+                    <input class="form-check-input" type="radio" name="rdClothes" id="rdClothes">
                     <label class="form-check-label" for="rdClothes">
                         Clothes
                     </label>
@@ -458,6 +458,7 @@
                 <tr>
                     <th>Service Type</th>
                     <th>Package Type </th>
+                    <th>Time </th>
                     <th>Price ($) </th>
                 </tr>
             </thead>
@@ -480,7 +481,12 @@
 
 </div>
 <script>
-   
+    $(document).ready(function () {
+        $('.form-check-input').on('click', function () {
+            $('.form-check-input').removeAttr('checked');
+            $(this).prop('checked', 'checked');
+        })
+    });
     $body = $("#content-body");
 
     $(document).on({
@@ -490,8 +496,9 @@
 </script>
 <script>
     $(document).ready(function () {
+
         function validateForm() {
-            if ($('[name="rdType"]').is(':checked') == false || $("#txtWeight").val().length <= 0)  {
+            if ($('[class="form-check-input"]').is(':checked') == false || $("#txtWeight").val().length <= 0)  {
                 // do something
                 alert("Please enter weight and select type!")
             } else {
@@ -520,7 +527,7 @@
                         $(data).each(function (index, prc) {
                             (prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
                             priceTable.append('<tr><td>' + prc.IsExpress + '</td><td>'
-                                + prc.Type + '</td><td>' + prc.ServicePrice + '</td></tr>');
+                                + prc.Type + '</td><td>' + (prc.IsExpress  == "Express" ? "3-9 days" : "7-15 days") + '</td><td>' + prc.ServicePrice + '</td></tr>');
                         });
                     } else {
                        

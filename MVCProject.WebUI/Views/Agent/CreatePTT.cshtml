@@ -277,7 +277,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-sm-12 col-md-8 col-lg-8 d-none">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Sender Name*</strong></label><input readonly class="form-control" value="HAŞİMİ GROUP GIDA LOJİSTİK KARGO HİZM.İNŞ.İTH.İHR.LTD.ŞTİ" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name" name="SenderName" required="" maxlength="100"></div>
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4">
@@ -289,31 +289,32 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-sm-12 col-md-8 col-lg-8 d-none">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Sender Phone Number *</strong></label><input readonly value="05444077373" class="form-control" type="text" id="service_name-1" name="SenderTelephone" required="" maxlength="11" minlength="11"></div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-4">
+                        <div class="col-sm-12 col-md-4 col-lg-4 d-none">
                             <div class="mb-3"><label class="form-label" for="service_price"><strong>Sender Mail Address *</strong><br></label><input class="form-control" type="text" id="service_name-2" name="SenderEmail" maxlength="100"></div>
                         </div>
-                        <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-sm-12 col-md-8 col-lg-8 d-none">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Sender Address&nbsp;</strong></label><input readonly class="form-control" value="CUMHURİYET MAH. 1199A SOKAK NO:10U SİLOPİ ŞIRNAK" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-3" name="SenderAddress" maxlength="250"></div>
                         </div>
-                        <div class="col-sm-12 col-md-4 col-lg-4">
+                        <div class="col-sm-12 col-md-4 col-lg-4 d-none">
                             <div class="mb-3"><label class="form-label" for="service_price"><strong>Sender Post Code *</strong><br></label><input readonly class="form-control" type="text" value="73400" id="SenderPostalCode" name="SenderPostalCode" maxlength="6" inputmode="numeric"></div>
                         </div>
-                        <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-sm-12 col-md-8 col-lg-8 d-none">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Sender Tax Number *</strong></label><input readonly class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-5" value="4590672503" name="SenderIdVATNumber" maxlength="15" title="Gonderi Vergi numarası set edilmeli"></div>
                         </div>
 
                         <div class="col-sm-12 col-md-8 col-lg-4">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Receiver City * (Alıcı Şehir)</strong></label><input class="form-control" type="text" id="service_name-8" name="ReceiverCityId" required=""></div>
                         </div>
-                        <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-sm-12 col-md-8 col-lg-4">
+                            <div class="mb-3"><label class="form-label" for="service_name"><strong>Sender Name * (Gönderici Adı)</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-7" name="AgentSenderName" required="" maxlength="100"></div>
+                        </div>
+                        <div class="col-sm-12 col-md-8 col-lg-4">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Receiver Name * (Alıcı Adı)</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-7" name="ReceiverName" required="" maxlength="100"></div>
                         </div>
-                        <div class="col-sm-12 col-md-8 col-lg-8">
-                            <div class="mb-3"><label class="form-label" for="service_name"><strong>Acente  (Kişi )</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-7" name="Acente" maxlength="100"></div>
-                        </div>
+
                         <div class="col-sm-12 col-md-4 col-lg-4">
                             <div class="mb-3">
                                 <label class="form-label" for="service_price"><strong>Receiver Country *</strong><br></label>
@@ -587,7 +588,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-sm-12 col-md-8 col-lg-4">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Receiver Phone Number * (Alıcı Telefon)</strong></label><input class="form-control" type="text" id="service_name-8" name="ReceiverTelephone" required=""></div>
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4">
@@ -597,7 +598,7 @@
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Receiver Address * (Alıcı Adresi) &nbsp;</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-10" name="ReceiverAddress" maxlength="255" title="Sisteme kayıtlı firma bilgisi dışında bir firma gönderici Adresi gönderilmek istendiğinde set edilmelidir." required=""></div>
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4">
-                            <div class="mb-3"><label class="form-label" for="service_price"><strong>Receiver Post Code * (Alıcı Posta Kodu)</strong><br></label><input class="form-control" type="text" id="service_name-11" name="ReceiverPostalCode" maxlength="6" inputmode="numeric" required=""></div>
+                            <div class="mb-3"><label class="form-label" for="service_price"><strong>Receiver Post Code * (Alıcı Posta Kodu)</strong><br></label><input class="form-control" type="text" id="service_name-11" name="ReceiverPostalCode" maxlength="6"  required=""></div>
                         </div>
                         <div class="col-sm-12 col-md-8 col-lg-3">
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Height&nbsp;&nbsp; (Yükseklik)</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-12" name="Height" maxlength="4" required="" title="Anlaşmanız gönderi desisi üzerinden yapılmışsa gönderiye ait yuksekik cm cinsinden gönderilmelidir." inputmode="numeric"></div>
@@ -618,7 +619,7 @@
                             <div class="mb-3"><label class="form-label" for="service_name"><strong>Value (Gönderi Değeri (USD) )</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-14" name="ValueOfPackage"></div>
                         </div>
                         <div class="col-sm-12 col-md-8 col-lg-3">
-                            <div class="mb-3"><label class="form-label" for="service_name"><strong>Money (For Buy (USD) )</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-14" name="MoneyForBuy"></div>
+                            <div class="mb-3"><label class="form-label" for="service_name"><strong>Money  (For Buy (USD) )</strong></label><input class="form-control" type="text" data-bs-toggle="tooltip" data-bss-tooltip="" id="service_name-14" name="MoneyForBuy"></div>
                         </div>
                     </div>
                 </div>

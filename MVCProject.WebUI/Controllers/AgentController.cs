@@ -29,11 +29,35 @@ namespace MVCProject.WebUI.Controllers
 
         // GET: Agent
         [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
-        public ActionResult Details()
+  
+        public ActionResult Details(int id)
         {
-            return View();
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            return View(shipmentVM);
         }
-            [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
+
+
+        public ActionResult GetCargoLabel(int id)
+        {
+            UserServices userServices = new UserServices();
+            string userId = User.Identity.GetUserId();
+            ViewBag.AgentName = userServices.GetByUserId(userId).FirstName + " " + userServices.GetByUserId(userId).LastName;
+            ViewBag.AgentTelephone = userServices.GetByUserId(userId).Phone;
+
+
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+
+            return View(shipmentVM);
+
+        }
+
+        public ActionResult Delete(int id)
+        {
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            shipmentServices.Delete(shipmentVM);
+            return RedirectToAction("Index");
+        }
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
         public ActionResult CreateTurpex()
         {
             var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperationsTest/turpex/ulkeler");
@@ -98,6 +122,8 @@ namespace MVCProject.WebUI.Controllers
                 shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
                 shipmentVM.IsDelivered = false;
                 shipmentVM.IsPtt = true;
+                shipmentVM.IsConfirmed = true;
+
                 shipmentServices.Insert(shipmentVM);
                 var lastId = shipmentServices.GetAll().Last().Id;
                 var barcode = GetTurpexShipmentBarcode(lastId);
@@ -128,7 +154,7 @@ namespace MVCProject.WebUI.Controllers
                     accountingVM2.IsCargo = true;
                     accountingVM2.Quantity = shipmentVM.PackageCount;
                     accountingVM2.Telephone = shipmentVM.ReceiverTelephoneNo;
-                    accountingVM2.Notes = "Money For Buy";
+                    accountingVM2.Notes = "Agent Money For Buy";
                     accountingServices.Insert(accountingVM2);
                 }
 
@@ -155,10 +181,13 @@ namespace MVCProject.WebUI.Controllers
                 shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
                 shipmentVM.IsPtt = true;
                 shipmentVM.IsDelivered = false;
+                shipmentVM.IsConfirmed = true;
+
                 shipmentServices.Insert(shipmentVM);
                 var lastId = shipmentServices.GetAll().Last().Id;
                 var barcode = GetShipmentBarcode(lastId);
                 shipmentVM.Id = lastId;
+                shipmentVM.UserId = User.Identity.GetUserId();
                 shipmentVM.TrackingNo = barcode;
                 shipmentServices.Update(shipmentVM);
                 bool response = SendPttData(lastId, barcode);
@@ -182,7 +211,7 @@ namespace MVCProject.WebUI.Controllers
                     accountingVM2.IsCargo = true;
                     accountingVM2.Quantity = shipmentVM.PackageCount;
                     accountingVM2.Telephone = shipmentVM.ReceiverTelephoneNo;
-                    accountingVM2.Notes = "Money For Buy";
+                    accountingVM2.Notes = "Agent Money For Buy";
                     accountingServices.Insert(accountingVM2);
                 }
                 return RedirectToAction("Index");
@@ -193,7 +222,6 @@ namespace MVCProject.WebUI.Controllers
                 return View();
             }
         }
-
 
         public bool SendTurpexData(int id, string barcodeNumber)
         {
@@ -312,8 +340,6 @@ namespace MVCProject.WebUI.Controllers
             }
             return true;
         }
-
-
 
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public bool SendPttData(int id, string barcodeNumber)

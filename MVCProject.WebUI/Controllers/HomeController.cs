@@ -96,7 +96,14 @@ namespace MVCProject.WebUI.Controllers
                                         shipmentServices.ExecutePushNotification("Status Updated", "Your Package is Delivered.", senderUserToken, null);
 
                                     }
+                                    if (info.Last().gonderi_durum_aciklama.ToString().Contains("DHL REQUEST "))
+                                    {
+                                      var DHLNo =   string.Concat(info.Last().gonderi_durum_aciklama.ToString().Where(char.IsNumber));
 
+                                        item.Konsimento = DHLNo;
+                                        shipmentServices.Update(item);
+
+                                    }
                                 }
                                 catch (Exception)
                                 {

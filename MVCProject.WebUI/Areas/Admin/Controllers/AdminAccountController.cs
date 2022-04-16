@@ -28,7 +28,9 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
         public AdminAccountController(UserManager<ApplicationUser> userManager)
         {
-            UserManager = userManager;
+            var userManagers = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ZuuCargoEntities()));
+
+            UserManager = userManagers;
         }
 
         //[RequireHttps]
@@ -79,7 +81,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
 
         }
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+        public UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ZuuCargoEntities()));
 
         //[RequireHttps]
 
@@ -394,7 +396,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             var Db = new ZuuCargoEntities();
             var user = Db.Users.First(u => u.Id == id);
             var model = new SelectUserRolesViewModel(user);
-
+            model.UserId = user.Id;
             if (UserManager.IsInRole(id, "Accounter"))
             {
                 model.isAccounter = true;
@@ -428,52 +430,22 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             {
                 var idManager = new IdentityManager();
                 var Db = new ZuuCargoEntities();
-                var userId = Db.Users.First(x => x.UserName == model.UserName).Id;
-                var user = Db.Users.First(u => u.Id == userId);
 
+               
+                var user = Db.Users.First(u => u.Id == model.UserId);
+                var userId = user.Id; 
                 Db.SaveChanges();
-                if (model.isAccounter)
-                {
-                    UserManager.AddToRole(userId, "Accounter");
-                }
-                else
-                {
-                    UserManager.RemoveFromRole(userId, "Accounter");
-                }
-                if (model.isCargo)
-                {
-                    UserManager.AddToRole(userId, "Cargo");
-                }
-                else
-                {
-                    UserManager.RemoveFromRole(userId, "Cargo");
-
-                }
-                if (model.isCost)
-                {
-                    UserManager.AddToRole(userId, "Cost");
-                }
-                else
-                {
-                    UserManager.RemoveFromRole(userId, "Cost");
-                }
-                if (model.isReport)
-                {
-                    UserManager.AddToRole(userId, "Reporter");
-                }
-                else
-                {
-                    UserManager.RemoveFromRole(userId, "Reporter");
-                }
+               
                 if (model.isAgent)
                 {
-                    UserManager.AddToRole(userId, "Agent");
+                   var isOk =  UserManager.AddToRole(userId, "Agent");
+
                 }
                 else
                 {
                     UserManager.RemoveFromRole(userId, "Agent");
                 }
-                Db.SaveChanges();
+                Db.SaveChangesAsync();
 
 
                 return RedirectToAction("index");

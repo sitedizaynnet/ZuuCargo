@@ -76,6 +76,8 @@ namespace MVCProject.Entities
         public string OtherLink { get; set; }
         public string UserId { get; set; }
 
+        public bool IsConfirmed { get; set; }
+        public string AgentSenderName { get; set; }
     }
 }
      

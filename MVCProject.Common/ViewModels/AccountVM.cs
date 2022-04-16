@@ -222,6 +222,7 @@ namespace MVCProject.Models
 
     public class SelectUserRolesViewModel
     {
+        public string UserId { get; set; }
         public SelectUserRolesViewModel()
         {
             this.Roles = new List<SelectRoleEditorViewModel>();

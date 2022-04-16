@@ -26,21 +26,22 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         public ActionResult ShowInMap()
         {
 
-            List<ShipmentVM> shipments = shipmentServices.GetAll().Where(x => x.IsDelivered == false).ToList();
+            List<ShipmentVM> shipments = shipmentServices.GetAll().Where(x => x.IsDelivered == false).OrderBy(x=>x.Id).Take(50).ToList();
     
 
-            List<KeyValuePair<string, string>> trackList = new List<KeyValuePair<string, string>>();
+            List<KeyValuePair<string, string>> trackList = new List<KeyValuePair<string, string>>(20);
 
-            foreach (ShipmentVM item in shipments)
+            for (int i = 0; i < shipments.Count; i++)
             {
-                var trackingItem = TrackPTTGetList(item.TrackingNo);
+                var trackingItem = TrackPTTGetList(shipments[i].TrackingNo);
                 if (trackingItem != null)
                 {
 
-                    trackList.Insert(0, new KeyValuePair<string, string>(trackingItem.Last().barkodNo, trackingItem.Last().ulke_ad));
+                    trackList.Insert((trackList.Count() == 0 ? 0 : trackList.Count()), new KeyValuePair<string, string>(trackingItem.Last().barkodNo, trackingItem.Last().ulke_ad));
 
                 }
             }
+      
    
             ViewBag.TrackList = trackList;
 
@@ -431,11 +432,12 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult Index()
         {
+            UserServices userServices = new UserServices();
             ShipmentServices shipmentServices = new ShipmentServices();
             List<ShipmentMultiVM> shipmentMultiVMs = new List<ShipmentMultiVM>();
             List<ShipmentVM> shipmentLists = new List<ShipmentVM>();
             shipmentLists = shipmentServices.GetAll().ToList();
-
+            ViewBag.UserList = userServices.GetAll().Where(x => x.Roles.Any(r => r.RoleId == "2")).ToList();
 
 
             IEnumerable<ShipmentVM> shipmentList = shipmentServices.GetAll().OrderByDescending(x=>x.Id);
@@ -529,6 +531,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             ShipmentVM shipmentVM = shipmentServices.GetById(id);
             var result = false;
             string barcode = shipmentVM.TrackingNo;
+
             if (barcode.StartsWith("TE"))
             {
                  result = SendTurpexData(id, barcode);
@@ -550,6 +553,67 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
            
         }
+
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        public ActionResult ConfirmUserPackageTurpex(int id)
+        {
+
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            var result = false;
+            string barcode = shipmentVM.TrackingNo;
+            if (barcode == null)
+            {
+                shipmentVM.TrackingNo = GetTurpexShipmentBarcode(shipmentVM.Id);
+                shipmentServices.Update(shipmentVM);
+            }
+           
+                result = SendTurpexData(id, barcode);
+          
+            if (result)
+            {
+                shipmentVM.IsApiSuccess = 1;
+                shipmentServices.Update(shipmentVM);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+
+        }
+
+        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        public ActionResult ConfirmUserPackagePtt(int id)
+        {
+
+            ShipmentVM shipmentVM = shipmentServices.GetById(id);
+            var result = false;
+            string barcode = shipmentVM.TrackingNo;
+
+            if (barcode == null)
+            {
+                shipmentVM.TrackingNo = GetShipmentBarcode(shipmentVM.Id);
+                shipmentServices.Update(shipmentVM);
+            }
+
+           
+                result = SendPttData(id, barcode);
+ 
+            if (result)
+            {
+                shipmentVM.IsApiSuccess = 1;
+                shipmentServices.Update(shipmentVM);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+
+        }
+
 
 
 
@@ -738,6 +802,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
                 shipmentVM.IsDelivered = false;
                 shipmentVM.IsPtt = true;
+                shipmentVM.IsConfirmed = true;
+
                 shipmentServices.Insert(shipmentVM);
                 var lastId = shipmentServices.GetAll().Last().Id;
                 var barcode = GetTurpexShipmentBarcode(lastId);
@@ -793,6 +859,8 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 shipmentVM.Desi = (shipmentVM.Height * shipmentVM.Width * shipmentVM.Lenght) / 3000;
                 shipmentVM.IsPtt = true;
                 shipmentVM.IsDelivered = false;
+                shipmentVM.IsConfirmed = true;
+
                 shipmentServices.Insert(shipmentVM);
                 var lastId = shipmentServices.GetAll().Last().Id;
                 var barcode = GetShipmentBarcode(lastId);

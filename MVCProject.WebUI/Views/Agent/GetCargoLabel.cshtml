@@ -1,6 +1,8 @@
 ﻿@model MVCProject.Common.ViewModels.ShipmentVM
-
-
+@{
+    ViewBag.Title = "Agent Barcode";
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en" style="border-style: none;width: 400px;">
 
@@ -23,10 +25,10 @@
 
 
             <h4 class="card-title" style="font-size: 20px;"><i class="fa fa-map-marker-alt"></i> SENDER</h4>
-            <h6 class="text-muted card-subtitle mb-2" style="font-size: 14px;margin-bottom: 0px;">@Model.SenderName </h6>
-            <p class="card-text" style="margin-bottom: 0px;font-size: 16px;">@Model.SenderAddress</p>
-            <p class="card-text" style="font-size: 16px;margin-bottom: 0px;">@Model.SenderPostalCode / @Model.SenderCountry </p>
-            <p class="card-text" style="font-size: 16px;">@Model.SenderTelephone</p>
+            <h6 class="text-muted card-subtitle mb-2" style="font-size: 16px;margin-bottom: 0px;">@ViewBag.AgentName  </h6>
+            <p class="card-text" style="margin-bottom: 0px;font-size: 16px;">@Model.AgentSenderName</p>
+
+            <p class="card-text" style="font-size: 16px;">@ViewBag.AgentTelephone</p>
             <hr style="margin-bottom: 0px;margin-top: 0px;width: 269px;text-align: left;margin-left: 0px;border-width: 2px;border-color: rgb(0,0,0);">
         </div>
         <div class="card-body" style="padding-top: 0px;padding-bottom: 0px;">

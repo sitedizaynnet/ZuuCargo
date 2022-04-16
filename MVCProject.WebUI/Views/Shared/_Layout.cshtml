@@ -286,7 +286,7 @@
                     </div>
                     <div class="text-box">
                         <p class="highlighted">Call Us:</p>
-                        <p class="phone-number">00 964 750 943 1000</p>
+                        <p class="phone-number">+ 964 750 810 8185</p>
                     </div>
                 </div>
                 <div class="info-box search-box-wrapper sitedizayn">
@@ -388,6 +388,13 @@
                                 <a href="/Home/CalculateShipping">Shipping Rates</a>
 
                             </li>
+                            @if (User.IsInRole("Agent"))
+                            {
+                                <li class="submenu">
+                                    <a href="/Agent/">Agent Panel</a>
+
+                                </li>
+                            }
                             @if (!User.Identity.IsAuthenticated)
                             {
                                 <li class="submenu">
@@ -401,6 +408,18 @@
                             }
                             else
                             {
+                                <li class="has-submenu">
+                                    <a href="#">
+                                        Customer Menu
+                                        <button class="dropdown-expander"><i class="fa fa-bars"></i></button>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="/Account/NewPost">Create Package</a></li>
+                                        <li><a href="/Account/MyPackages">My Packages</a></li>
+                                    </ul>
+                                </li>
+
+
                                 <li class="submenu">
                                     <a href="/Account/Home">Account</a>
 
@@ -478,7 +497,7 @@
                             {
                                 <li data-transition="parallaxvertical" data-ease="SlowMo.ease">
                                     <img src="/Content/Uploads/@reklam.Image" alt="">
-                                    <div class="tp-caption sfb tp-resizeme caption-h1"
+                                    <div class="tp-caption sfb tp-resizeme caption-h1 bg-dark"
                                          data-x="left" data-hoffset="0"
                                          data-y="top" data-voffset="148"
                                          data-whitespace="nowrap"
@@ -488,7 +507,7 @@
                                          data-start="500">
                                         @reklam.Title
                                     </div>
-                                    <div class="tp-caption sfb tp-resizeme caption-p"
+                                    <div class="tp-caption sfb tp-resizeme caption-p bg-dark"
                                          data-x="left" data-hoffset="0"
                                          data-y="top" data-voffset="275"
                                          data-whitespace="nowrap"
@@ -903,7 +922,7 @@
                                 <i class="fa fa-phone"></i>
                             </div>
                             <div class="text-box">
-                                <p>+ 964 750 934 3000</p>
+                                <p>+ 964 750 810 8185</p>
                             </div>
                         </li>
                         <li>
@@ -911,7 +930,7 @@
                                 <i class="fa fa-envelope-o"></i>
                             </div>
                             <div class="text-box">
-                                <p>var-kargo@gmail.com</p>
+                                <p>zuucargo1@gmail.com</p>
                             </div>
                         </li>
                         <li>
@@ -980,6 +999,7 @@
 
     <script type="text/javascript" charset="utf8" src="~/Theme/js/datatables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Theme/js/buttons.colVis.min.js"></script>
+    <script src="~/Theme/js/jquery.printPage.js" type="text/javascript"></script>
 
 
 </body>
