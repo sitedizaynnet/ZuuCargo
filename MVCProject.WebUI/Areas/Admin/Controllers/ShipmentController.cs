@@ -178,7 +178,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
         }
 
-      
         public int GetCheckDigit(int newBarcodeDigit)
         
         {
@@ -263,7 +262,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return shipmentBarcodesVM.Barcode;
         }
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
-
         public string GetTurpexShipmentBarcode(int id)
         {
             ShipmentTurpexBarcodesServices shipmentTurpexBarcodesServices = new ShipmentTurpexBarcodesServices();
@@ -284,7 +282,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
         }
 
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
-
         public bool SendPttData(int id, string barcodeNumber)
         {
             ShipmentVM shipmentVM = shipmentServices.GetById(id);
@@ -381,7 +378,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return true;
         }
 
-
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult LoadData()
         {
@@ -440,7 +436,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             ViewBag.UserList = userServices.GetAll().Where(x => x.Roles.Any(r => r.RoleId == "2")).ToList();
 
 
-            IEnumerable<ShipmentVM> shipmentList = shipmentServices.GetAll().OrderByDescending(x=>x.Id);
+            IEnumerable<ShipmentVM> shipmentList = shipmentServices.GetAll().OrderByDescending(x=>x.ShipmentDate);
 
             return View(shipmentList);
         }
@@ -613,9 +609,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
 
 
         }
-
-
-
 
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public JsonResult UlkedenSehirGetir(string ulkeId)
@@ -900,8 +893,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             }
         }
 
-      
-
         public ActionResult EditStatus(int id)
         {
             ShipmentServices shipmentServices = new ShipmentServices();
@@ -1015,7 +1006,6 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return View();
 
         }
-
 
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult TrackSMSAcente(int id)
@@ -1143,19 +1133,20 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             return RedirectToAction("Index","Shipment");
         }
 
-       
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult TrackOrder()
         {
             return View();
 
         }
+
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult ScanShipmentBarcode()
         {
             
             return View();
         }
+
         [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
         public ActionResult ScanShipmentBarcodeAjax(int id)
         {

@@ -28,9 +28,19 @@
     <link rel="stylesheet" href="~/Theme/plugins/animate.min.css">
     <!-- fancybox -->
     <link rel="stylesheet" href="~/Theme/plugins/fancyapps-fancyBox/source/jquery.fancybox.css">
-
-
-
+    <!--Start of Tawk.to Script-->
+    <!--<script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/625da79db0d10b6f3e6e24b5/1g0utdftr';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>-->
+    <!--End of Tawk.to Script-->
     <!-- master stylesheet -->
     <link rel="stylesheet" href="~/Theme/css/style.css">
     <!-- responsive stylesheet -->
@@ -39,7 +49,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.2.0/firebase-app-compat.min.js" integrity="sha512-bFSmaZuAKfftxGk+Fhi5lgLVeZkmj85tBdqScoRfVr6eNbU+bSHXrAsoh8IaE1qv1tWdQ/rszrxxo6nI40dhmw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.2.0/firebase-messaging-compat.min.js" integrity="sha512-qXHqCEVfXjNxRZpIMY2aRb4aXKFJCN2iQ6v3nS9Rmy5sJ9YjErYd7YguvDlG5+9M/zd8qb5Olh0rgI09kIUuQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://zuucargo.com/init.js"></script>
+    <script src="https://www.zuucargo.com/init.js"></script>
     <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
         <div class="mdl-card__supporting-text mdl-color-text--grey-600">
             <!-- div to display the generated registration token -->
@@ -67,11 +77,11 @@
         </div>
     </div>
     <script>
-      
+
         // Retrieve Firebase Messaging object.
         const messaging = firebase.messaging();
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('https://zuucargo.com/firebase-messaging-sw.js').then(function () {
+            navigator.serviceWorker.register('https://www.zuucargo.com/firebase-messaging-sw.js').then(function () {
                 console.log("Service Worker Registered");
                 deleteToken();
             });
@@ -91,7 +101,7 @@
             const notificationTitle = payload.notification.title;
             const notificationOptions = {
                 body: payload.notification.body,
-                icon: 'https://zuucargo.com/Theme/Admin/images/logoicon.png',
+                icon: 'https://www.zuucargo.com/Theme/Admin/images/logoicon.png',
             };
 
             if (!("Notification" in window)) {
@@ -103,7 +113,7 @@
                 var notification = new Notification(notificationTitle, notificationOptions);
                 notification.onclick = function (event) {
                     event.preventDefault(); // prevent the browser from focusing the Notification's tab
-                    window.open("https://zuucargo.com", '_blank');
+                    window.open("https://www.zuucargo.com", '_blank');
                     notification.close();
                 }
             }
@@ -960,8 +970,8 @@
 
 
     <!-- jQuery js -->
-    <script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>
-
+    @*<script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>*@
+    <script src="~/Theme/js/jquery-3.5.1.min.js"></script>
     <!-- jQuery ui js -->
     <script src="~/Theme/plugins/jquery-ui-1.11.4/jquery-ui.js"></script>
     <!-- owl carousel js -->

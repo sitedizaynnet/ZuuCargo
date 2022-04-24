@@ -1,139 +1,147 @@
-﻿@model MVCProject.Common.ViewModels.ShipmentMultiVM
+﻿@model MVCProject.Common.ViewModels.ShipmentVM
 
 @{
-    ViewBag.Title = "Post Details";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 
-<h2>Post Details</h2>
-<br />
-<div>
+<h2>View</h2>
+
+<div class="col-lg-12">
+
 
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.TrackingNo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.TrackingNo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ReceiverName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Acente)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Acente)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverAddress)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ReceiverAddress)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverCountryId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ReceiverCountryId)
-        </dd>
+    <div class="col-lg-6 col-xs-12">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.TrackingNo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TrackingNo)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgentSenderName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgentSenderName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReceiverName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ReceiverName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Acente)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Acente)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReceiverAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ReceiverAddress)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReceiverCountryId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ReceiverCountryId)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-lg-6 col-xs-12">
+        <dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReceiverEmail)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ReceiverEmail)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReceiverPostalCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ReceiverPostalCode)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverEmail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ReceiverEmail)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ReceiverPostalCode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ReceiverPostalCode)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Weight)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Weight)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Lenght)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Lenght)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Weight)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Weight)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Lenght)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Lenght)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Height)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Height)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Desi)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Desi)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Height)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Height)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Desi)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Desi)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PostType)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PostType)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ShipmentDate)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.PostType)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.PostType)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ShipmentDate)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ShipmentDate)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ShipmentDate)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Content)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Content)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ValueOfPackage)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ValueOfPackage)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.HarmonyCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.HarmonyCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.OtherLink)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OtherLink)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Notes)
+            </dd>
+        </dl>
+    </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.TotalDolar)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.TotalDolar)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Content)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Content)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.ValueOfPackage)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.ValueOfPackage)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.HarmonyCode)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.HarmonyCode)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.OtherLink)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.OtherLink)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ShipmentVM.Notes)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ShipmentVM.Notes)
-        </dd>
-    </dl>
 </div>
+
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

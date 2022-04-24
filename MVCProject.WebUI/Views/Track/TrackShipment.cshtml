@@ -8,7 +8,7 @@
 
         var date = DateTime.ParseExact(oldDate, "yyyyMMdd",
                 null).ToString("dd-MM-yyyy");
-        return date ;
+        return date;
 
     }
 }
@@ -38,9 +38,9 @@
                 </div>
                 @if (ViewBag.OtherLink != "")
                 {
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"><a href="@ViewBag.OtherLink"> <span class="text-medium">@ViewBag.OtherLink </span></a></div>
-            </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"><a href="@ViewBag.OtherLink"> <span class="text-medium">@ViewBag.OtherLink </span></a></div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bg-warning"> <span class="text-medium">@ViewBag.Notes </span></div>
                     </div>
@@ -49,16 +49,17 @@
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
                             <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Accepted") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Kabul") ? "active" : "")" id="step1">
-                                <div><i class="fas fa-user"></i></div> Package Accepted
+                                <div><i class="fas fa-archive"></i></div> Package Accepted
                             </li>
-                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("The item was forwarded") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("yönlendirildi") ? "active" : "")" id="step2">
-                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                            @*The item was forwarded yönlendirildi*@
+                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Accepted") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Accepted") ? "active" : "")" id="step2">
+                                <div><i class="fas fa-plane"></i></div> In transit
                             </li>
                             <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Send item out for physical delivery") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("dağıtıma ") ? "active" : "")" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
                             <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Deliver item") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("teslim ") ? "active" : "")" id="step4">
-                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                                <div><i class="fas fa-check"></i></div> Delivered
                             </li>
                         </ul>
 
@@ -76,12 +77,12 @@
                         {
                             <li class="events">
                                 <a target="_blank" href="">
-                                   
-                            @if(item.ulke_ad == "Turkey")
-                            {
-                                item.ulke_ad = "Iraq";
-                            }
-                            
+
+                                    @if (item.ulke_ad == "Turkey")
+                                    {
+                                        item.ulke_ad = "Iraq";
+                                    }
+
                                     <i class="fa fa-map-marker-alt"></i> @item.ulke_ad
                                 </a>
                                 <a href="#" class="float-right"><i class="fa  fa-calendar-alt"></i>  @ConvertToDate(item.islem_tarihi)</a>
@@ -99,14 +100,14 @@
                                                 = "@item.gonderi_durum_aciklama";
                                         }
                                     </script>
-                               </p>
+                                </p>
                             </li>
                         }
                     </ul>
                 </div>
             </div>
         </div>
-       
+
         <body onload="myfunction();">
 
             <!--The div element for the map -->
@@ -174,6 +175,9 @@
             }
 
         </script>
+        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&callback=initMap&libraries=&v=weekly"></script>
+
     }
     else if ((MVCProject.Common.ViewModels.ShipmentVM)ViewBag.TrackingInfoNull != null)
     {
@@ -202,16 +206,16 @@
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
                             <li class="step active" id="step1">
-                                <div><i class="fas fa-user"></i></div> Package Accepted
+                                <div><i class="fas fa-archive"></i></div> Package Accepted
                             </li>
-                            <li class="step " id="step2">
-                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                            <li class="step active" id="step2 active">
+                                <div><i class="fas fa-plane"></i></div> In transit
                             </li>
                             <li class="step" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
                             <li class="step " id="step4">
-                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                                <div><i class="fas fa-check"></i></div> Delivered
                             </li>
                         </ul>
 
@@ -220,13 +224,25 @@
             </div>
 
         </div>
+        <script type="text/javascript">
+            function myfunction() {
+                $("#btnTrack").click(function () {
+
+                    var trackingNumber = $("#txtTrackingCode").val();
+                  
+                    
+                        location.href = "https://www.zuucargo.com/Track/TrackShipment/" + trackingNumber;
+
+
+                });
+
+            }
+        </script>
         <body onload="myfunction();">
 
             <!--The div element for the map -->
             <div id="map"></div>
 
-            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&callback=initMap&libraries=&v=weekly"></script>
         </body>
         if (ModelforTracking != null)
         {
@@ -425,16 +441,16 @@
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
                             <li class="step" id="step1">
-                                <div><i class="fas fa-user"></i></div> Package Accepted
+                                <div><i class="fas fa-archive"></i></div> Package Accepted
                             </li>
                             <li class="step" id="step2">
-                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                                <div><i class="fas fa-plane"></i></div> In transit
                             </li>
                             <li class="step" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
                             <li class="step" id="step4">
-                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                                <div><i class="fas fa-check"></i></div> Delivered
                             </li>
                         </ul>
 
@@ -580,15 +596,15 @@
 
             .bs4-order-tracking li.active {
                 font-weight: bold;
-                color: #0d6efd
+                color: #1FB5C7
             }
 
                 .bs4-order-tracking li.active > div {
-                    background: #0d6efd
+                    background: #1FB5C7
                 }
 
                 .bs4-order-tracking li.active:after {
-                    background: #0d6efd
+                    background: #1FB5C7
                 }
 
     .card-timeline {

@@ -79,7 +79,7 @@ namespace MVCProject.WebUI.Controllers
         {
             return View();
         }
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
         public JsonResult UlkedenSehirGetir(string ulkeId)
         {
             var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperationsTest/turpex/ulkesehirler/" + ulkeId);
@@ -95,7 +95,7 @@ namespace MVCProject.WebUI.Controllers
             return Json(response.Content, JsonRequestBehavior.AllowGet);
         }
 
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
         public JsonResult HarmonyCodeGetir()
         {
             var client = new RestClient("https://pttwssgt.ptt.gov.tr/PostaKargoService/PttTurpexOperations/turpex/harmonycodes");
@@ -110,7 +110,7 @@ namespace MVCProject.WebUI.Controllers
 
             return Json(response.Content, JsonRequestBehavior.AllowGet);
         }
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
         [HttpPost]
         public ActionResult CreateTurpex(ShipmentVM shipmentVM)
         {
@@ -170,7 +170,7 @@ namespace MVCProject.WebUI.Controllers
 
         // POST: Shipment/Create
         [HttpPost]
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
         public ActionResult CreatePTT(ShipmentVM shipmentVM)
         {
             try
@@ -341,7 +341,7 @@ namespace MVCProject.WebUI.Controllers
             return true;
         }
 
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
         public bool SendPttData(int id, string barcodeNumber)
         {
             ShipmentVM shipmentVM = shipmentServices.GetById(id);
@@ -465,7 +465,7 @@ namespace MVCProject.WebUI.Controllers
             return checkDigit2;
 
         }
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
 
         public int GetCheckDigitTurpex(int newBarcodeDigit)
         {
@@ -493,7 +493,7 @@ namespace MVCProject.WebUI.Controllers
             return checkDigit2;
 
         }
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
 
         public string GetShipmentBarcode(int id)
         {
@@ -520,8 +520,8 @@ namespace MVCProject.WebUI.Controllers
             shipmentBarcodesServices.Insert(shipmentBarcodesVM);
             return shipmentBarcodesVM.Barcode;
         }
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
-        [CustomAuthorizeAttribute(Roles = "Admin, Shipment")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
+        [CustomAuthorizeAttribute(Roles = "Admin, Agent")]
 
         public string GetTurpexShipmentBarcode(int id)
         {
