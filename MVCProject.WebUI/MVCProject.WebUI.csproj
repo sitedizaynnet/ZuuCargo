@@ -3455,6 +3455,7 @@
     <Content Include="Views\Account\NewPost.cshtml" />
     <Content Include="Views\Account\MyPackages.cshtml" />
     <Content Include="Views\Agent\GetCargoLabel.cshtml" />
+    <Content Include="Views\Track\TrackShipmentVK.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

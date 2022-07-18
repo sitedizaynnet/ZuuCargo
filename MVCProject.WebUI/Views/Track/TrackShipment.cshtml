@@ -12,7 +12,57 @@
 
     }
 }
+<style>
+    .stepwizard-step p {
+        margin-top: 10px;
+    }
 
+    .process-row {
+        display: table-row;
+    }
+
+    .process {
+        display: none;
+        width: 100%;
+        position: relative;
+    }
+
+    .process-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+
+    .process-row:before {
+        top: 50px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0;
+    }
+
+    .process-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+        .process-step p {
+            margin-top: 10px;
+        }
+
+    .btn-circle {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+</style>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis"></script>
 
 <div class="container">
@@ -21,8 +71,60 @@
             <div class="search"> <i class="fa fa-search"></i> <input id="txtTrackingCode" type="text" class="form-control" placeholder="Enter your tracking code?" value="@(ViewBag.Id != null ? ViewBag.Id : "")"> <button id="btnTrack" class="btn btn-primary">Track</button> </div>
         </div>
     </div>
+    <div id="process" class="process">
+        <div class="process-row">
+            <div class="process-step">
+                <button type="button" id="1" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-people-carry fa-3x"></i></button>
+                <p>Post Accepted</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="2" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-loading fa-3x"></i></button>
+                <p>Shipment Forwarded</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="3" class="btn btn-default btn-circle" disabled="disabled"><img style="width:50px;" src="~/Theme/images/icons/customcheck.jpg"></button>
+                <p>Shipment Hold</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="4" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-moving fa-3x "></i></button>
+                <p>On Transit</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="5" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-box-open fa-3x"></i></button>
+                <p>Delivered</p>
+            </div>
+        </div>
+    </div>
+
+    <table id="tblTrack" class="table table-bordered" style="display:none">
+        <thead class="bg-primary text-white">
+            <tr>
+
+
+                <th>Sender Name</th>
+                <th>Receiver Name</th>
+                <th>Receiver Postal Code</th>
+
+                <th>Shipment Date</th>
+
+                <th>Delivery Country </th>
+                <th>Status</th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br />
+    <div>
+        <a class="dhllink" href="#">
+            <span id="tblTrackStatus" class="label-danger" style="color:white">
+
+            </span>
+        </a>
+    </div>
 </div>
 <script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>
+
 @{
     var ModelforTracking = (MVCProject.WebUI.PTTTrack.TrackingInfo[])ViewBag.TrackingInfo;
     if (ModelforTracking != null)
@@ -49,17 +151,16 @@
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
                             <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Accepted") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Kabul") ? "active" : "")" id="step1">
-                                <div><i class="fas fa-archive"></i></div> Package Accepted
+                                <div><i class="fas fa-user"></i></div> Package Accepted
                             </li>
-                            @*The item was forwarded yönlendirildi*@
-                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Accepted") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Accepted") ? "active" : "")" id="step2">
-                                <div><i class="fas fa-plane"></i></div> In transit
+                            <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("The item was forwarded") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("yönlendirildi") ? "active" : "")" id="step2">
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
                             </li>
                             <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Send item out for physical delivery") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("dağıtıma ") ? "active" : "")" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
                             <li class="step @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("Deliver item") ? "active" : "") @(ModelforTracking.Last().gonderi_durum_aciklama.Contains("teslim ") ? "active" : "")" id="step4">
-                                <div><i class="fas fa-check"></i></div> Delivered
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
                             </li>
                         </ul>
 
@@ -175,9 +276,6 @@
             }
 
         </script>
-        <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&callback=initMap&libraries=&v=weekly"></script>
-
     }
     else if ((MVCProject.Common.ViewModels.ShipmentVM)ViewBag.TrackingInfoNull != null)
     {
@@ -206,16 +304,16 @@
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
                             <li class="step active" id="step1">
-                                <div><i class="fas fa-archive"></i></div> Package Accepted
+                                <div><i class="fas fa-user"></i></div> Package Accepted
                             </li>
-                            <li class="step active" id="step2 active">
-                                <div><i class="fas fa-plane"></i></div> In transit
+                            <li class="step " id="step2">
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
                             </li>
                             <li class="step" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
                             <li class="step " id="step4">
-                                <div><i class="fas fa-check"></i></div> Delivered
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
                             </li>
                         </ul>
 
@@ -224,25 +322,13 @@
             </div>
 
         </div>
-        <script type="text/javascript">
-            function myfunction() {
-                $("#btnTrack").click(function () {
-
-                    var trackingNumber = $("#txtTrackingCode").val();
-                  
-                    
-                        location.href = "https://www.zuucargo.com/Track/TrackShipment/" + trackingNumber;
-
-
-                });
-
-            }
-        </script>
         <body onload="myfunction();">
 
             <!--The div element for the map -->
             <div id="map"></div>
 
+            <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis&callback=initMap&libraries=&v=weekly"></script>
         </body>
         if (ModelforTracking != null)
         {
@@ -311,6 +397,13 @@
     else
     {
         <script>
+            function convertToJavaScriptDate(value) {
+                var pattern = /Date\(([^)]+)\)/;
+                var results = pattern.exec(value);
+                var dt = new Date(parseFloat(results[1]));
+                return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+            }
+
             function isLetter(str) {
                 return str.length === 1 && str.match(/[a-z]/i);
             }
@@ -322,9 +415,75 @@
 
 
                 $("#btnTrack").click(function () {
-
+                  
                     var trackingNumber = $("#txtTrackingCode").val();
-                    if (isLetter(trackingNumber)) {
+                    var dataToSend = [{ name: "trackNo", value: trackingNumber }];
+                    if (trackingNumber.startsWith("VK")) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "https://var-kargo.com/Home/TrackOrder",
+                            data: JSON.stringify(dataToSend)
+,
+                            dataType: "json",
+                            contentType: "application/json",
+
+                            success: function (data) {
+                                {
+                                    var x = document.getElementById("process");
+                                    var y = document.getElementById("tblTrack");
+                                    var z = document.getElementById("tblTrackStatus");
+                                    x.style.display = "table";
+                                    y.style.display = "table";
+                                    z.style.display = "table";
+
+                                    var trackTable = $('#tblTrack tbody');
+                                    trackTable.empty();
+                                    $(data).each(function (index, prc) {
+                                        //(prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
+                                        trackTable.append('<tr><td>' + prc.SenderName + '</td><td>' + prc.ReceiverName + '</td><td>' + prc.ReceiverPostalCode + '</td><td>'
+                                            + convertToJavaScriptDate(prc.ShipmentDate) + '</td><td>' + prc.ReceiverCountryId + '</td><td>' + prc.Status + '</td></tr>');
+                                        $("#tblTrackStatus").text(prc.DHLLink)
+                                        $("a.dhllink").attr("href", prc.DHLLink);
+                                        if (prc.StatusId == 1) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                        }
+                                        if (prc.StatusId == 2) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                        }
+                                        if (prc.StatusId == 3) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                            document.getElementById("3").classList.add('btn-success');
+
+                                        }
+                                        if (prc.StatusId == 4) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                            document.getElementById("3").classList.add('btn-success');
+                                            document.getElementById("4").classList.add('btn-success');
+
+                                        }
+                                        if (prc.StatusId == 5) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                            document.getElementById("3").classList.add('btn-success');
+                                            document.getElementById("4").classList.add('btn-success');
+                                            document.getElementById("5").classList.add('btn-success');
+
+                                        }
+
+                                    });
+                                }
+                            },
+                            error: function (hata, ajaxOptions, thrownError) {
+                                alert("Not Found!");
+                            }
+                        });
+
+                    }
+                    else if (isLetter(trackingNumber)) {
                         const settings = {
                             "async": true,
                             "crossDomain": true,
@@ -414,7 +573,8 @@
 
                             }
                         });
-                    } else {
+                    }
+                    else {
 
                         location.href = "https://www.zuucargo.com/Track/TrackShipment/" + trackingNumber;
 
@@ -441,16 +601,16 @@
                     <div class="card card-timeline px-2 border-none">
                         <ul class="bs4-order-tracking">
                             <li class="step" id="step1">
-                                <div><i class="fas fa-archive"></i></div> Package Accepted
+                                <div><i class="fas fa-user"></i></div> Package Accepted
                             </li>
                             <li class="step" id="step2">
-                                <div><i class="fas fa-plane"></i></div> In transit
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
                             </li>
                             <li class="step" id="step3">
                                 <div><i class="fas fa-truck"></i></div> Out for delivery
                             </li>
                             <li class="step" id="step4">
-                                <div><i class="fas fa-check"></i></div> Delivered
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
                             </li>
                         </ul>
 

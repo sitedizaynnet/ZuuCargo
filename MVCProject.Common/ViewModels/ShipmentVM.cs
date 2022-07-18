@@ -79,7 +79,6 @@ namespace MVCProject.Common.ViewModels
 
         public bool IsConfirmed{ get; set; }
         public string AgentSenderName { get; set; }
-
-
+      
     }
 }

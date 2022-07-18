@@ -1,0 +1,433 @@
+﻿@{
+    ViewBag.Title = "Track Shipment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@functions{
+    public string ConvertToDate(string oldDate)
+    {
+
+        var date = DateTime.ParseExact(oldDate, "yyyyMMdd",
+                null).ToString("dd-MM-yyyy");
+        return date;
+
+    }
+}
+<style>
+    .stepwizard-step p {
+        margin-top: 10px;
+    }
+
+    .process-row {
+        display: table-row;
+    }
+
+    .process {
+        display: none;
+        width: 100%;
+        position: relative;
+    }
+
+    .process-step button[disabled] {
+        opacity: 1 !important;
+        filter: alpha(opacity=100) !important;
+    }
+
+    .process-row:before {
+        top: 50px;
+        bottom: 0;
+        position: absolute;
+        content: " ";
+        width: 100%;
+        height: 1px;
+        background-color: #ccc;
+        z-order: 0;
+    }
+
+    .process-step {
+        display: table-cell;
+        text-align: center;
+        position: relative;
+    }
+
+        .process-step p {
+            margin-top: 10px;
+        }
+
+    .btn-circle {
+        width: 100px;
+        height: 100px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+    }
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8aqIaSa5x1ipY_13Zm1Jf6nBDKcORyis"></script>
+
+<div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="search"> <i class="fa fa-search"></i> <input id="txtTrackingCode" type="text" class="form-control" placeholder="Enter your tracking code?" value="@(ViewBag.Id != null ? ViewBag.Id : "")"> <button id="btnTrack" class="btn btn-primary">Track</button> </div>
+        </div>
+    </div>
+    <div id="process" class="process">
+        <div class="process-row">
+            <div class="process-step">
+                <button type="button" id="1" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-people-carry fa-3x"></i></button>
+                <p>Post Accepted</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="2" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-loading fa-3x"></i></button>
+                <p>Shipment Forwarded</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="3" class="btn btn-default btn-circle" disabled="disabled"><img style="width:50px;" src="~/Theme/images/icons/customcheck.jpg"></button>
+                <p>Shipment Hold</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="4" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-truck-moving fa-3x "></i></button>
+                <p>On Transit</p>
+            </div>
+            <div class="process-step">
+                <button type="button" id="5" class="btn btn-default btn-circle" disabled="disabled"><i class="fas fa-box-open fa-3x"></i></button>
+                <p>Delivered</p>
+            </div>
+        </div>
+    </div>
+
+    <table id="tblTrack" class="table table-bordered" style="display:none">
+        <thead class="bg-primary text-white">
+            <tr>
+
+
+                <th>Sender Name</th>
+                <th>Receiver Name</th>
+                <th>Receiver Postal Code</th>
+
+                <th>Shipment Date</th>
+
+                <th>Delivery Country </th>
+                <th>Status</th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <br />
+    <div>
+        <a class="dhllink" href="#">
+            <span id="tblTrackStatus" class="label-danger" style="color:white">
+
+            </span>
+        </a>
+    </div>
+</div>
+<script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>
+
+        <script>
+            function convertToJavaScriptDate(value) {
+                var pattern = /Date\(([^)]+)\)/;
+                var results = pattern.exec(value);
+                var dt = new Date(parseFloat(results[1]));
+                return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear();
+            }
+
+            function isLetter(str) {
+                return str.length === 1 && str.match(/[a-z]/i);
+            }
+
+            $(document).ready(function () {
+               
+                $("#eventsDiv").hide();
+                $("#trackingResult").hide();
+
+
+     
+                  
+                   
+
+                    var url = window.location.pathname;
+                 
+                    var trackingNumber = url.substring(url.lastIndexOf('/') + 1);
+
+                    var dataToSend = [{ name: "trackNo", value: trackingNumber }];
+                    if (trackingNumber.startsWith("VK")) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "https://var-kargo.com/Home/TrackOrder",
+                            data: JSON.stringify(dataToSend)
+,
+                            dataType: "json",
+                            contentType: "application/json",
+
+                            success: function (data) {
+                                {
+                                    var x = document.getElementById("process");
+                                    var y = document.getElementById("tblTrack");
+                                    var z = document.getElementById("tblTrackStatus");
+                                    x.style.display = "table";
+                                    y.style.display = "table";
+                                    z.style.display = "table";
+
+                                    var trackTable = $('#tblTrack tbody');
+                                    trackTable.empty();
+                                    $(data).each(function (index, prc) {
+                                        //(prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
+                                        trackTable.append('<tr><td>' + prc.SenderName + '</td><td>' + prc.ReceiverName + '</td><td>' + prc.ReceiverPostalCode + '</td><td>'
+                                            + convertToJavaScriptDate(prc.ShipmentDate) + '</td><td>' + prc.ReceiverCountryId + '</td><td>' + prc.Status + '</td></tr>');
+                                        $("#tblTrackStatus").text(prc.DHLLink)
+                                        $("a.dhllink").attr("href", prc.DHLLink);
+                                        if (prc.StatusId == 1) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                        }
+                                        if (prc.StatusId == 2) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                        }
+                                        if (prc.StatusId == 3) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                            document.getElementById("3").classList.add('btn-success');
+
+                                        }
+                                        if (prc.StatusId == 4) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                            document.getElementById("3").classList.add('btn-success');
+                                            document.getElementById("4").classList.add('btn-success');
+
+                                        }
+                                        if (prc.StatusId == 5) {
+                                            document.getElementById("1").classList.add('btn-success');
+                                            document.getElementById("2").classList.add('btn-success');
+                                            document.getElementById("3").classList.add('btn-success');
+                                            document.getElementById("4").classList.add('btn-success');
+                                            document.getElementById("5").classList.add('btn-success');
+
+                                        }
+
+                                    });
+                                }
+                            },
+                            error: function (hata, ajaxOptions, thrownError) {
+                                alert("Not Found!");
+                            }
+                        });
+
+                    }
+                
+                    else {
+
+                        location.href = "https://www.zuucargo.com/Track/TrackShipment/" + trackingNumber;
+
+
+
+                    }
+
+          
+
+            });
+
+
+
+        </script>
+        <div class="container padding-bottom-3x mb-1" id="trackingResult">
+            <div class="card mb-3">
+                <div class="p-4 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase" id="originCountryCodediv"> </span> --> <span class="text-uppercase" id="destinationCountryCodediv"></span></div>
+                <div class="d-flex flex-wrap flex-sm-nowrap justify-content-between py-3 px-2">
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="shippingServicediv"></span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium text-uppercase" id="statusdiv">Status:</span></div>
+                    <div class="w-100 text-center py-1 px-2"><span class="text-medium" id="spnLastUpdateDate"></span></div>
+                </div>
+                <div class="card-body">
+                    <div class="card card-timeline px-2 border-none">
+                        <ul class="bs4-order-tracking">
+                            <li class="step" id="step1">
+                                <div><i class="fas fa-user"></i></div> Package Accepted
+                            </li>
+                            <li class="step" id="step2">
+                                <div><i class="fas fa-bread-slice"></i></div> In transit
+                            </li>
+                            <li class="step" id="step3">
+                                <div><i class="fas fa-truck"></i></div> Out for delivery
+                            </li>
+                            <li class="step" id="step4">
+                                <div><i class="fas fa-birthday-cake"></i></div> Delivered
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            @*<div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
+                    <div class="custom-control custom-checkbox mr-3">
+                        <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
+                        <label class="custom-control-label" for="notify_me">Notify me when order is delivered</label>
+                    </div>
+                    <div class="text-left text-sm-right"><a class="btn btn-outline-primary btn-rounded btn-sm" href="orderDetails" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+                </div>*@
+        </div>
+
+        <div class="container mt-5 mb-5" id="eventsDiv">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <h4>Events</h4>
+                    <ul class="timeline" id="listevents">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+<style>
+    @@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+    ul .listevents {
+        -moz-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+    }
+
+    ul > li .events {
+        -moz-transform: rotate(-180deg);
+        -webkit-transform: rotate(-180deg);
+        transform: rotate(-180deg);
+    }
+
+
+    .height {
+        height: 30vh
+    }
+
+    .search {
+        position: relative;
+        box-shadow: 0 0 40px rgba(51, 51, 51, .1)
+    }
+
+        .search input {
+            height: 60px;
+            text-indent: 25px;
+            border: 2px solid #d6d4d4
+        }
+
+            .search input:focus {
+                box-shadow: none;
+                border: 2px solid blue
+            }
+
+        .search .fa-search {
+            position: absolute;
+            top: 20px;
+            left: 16px
+        }
+
+        .search button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            height: 50px;
+            width: 110px;
+            background: blue
+        }
+
+
+    .bs4-order-tracking {
+        margin-bottom: 30px;
+        overflow: hidden;
+        color: #878788;
+        padding-left: 0px;
+        margin-top: 30px
+    }
+
+        .bs4-order-tracking li {
+            list-style-type: none;
+            font-size: 13px;
+            width: 25%;
+            float: left;
+            position: relative;
+            font-weight: 400;
+            color: #878788;
+            text-align: center
+        }
+
+            .bs4-order-tracking li:first-child:before {
+                margin-left: 15px !important;
+                padding-left: 11px !important;
+                text-align: left !important
+            }
+
+            .bs4-order-tracking li:last-child:before {
+                margin-right: 5px !important;
+                padding-right: 11px !important;
+                text-align: right !important
+            }
+
+            .bs4-order-tracking li > div {
+                color: #fff;
+                width: 29px;
+                text-align: center;
+                line-height: 29px;
+                display: block;
+                font-size: 12px;
+                background: #878788;
+                border-radius: 50%;
+                margin: auto
+            }
+
+            .bs4-order-tracking li:after {
+                content: '';
+                width: 150%;
+                height: 2px;
+                background: #878788;
+                position: absolute;
+                left: 0%;
+                right: 0%;
+                top: 15px;
+                z-index: -1
+            }
+
+            .bs4-order-tracking li:first-child:after {
+                left: 50%
+            }
+
+            .bs4-order-tracking li:last-child:after {
+                left: 0% !important;
+                width: 0% !important
+            }
+
+            .bs4-order-tracking li.active {
+                font-weight: bold;
+                color: #1FB5C7
+            }
+
+                .bs4-order-tracking li.active > div {
+                    background: #1FB5C7
+                }
+
+                .bs4-order-tracking li.active:after {
+                    background: #1FB5C7
+                }
+
+    .card-timeline {
+        background-color: #fff;
+        z-index: 0
+    }
+</style>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+
+
+
+<style>
+
+    /* Set the size of the div element that contains the map */
+    #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+    }
+</style>
+

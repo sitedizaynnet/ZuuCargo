@@ -199,7 +199,7 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             ViewBag.TotalKomerk = komerkServices.GetAll().Select(i => Convert.ToDouble(i.Price)).Sum();
             ViewBag.TotalRemainingCost = remainingCostServices.GetAll().Select(x => x.RemainingCosts).Sum();
             ViewBag.TotalPtt = remainingCostServices.GetAll().Select(x => x.PTTCosts).Sum();
-
+          
             return View();
         }
 

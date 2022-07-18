@@ -69,6 +69,7 @@ namespace MVCProject.Entities
         public string ReceiverCityId { get; set; }
         public int HarmonyCode { get; set; }
         public double MoneyForBuy { get; set; }
+       
         public bool IsDelivered { get; set; }
 
         public int StatusCounter { get; set; }

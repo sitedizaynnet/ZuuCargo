@@ -46,18 +46,34 @@ namespace MVCProject.WebUI.Controllers
                 }
                 if (ViewBag.TrackingInfo == null)
                 {
-                    id = id.ToUpper();
-                    ShipmentServices shipmentServices = new ShipmentServices();
-                    ShipmentVM shipmentVM = shipmentServices.GetAll().Where(x=>x.TrackingNo == id).FirstOrDefault();
-                    ViewBag.OtherLink = shipmentVM.OtherLink;
-                    ViewBag.Notes = shipmentVM.Notes;
+                    ShipmentVM shipmentVM = new ShipmentVM();
+                    try
+                    {
+                        id = id.ToUpper();
+                        ShipmentServices shipmentServices = new ShipmentServices();
+                        shipmentVM = shipmentServices.GetAll().Where(x => x.TrackingNo == id).FirstOrDefault();
+                        ViewBag.OtherLink = shipmentVM.OtherLink;
+                        ViewBag.Notes = shipmentVM.Notes;
 
-                    ViewBag.TrackingInfoNull = shipmentVM;
+                        ViewBag.TrackingInfoNull = shipmentVM;
+
+                    }
+                    catch (Exception)
+                    {
+                                               
+                    }
                 }
                 ViewBag.Id = url;
             }
             return View();
         }
+
+
+        public ActionResult TrackShipmentVK(string id)
+        {
+            return View();
+        }
+
 
         public JsonResult GetPttAjax(string trackingNumber)
         {

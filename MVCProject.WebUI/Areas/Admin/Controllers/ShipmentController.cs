@@ -862,12 +862,12 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
                 shipmentServices.Update(shipmentVM);
                bool response = SendPttData(lastId, barcode);
 
-                if (response == false)
+                if (response == true)
                 {
-                    ViewBag.FaultDesc = "Error";
-                    RedirectToAction("CreatePTT", "Shipment");
+                    shipmentVM.IsApiSuccess = 1;
+                    shipmentServices.Update(shipmentVM);
+                    return RedirectToAction("Index");
                 }
-
 
 
                 if (shipmentVM.MoneyForBuy > 0)

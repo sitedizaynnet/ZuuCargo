@@ -138,6 +138,14 @@
     <Compile Include="Migrations\202204141626043_agentSenderName.Designer.cs">
       <DependentUpon>202204141626043_agentSenderName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202207121358367_moneyforme.cs" />
+    <Compile Include="Migrations\202207121358367_moneyforme.Designer.cs">
+      <DependentUpon>202207121358367_moneyforme.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207121944072_moneyformepp.cs" />
+    <Compile Include="Migrations\202207121944072_moneyformepp.Designer.cs">
+      <DependentUpon>202207121944072_moneyformepp.cs</DependentUpon>
+    </Compile>
     <Compile Include="RemainingCost.cs" />
     <Compile Include="Reklam.cs" />
     <Compile Include="ShipmentTurpexBarcodes.cs" />
@@ -207,6 +215,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202204141626043_agentSenderName.resx">
       <DependentUpon>202204141626043_agentSenderName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207121358367_moneyforme.resx">
+      <DependentUpon>202207121358367_moneyforme.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207121944072_moneyformepp.resx">
+      <DependentUpon>202207121944072_moneyformepp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

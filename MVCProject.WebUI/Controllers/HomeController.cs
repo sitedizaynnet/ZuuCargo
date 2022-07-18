@@ -266,6 +266,8 @@ namespace MVCProject.WebUI.Controllers
           
             return View();
         }
+        // GET: Agent
+    
         public ActionResult CalculateShipping()
         {
             List<ZoneVM> zoneList = zoneServices.GetAll().ToList();
