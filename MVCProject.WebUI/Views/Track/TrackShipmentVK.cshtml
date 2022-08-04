@@ -71,6 +71,14 @@
             <div class="search"> <i class="fa fa-search"></i> <input id="txtTrackingCode" type="text" class="form-control" placeholder="Enter your tracking code?" value="@(ViewBag.Id != null ? ViewBag.Id : "")"> <button id="btnTrack" class="btn btn-primary">Track</button> </div>
         </div>
     </div>
+    <div>
+        <a class="dhllink" href="#">
+            <span id="tblTrackStatus" class="badge bg-warning text-dark" style="">
+
+            </span>
+            <br />
+        </a>
+    </div>
     <div id="process" class="process">
         <div class="process-row">
             <div class="process-step">
@@ -115,13 +123,7 @@
         <tbody></tbody>
     </table>
     <br />
-    <div>
-        <a class="dhllink" href="#">
-            <span id="tblTrackStatus" class="label-danger" style="color:white">
 
-            </span>
-        </a>
-    </div>
 </div>
 <script src="~/Theme/plugins/jquery/jquery-1.11.3.min.js"></script>
 

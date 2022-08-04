@@ -24,6 +24,7 @@ using System.Net;
 using System.IO;
 using System.Web.Security;
 using RestSharp;
+using MVCProject.WebUI.App_Start.Utilities;
 
 namespace MVCProject.WebUI.Controllers
 {
@@ -236,7 +237,7 @@ namespace MVCProject.WebUI.Controllers
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
-            var provider = new DpapiDataProtectionProvider("MVCProject");
+            var provider = new MachineKeyProtectionProvider();
             UserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(provider.Create("EmailConfirmation"));
             userManager.EmailService = new EmailService();
             // Configure validation logic for usernames

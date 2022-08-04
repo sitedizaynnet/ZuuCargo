@@ -29,12 +29,14 @@ namespace MVCProject.WebUI.Areas.Admin.Controllers
             try
             {
                 var context = new ZuuCargoEntities();
-                Random rnd = new Random();
-                rnd.Next(1, 9999);
 
-                var query = @"BACKUP DATABASE ZuuCargo TO DISK = 'C:\\SQLServerBackups\\Backup-" + DateTime.Now.ToFileTime() + ".bak' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Backup-ZuuCargo.bak'";
+                var filename = "zuucargo-" + DateTime.Now.ToFileTime() + ".bak";
+                var query = @"BACKUP DATABASE zuucargo TO DISK = 'C:\\SQLServerBackups\\Backup-zuucargo-" + filename + "' WITH FORMAT, MEDIANAME = 'Z_SQLServerBackups', NAME = 'Backup-zuucargo.bak'";
                 ViewBag.RowsAffected = context.Database.ExecuteSqlCommand(TransactionalBehavior.DoNotEnsureTransaction, query);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(@"C:\\SQLServerBackups\\Backup-zuucargo-" + filename);
 
+
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
             }
             catch (SqlException sqlException)
             {

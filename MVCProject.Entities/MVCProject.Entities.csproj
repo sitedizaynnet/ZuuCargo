@@ -102,49 +102,9 @@
     <Compile Include="Accounting.cs" />
     <Compile Include="AccountingProducts.cs" />
     <Compile Include="ArrivedExchange.cs" />
-    <Compile Include="Migrations\202203301735043_remain.cs" />
-    <Compile Include="Migrations\202203301735043_remain.Designer.cs">
-      <DependentUpon>202203301735043_remain.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202203301736372_remainp.cs" />
-    <Compile Include="Migrations\202203301736372_remainp.Designer.cs">
-      <DependentUpon>202203301736372_remainp.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204041747465_link.cs" />
-    <Compile Include="Migrations\202204041747465_link.Designer.cs">
-      <DependentUpon>202204041747465_link.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204111611510_userid.cs" />
-    <Compile Include="Migrations\202204111611510_userid.Designer.cs">
-      <DependentUpon>202204111611510_userid.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204111653450_userid0.cs" />
-    <Compile Include="Migrations\202204111653450_userid0.Designer.cs">
-      <DependentUpon>202204111653450_userid0.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204131459306_userscreen.cs" />
-    <Compile Include="Migrations\202204131459306_userscreen.Designer.cs">
-      <DependentUpon>202204131459306_userscreen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204131500283_userscreen1.cs" />
-    <Compile Include="Migrations\202204131500283_userscreen1.Designer.cs">
-      <DependentUpon>202204131500283_userscreen1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204131502551_userscreen123.cs" />
-    <Compile Include="Migrations\202204131502551_userscreen123.Designer.cs">
-      <DependentUpon>202204131502551_userscreen123.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202204141626043_agentSenderName.cs" />
-    <Compile Include="Migrations\202204141626043_agentSenderName.Designer.cs">
-      <DependentUpon>202204141626043_agentSenderName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202207121358367_moneyforme.cs" />
-    <Compile Include="Migrations\202207121358367_moneyforme.Designer.cs">
-      <DependentUpon>202207121358367_moneyforme.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202207121944072_moneyformepp.cs" />
-    <Compile Include="Migrations\202207121944072_moneyformepp.Designer.cs">
-      <DependentUpon>202207121944072_moneyformepp.cs</DependentUpon>
+    <Compile Include="Migrations\202207310538061_initial.cs" />
+    <Compile Include="Migrations\202207310538061_initial.Designer.cs">
+      <DependentUpon>202207310538061_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="RemainingCost.cs" />
     <Compile Include="Reklam.cs" />
@@ -189,38 +149,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202203301735043_remain.resx">
-      <DependentUpon>202203301735043_remain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202203301736372_remainp.resx">
-      <DependentUpon>202203301736372_remainp.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204041747465_link.resx">
-      <DependentUpon>202204041747465_link.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204111611510_userid.resx">
-      <DependentUpon>202204111611510_userid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204111653450_userid0.resx">
-      <DependentUpon>202204111653450_userid0.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204131459306_userscreen.resx">
-      <DependentUpon>202204131459306_userscreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204131500283_userscreen1.resx">
-      <DependentUpon>202204131500283_userscreen1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204131502551_userscreen123.resx">
-      <DependentUpon>202204131502551_userscreen123.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202204141626043_agentSenderName.resx">
-      <DependentUpon>202204141626043_agentSenderName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202207121358367_moneyforme.resx">
-      <DependentUpon>202207121358367_moneyforme.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202207121944072_moneyformepp.resx">
-      <DependentUpon>202207121944072_moneyformepp.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202207310538061_initial.resx">
+      <DependentUpon>202207310538061_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
