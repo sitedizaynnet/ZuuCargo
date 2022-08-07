@@ -432,51 +432,52 @@
 
                             success: function (data) {
                                 {
-                                    var x = document.getElementById("process");
-                                    var y = document.getElementById("tblTrack");
-                                    var z = document.getElementById("tblTrackStatus");
-                                    x.style.display = "table";
-                                    y.style.display = "table";
-                                    z.style.display = "table";
+                                    window.location.href = 'https://zuucargo.com/Track/TrackShipmentVK/' + trackingNumber; //Will take you to Google.
+                                    //var x = document.getElementById("process");
+                                    //var y = document.getElementById("tblTrack");
+                                    //var z = document.getElementById("tblTrackStatus");
+                                    //x.style.display = "table";
+                                    //y.style.display = "table";
+                                    //z.style.display = "table";
 
-                                    var trackTable = $('#tblTrack tbody');
-                                    trackTable.empty();
-                                    $(data).each(function (index, prc) {
-                                        //(prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
-                                        trackTable.append('<tr><td>' + prc.SenderName + '</td><td>' + prc.ReceiverName + '</td><td>' + prc.ReceiverPostalCode + '</td><td>'
-                                            + convertToJavaScriptDate(prc.ShipmentDate) + '</td><td>' + prc.ReceiverCountryId + '</td><td>' + prc.Status + '</td></tr>');
-                                        $("#tblTrackStatus").text(prc.DHLLink)
-                                        $("a.dhllink").attr("href", prc.DHLLink);
-                                        if (prc.StatusId == 1) {
-                                            document.getElementById("1").classList.add('btn-success');
-                                        }
-                                        if (prc.StatusId == 2) {
-                                            document.getElementById("1").classList.add('btn-success');
-                                            document.getElementById("2").classList.add('btn-success');
-                                        }
-                                        if (prc.StatusId == 3) {
-                                            document.getElementById("1").classList.add('btn-success');
-                                            document.getElementById("2").classList.add('btn-success');
-                                            document.getElementById("3").classList.add('btn-success');
+                                    //var trackTable = $('#tblTrack tbody');
+                                    //trackTable.empty();
+                                    //$(data).each(function (index, prc) {
+                                    //    //(prc.IsExpress == (true) ? prc.IsExpress = "Express" : prc.IsExpress = "Normal")
+                                    //    trackTable.append('<tr><td>' + prc.SenderName + '</td><td>' + prc.ReceiverName + '</td><td>' + prc.ReceiverPostalCode + '</td><td>'
+                                    //        + convertToJavaScriptDate(prc.ShipmentDate) + '</td><td>' + prc.ReceiverCountryId + '</td><td>' + prc.Status + '</td></tr>');
+                                    //    $("#tblTrackStatus").text(prc.DHLLink)
+                                    //    $("a.dhllink").attr("href", prc.DHLLink);
+                                    //    if (prc.StatusId == 1) {
+                                    //        document.getElementById("1").classList.add('btn-success');
+                                    //    }
+                                    //    if (prc.StatusId == 2) {
+                                    //        document.getElementById("1").classList.add('btn-success');
+                                    //        document.getElementById("2").classList.add('btn-success');
+                                    //    }
+                                    //    if (prc.StatusId == 3) {
+                                    //        document.getElementById("1").classList.add('btn-success');
+                                    //        document.getElementById("2").classList.add('btn-success');
+                                    //        document.getElementById("3").classList.add('btn-success');
 
-                                        }
-                                        if (prc.StatusId == 4) {
-                                            document.getElementById("1").classList.add('btn-success');
-                                            document.getElementById("2").classList.add('btn-success');
-                                            document.getElementById("3").classList.add('btn-success');
-                                            document.getElementById("4").classList.add('btn-success');
+                                    //    }
+                                    //    if (prc.StatusId == 4) {
+                                    //        document.getElementById("1").classList.add('btn-success');
+                                    //        document.getElementById("2").classList.add('btn-success');
+                                    //        document.getElementById("3").classList.add('btn-success');
+                                    //        document.getElementById("4").classList.add('btn-success');
 
-                                        }
-                                        if (prc.StatusId == 5) {
-                                            document.getElementById("1").classList.add('btn-success');
-                                            document.getElementById("2").classList.add('btn-success');
-                                            document.getElementById("3").classList.add('btn-success');
-                                            document.getElementById("4").classList.add('btn-success');
-                                            document.getElementById("5").classList.add('btn-success');
+                                    //    }
+                                    //    if (prc.StatusId == 5) {
+                                    //        document.getElementById("1").classList.add('btn-success');
+                                    //        document.getElementById("2").classList.add('btn-success');
+                                    //        document.getElementById("3").classList.add('btn-success');
+                                    //        document.getElementById("4").classList.add('btn-success');
+                                    //        document.getElementById("5").classList.add('btn-success');
 
-                                        }
+                                    //    }
 
-                                    });
+                                    //});
                                 }
                             },
                             error: function (hata, ajaxOptions, thrownError) {
